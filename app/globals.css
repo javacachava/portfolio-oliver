@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #040410;
+  --foreground: #f0f0ff;
+  --muted: #7a7a9a;
+  --border: #1a1a3a;
+  --card: #0a0a1e;
+  --card-elevated: #10102a;
+  --accent: #0ea5e9;
+  --accent-hover: #38bdf8;
+  --gold: #fbbf24;
+  --violet: #a78bfa;
+  --green: #00ff9f;
+  --red: #ef4444;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not(.dark) {
+    --background: #f8f8ff;
+    --foreground: #09090b;
+    --muted: #71717a;
+    --border: #e4e4e7;
+    --card: #f4f4f5;
+    --card-elevated: #ffffff;
+    --accent: #0284c7;
+    --accent-hover: #0369a1;
+    --gold: #d97706;
+    --violet: #7c3aed;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-elevated: var(--card-elevated);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-pixel: var(--font-press-start-2p), monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ═══════════════════════════ KEYFRAMES ═══════════════════════════ */
+
+@keyframes twinkle {
+  from { opacity: 0.15; transform: scale(0.5); }
+  to   { opacity: 1;    transform: scale(1.2); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
+
+@keyframes holo-scan {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 0.8; }
+  95%  { opacity: 0.8; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ═══════════════════════════ TEXT GRADIENT ═══════════════════════════ */
+
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    #ffffff       0%,
+    var(--green)  20%,
+    var(--accent) 50%,
+    var(--violet) 80%,
+    #ffffff       100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* ═══════════════════════════ CURSOR BLINK ═══════════════════════════ */
+
+.cursor-blink::after {
+  content: '_';
+  animation: cursor-blink 1s steps(1) infinite;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+  margin-left: 1px;
+}
+
+/* ═══════════════════════════ PIXEL CARDS (About character card) ═══════════════════════════ */
+
+.pixel-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, border-color 0.2s ease;
+}
+
+.pixel-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 4px 4px 0 var(--pixel-shadow, var(--accent));
+}
+
+/* ═══════════════════════════ TERMINAL CARDS (Project cards) ═══════════════════════════ */
+
+.terminal-card {
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.terminal-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px var(--t-accent, rgba(14,165,233,0.3)),
+    0 0 28px var(--t-glow, rgba(14,165,233,0.12)),
+    0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+/* ═══════════════════════════ SCANLINES ═══════════════════════════ */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.025) 3px,
+    rgba(0, 0, 0, 0.025) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ═══════════════════════════ SCROLLBAR ═══════════════════════════ */
+
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--accent), var(--green), var(--violet));
 }
