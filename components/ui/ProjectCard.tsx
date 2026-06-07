@@ -95,9 +95,6 @@ export default function ProjectCard({ project }: { project: Project }) {
               <span className="font-pixel text-[10px] opacity-50" style={{ color: c }}>
                 {project.id.toUpperCase()}
               </span>
-              <span className="font-mono text-[8px] text-[var(--muted)] opacity-40">
-                add screenshot to /public/images/projects/
-              </span>
             </div>
           </div>
         )}

@@ -30,6 +30,7 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://oliver.wuju.dev"),
   title: "Oliver Ascencio — Desarrollador Full-Stack",
   description:
     "Portfolio de Oliver Ascencio. Desarrollador Full-Stack y cofundador de Wuju. Proyectos reales en TypeScript, Node.js, React y cloud. Santa Ana, El Salvador.",

@@ -24,13 +24,13 @@ function Counter({ from = 0, to, duration = 1.3 }: { from?: number; to: number; 
         };
         requestAnimationFrame(tick);
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, [from, to, duration]);
 
-  return <span ref={ref}>{from}</span>;
+  return <span ref={ref}>{to}</span>;
 }
 
 const metrics = [
