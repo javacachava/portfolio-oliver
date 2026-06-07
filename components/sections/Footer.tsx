@@ -18,9 +18,6 @@ export default function Footer() {
             </a>
           </p>
         </div>
-        <p className="font-mono text-[10px] text-[var(--muted)] opacity-60">
-          Next.js · Tailwind · Framer Motion · Vercel
-        </p>
       </div>
     </footer>
   );
