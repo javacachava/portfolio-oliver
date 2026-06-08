@@ -51,8 +51,8 @@ const languages = [
   },
   {
     lang: "Inglés",
-    level: "A2 en progreso → objetivo B2",
-    sublevel: "Lectura técnica fluida · Clases intensivas",
+    level: "En progreso → B2",
+    sublevel: "Lectura técnica fluida · Clases intensivas en curso",
     value: 32,
     color: "#0ea5e9",
   },

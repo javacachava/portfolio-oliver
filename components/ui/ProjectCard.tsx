@@ -8,7 +8,7 @@ import type { Project } from "@/data/projects";
 const STATUS: Record<Project["statusType"], { label: string; color: string }> = {
   live:       { label: "● LIVE",  color: "#00ff9f" },
   active:     { label: "◎ DEV",   color: "#0ea5e9" },
-  functional: { label: "◈ FUNC",  color: "#a78bfa" },
+  functional: { label: "◈ DEMO",  color: "#a78bfa" },
 };
 
 const TRAFFIC = ["#ef4444", "#f59e0b", "#22c55e"] as const;
