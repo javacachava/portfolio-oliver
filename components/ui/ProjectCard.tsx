@@ -53,7 +53,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         style={{
           height: "164px",
           borderBottom: `1px solid ${c}18`,
-          background: "#040410",
+          background: "#030014",
         }}
       >
         {project.image ? (

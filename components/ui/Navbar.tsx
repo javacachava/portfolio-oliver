@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 
 const links = [
+  { label: "Skills", href: "#skills" },
   { label: "Proyectos", href: "#proyectos" },
   { label: "Sobre mí", href: "#sobre-mi" },
   { label: "Wuju", href: "#wuju" },
@@ -13,14 +15,7 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
@@ -36,82 +31,109 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[var(--background)]/90 backdrop-blur-md border-b border-[var(--border)]"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+    <header className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#03001427] backdrop-blur-md z-50 px-4 sm:px-10">
+      <nav className="w-full h-full flex items-center justify-between m-auto max-w-7xl">
         {/* Logo */}
         <a href="#" className="flex items-center gap-1.5 group">
-          <span className="font-pixel text-[9px] text-[var(--accent)] opacity-60 group-hover:opacity-100 transition-opacity">›_</span>
-          <span className="text-sm font-semibold text-[var(--foreground)] tracking-tight">
-            Oliver<span className="text-[var(--accent)]">.</span>dev
+          <span className="font-pixel text-[9px] text-[#b49bff] opacity-60 group-hover:opacity-100 transition-opacity">
+            ›_
+          </span>
+          <span className="text-sm font-semibold text-gray-300 tracking-tight">
+            Oliver<span className="text-[#b49bff]">.</span>dev
           </span>
         </a>
 
         {/* Desktop */}
-        <ul className="hidden md:flex items-center gap-1">
-          {links.map((l) => {
-            const isActive = `#${activeSection}` === l.href;
-            return (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className={`relative px-3 py-1.5 text-sm rounded-md transition-colors ${
-                    isActive
-                      ? "text-[var(--accent)]"
-                      : "text-[var(--muted)] hover:text-[var(--foreground)]"
-                  }`}
-                >
-                  {isActive && (
-                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)]" />
-                  )}
-                  {l.label}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden text-[var(--muted)] hover:text-[var(--foreground)]"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </nav>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-md">
-          <ul className="flex flex-col px-4 py-3 gap-1">
+        <div className="hidden md:flex h-full flex-row items-center">
+          <ul className="flex items-center justify-between gap-1 h-auto border border-[rgba(112,66,248,0.38)] bg-[rgba(3,0,20,0.37)] px-[20px] py-[10px] rounded-full text-gray-200">
             {links.map((l) => {
               const isActive = `#${activeSection}` === l.href;
               return (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    onClick={() => setOpen(false)}
-                    className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors ${
+                    className={`cursor-pointer px-2.5 text-sm transition ${
                       isActive
-                        ? "text-[var(--accent)] bg-[var(--accent)]/8"
-                        : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                        ? "text-[rgb(112,66,248)]"
+                        : "hover:text-[rgb(112,66,248)]"
                     }`}
                   >
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />
-                    )}
                     {l.label}
                   </a>
                 </li>
               );
             })}
           </ul>
+        </div>
+
+        {/* Social icons (desktop) */}
+        <div className="hidden md:flex flex-row gap-5">
+          <a
+            href="https://github.com/javacachava"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="text-white hover:text-[rgb(112,66,248)] transition-colors"
+          >
+            <GithubIcon size={22} />
+          </a>
+          <a
+            href="https://linkedin.com/in/oliver-ascencio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="text-white hover:text-[rgb(112,66,248)] transition-colors"
+          >
+            <LinkedinIcon size={22} />
+          </a>
+        </div>
+
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden text-gray-300 hover:text-white"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      {open && (
+        <div className="absolute top-[65px] left-0 w-full bg-[#030014] border-b border-[#2A0E61] p-5 flex flex-col items-center text-gray-300 md:hidden">
+          <ul className="flex flex-col items-center gap-4">
+            {links.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="cursor-pointer hover:text-[rgb(112,66,248)] transition text-center"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="flex justify-center gap-6 mt-6">
+            <a
+              href="https://github.com/javacachava"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="text-white"
+            >
+              <GithubIcon size={26} />
+            </a>
+            <a
+              href="https://linkedin.com/in/oliver-ascencio"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-white"
+            >
+              <LinkedinIcon size={26} />
+            </a>
+          </div>
         </div>
       )}
     </header>

@@ -6,7 +6,7 @@ import { projects } from "@/data/projects";
 
 export default function Projects() {
   return (
-    <section id="proyectos" className="py-24 px-4 sm:px-6 bg-[var(--card)]/30">
+    <section id="proyectos" className="py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -15,10 +15,10 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="text-sm font-mono text-[var(--accent)] mb-2 tracking-widest uppercase">
+          <p className="text-sm font-mono text-[#b49bff] mb-2 tracking-widest uppercase">
             Proyectos
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 mb-3 w-fit pb-1">
             Software real. Clientes reales.
           </h2>
           <p className="text-muted max-w-xl">
