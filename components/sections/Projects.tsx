@@ -30,38 +30,17 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Misiones destacadas */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-6">
-          {featured.map((project, i) => (
+        {/* Índice de misiones — filas editoriales */}
+        <div className="border-t border-[var(--border)]">
+          {ordered.map((project, i) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="flex"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.4, delay: Math.min(i * 0.06, 0.25) }}
             >
-              <ProjectCard
-                project={project}
-                index={ordered.indexOf(project)}
-                featured
-              />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Resto de misiones */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {rest.map((project, i) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
-              className="flex"
-            >
-              <ProjectCard project={project} index={ordered.indexOf(project)} />
+              <ProjectCard project={project} index={i} />
             </motion.div>
           ))}
         </div>
