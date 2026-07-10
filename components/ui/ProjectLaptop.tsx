@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink, Images, Terminal, X } from "lucide-react";
 import ProjectGallery from "@/components/ui/ProjectGallery";
 import LaptopTerminal from "@/components/ui/LaptopTerminal";
+import LaptopDesktop from "@/components/ui/LaptopDesktop";
 import type { Project } from "@/data/projects";
 
 const STATUS: Record<Project["statusType"], { label: string; color: string }> = {
@@ -19,11 +20,13 @@ function ScreenContent({
   num,
   onOpenGallery,
   onOpenTerminal,
+  onCloseWindow,
 }: {
   project: Project;
   num: string;
   onOpenGallery: () => void;
   onOpenTerminal: () => void;
+  onCloseWindow: () => void;
 }) {
   const c = project.accentColor;
   const st = STATUS[project.statusType];
@@ -54,6 +57,15 @@ function ScreenContent({
             style={{ color: c, background: `${c}14`, border: `1px solid ${c}30` }}
           >
             <Terminal size={10} />
+          </button>
+          <button
+            onClick={onCloseWindow}
+            aria-label="Cerrar ventana"
+            title="Volver al escritorio"
+            className="flex items-center justify-center h-4.5 w-4.5 sm:h-5 sm:w-5 rounded cursor-pointer hover:scale-110 transition-transform"
+            style={{ color: c, background: `${c}14`, border: `1px solid ${c}30` }}
+          >
+            <X size={10} />
           </button>
         </span>
       </div>
@@ -168,7 +180,7 @@ function ScreenContent({
 export default function ProjectLaptop({ projects }: { projects: Project[] }) {
   const [idx, setIdx] = useState(0);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  const [termMode, setTermMode] = useState(false);
+  const [view, setView] = useState<"desktop" | "project" | "terminal">("desktop");
   const [litKey, setLitKey] = useState<number | null>(null);
   const litTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -176,14 +188,14 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
   const c = project.accentColor;
   const num = String(idx + 1).padStart(2, "0");
 
-  const prev = useCallback(
-    () => setIdx((i) => (i - 1 + projects.length) % projects.length),
-    [projects.length]
-  );
-  const next = useCallback(
-    () => setIdx((i) => (i + 1) % projects.length),
-    [projects.length]
-  );
+  const prev = useCallback(() => {
+    setIdx((i) => (i - 1 + projects.length) % projects.length);
+    setView("project");
+  }, [projects.length]);
+  const next = useCallback(() => {
+    setIdx((i) => (i + 1) % projects.length);
+    setView("project");
+  }, [projects.length]);
 
   // Ilumina una tecla del deck al tipear en la terminal
   const glowKey = useCallback((key: string) => {
@@ -238,7 +250,18 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
             />
             {/* Display */}
             <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-[#030014] border border-black/60 shadow-[inset_0_0_12px_rgba(0,0,0,0.8)]">
-              {termMode ? (
+              {view === "desktop" && (
+                <LaptopDesktop
+                  projects={projects}
+                  onOpenProject={(i) => {
+                    setIdx(i);
+                    setView("project");
+                  }}
+                  onOpenTerminal={() => setView("terminal")}
+                />
+              )}
+
+              {view === "terminal" && (
                 <div className="absolute inset-0 flex flex-col">
                   {/* Barra de la terminal */}
                   <div
@@ -249,7 +272,7 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
                       oliver@wuju: <span style={{ color: c }}>~/terminal</span>
                     </span>
                     <button
-                      onClick={() => setTermMode(false)}
+                      onClick={() => setView("desktop")}
                       aria-label="Cerrar terminal"
                       className="flex items-center justify-center h-4.5 w-4.5 sm:h-5 sm:w-5 rounded cursor-pointer hover:scale-110 transition-transform"
                       style={{ color: c, background: `${c}14`, border: `1px solid ${c}30` }}
@@ -264,7 +287,7 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
                       accent={c}
                       onOpenProject={(i) => {
                         setIdx(i);
-                        setTermMode(false);
+                        setView("project");
                       }}
                       onOpenGallery={() => {
                         if (project.images?.length) {
@@ -273,12 +296,14 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
                         }
                         return false;
                       }}
-                      onExit={() => setTermMode(false)}
+                      onExit={() => setView("desktop")}
                       onKeystroke={glowKey}
                     />
                   </div>
                 </div>
-              ) : (
+              )}
+
+              {view === "project" && (
               <AnimatePresence mode="wait">
                 <motion.div
                   key={project.id}
@@ -299,7 +324,8 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
                     project={project}
                     num={num}
                     onOpenGallery={() => setGalleryOpen(true)}
-                    onOpenTerminal={() => setTermMode(true)}
+                    onOpenTerminal={() => setView("terminal")}
+                    onCloseWindow={() => setView("desktop")}
                   />
                 </motion.div>
               </AnimatePresence>
