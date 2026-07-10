@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, Globe } from "lucide-react";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import Counter from "@/components/ui/Counter";
 
 const metrics = [
-  { to: 9,    from: 0,    label: "Desarrolladores", color: "#7042f8" },
+  { to: 7,    from: 0,    label: "Integrantes", color: "#7042f8" },
   { to: 5,    from: 0,    label: "Productos",        color: "#a78bfa" },
   { to: 2,    from: 0,    label: "Clientes activos", color: "#00ff9f" },
   { to: 2026, from: 2020, label: "Fundación",        color: "#06b6d4" },
@@ -37,7 +37,7 @@ export default function Wuju() {
             <br className="hidden sm:block" /> para El Salvador.
           </h2>
           <p className="text-[var(--muted)] max-w-xl">
-            Un equipo de 9 desarrolladores jóvenes de Santa Ana que construye
+            Un equipo de 7 jóvenes de Santa Ana que construye
             infraestructura tecnológica para empresas locales.
           </p>
         </motion.div>
@@ -80,18 +80,20 @@ export default function Wuju() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href="mailto:oliver.a.ascencio@gmail.com"
+                href="mailto:contacto@wuju.dev"
                 className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white text-sm font-medium transition-all hover:-translate-y-0.5"
               >
                 <Mail size={14} />
-                Apoyar a Wuju
+                contacto@wuju.dev
               </a>
               <a
-                href="#proyectos"
+                href="https://wuju.dev"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-[var(--border)] hover:border-[var(--accent)]/50 text-[var(--foreground)] text-sm font-medium transition-all hover:-translate-y-0.5"
               >
-                <ArrowRight size={14} />
-                Ver proyectos
+                <Globe size={14} />
+                wuju.dev
               </a>
             </div>
           </motion.div>
