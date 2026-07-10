@@ -195,7 +195,9 @@ export default function About() {
 
         <div className="grid lg:grid-cols-[280px_1fr] gap-10 items-start">
 
-          {/* ─── CHARACTER CARD ─── */}
+          {/* ─── COLUMNA IZQUIERDA: card + special moves ─── */}
+          <div className="flex flex-col gap-5">
+
           <motion.div
             initial={{ opacity: 0, x: -28 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -313,66 +315,6 @@ export default function About() {
                 Full-Stack · 20 años
               </p>
 
-              {/* Education GPA cards */}
-              <div className="flex flex-col gap-2 mb-5">
-                <div
-                  className="rounded-lg px-3 py-2.5 border"
-                  style={{ borderColor: "#7042f8" + "40", background: "#7042f8" + "08" }}
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-mono text-[10px] font-semibold text-[var(--foreground)]">
-                        Ing. Dev Software
-                      </p>
-                      <p className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
-                        UNICAES · 2.° año
-                      </p>
-                    </div>
-                    <span className="font-mono text-xs font-bold text-[#7042f8] shrink-0 ml-2">
-                      8.69
-                    </span>
-                  </div>
-                </div>
-
-                <div
-                  className="rounded-lg px-3 py-2.5 border"
-                  style={{ borderColor: "#06b6d4" + "40", background: "#06b6d4" + "08" }}
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-mono text-[10px] font-semibold text-[var(--foreground)]">
-                        TSU Ciberseguridad
-                      </p>
-                      <p className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
-                        ESIT / MINED · Graduando
-                      </p>
-                    </div>
-                    <span className="font-mono text-xs font-bold text-[#06b6d4] shrink-0 ml-2">
-                      8.89
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Special moves */}
-              <div className="rounded-lg border border-[#06b6d4]/25 bg-[#06b6d4]/[0.04] px-3 py-2.5 mb-5">
-                <p className="font-mono text-[9px] tracking-widest uppercase text-[#06b6d4] mb-2">
-                  ▸ Special moves
-                </p>
-                <ul className="flex flex-col gap-1.5">
-                  {SPECIAL_MOVES.map((m) => (
-                    <li key={m.name}>
-                      <p className="font-mono text-[10px] font-semibold text-[var(--foreground)]">
-                        {m.name}
-                      </p>
-                      <p className="font-mono text-[9px] text-[var(--muted)] leading-snug">
-                        {m.desc}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
               {/* Short bio */}
               <p className="text-xs text-[var(--muted)] leading-relaxed">
                 Cofundador y líder técnico de Wuju. Backend TypeScript/Node.js,
@@ -386,6 +328,75 @@ export default function About() {
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff] animate-pulse">Disponible</span>
             </div>
           </motion.div>
+
+          {/* ─── EDUCACIÓN ─── */}
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="rounded-xl border border-[#7042f8]/30 bg-[var(--card)] p-4"
+          >
+            <p className="font-mono text-[10px] tracking-widest uppercase text-[#b49bff] mb-3">
+              ▸ Educación
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {education.map((e) => (
+                <div
+                  key={e.level}
+                  className="rounded-lg px-3 py-2.5 border flex items-start justify-between gap-2"
+                  style={{ borderColor: e.color + "35", background: e.color + "08" }}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-semibold text-[var(--foreground)] leading-snug">
+                      {e.level}
+                    </p>
+                    <p className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
+                      {e.institution}
+                    </p>
+                    <p className="font-mono text-[9px] mt-0.5" style={{ color: e.color + "cc" }}>
+                      {e.status}
+                    </p>
+                  </div>
+                  {e.cum && (
+                    <span
+                      className="font-mono text-xs font-bold shrink-0"
+                      style={{ color: e.color }}
+                    >
+                      {e.cum}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ─── SPECIAL MOVES ─── */}
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.18 }}
+            className="rounded-xl border border-[#06b6d4]/30 bg-[var(--card)] p-4"
+          >
+            <p className="font-mono text-[10px] tracking-widest uppercase text-[#06b6d4] mb-3">
+              ▸ Special moves
+            </p>
+            <ul className="flex flex-col gap-2.5">
+              {SPECIAL_MOVES.map((m) => (
+                <li key={m.name}>
+                  <p className="font-mono text-[11px] font-semibold text-[var(--foreground)]">
+                    {m.name}
+                  </p>
+                  <p className="font-mono text-[10px] text-[var(--muted)] leading-snug">
+                    {m.desc}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          </div>
 
           {/* ─── STATS PANEL ─── */}
           <motion.div
@@ -419,43 +430,6 @@ export default function About() {
               <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
                 {transversales.map((d, i) => (
                   <DominioBar key={d.name} {...d} index={i} />
-                ))}
-              </div>
-            </div>
-
-            {/* EDUCATION */}
-            <div>
-              <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
-                Educación
-              </p>
-              <div className="flex flex-col gap-3">
-                {education.map((e) => (
-                  <div
-                    key={e.level}
-                    className="p-4 rounded-lg border bg-[var(--card)] flex items-start justify-between gap-3"
-                    style={{ borderColor: e.color + "30" }}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-[var(--foreground)] leading-snug">
-                        {e.level}
-                      </p>
-                      <p className="text-xs text-[var(--muted)] mt-1">{e.institution}</p>
-                      <p className="text-xs mt-1" style={{ color: e.color + "cc" }}>
-                        {e.status}
-                      </p>
-                    </div>
-                    {e.cum && (
-                      <div className="text-right shrink-0">
-                        <span
-                          className="font-mono text-sm font-bold block"
-                          style={{ color: e.color }}
-                        >
-                          {e.cum}
-                        </span>
-                        <span className="font-mono text-[9px] text-[var(--muted)]">/ 10</span>
-                      </div>
-                    )}
-                  </div>
                 ))}
               </div>
             </div>
