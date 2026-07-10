@@ -5,6 +5,10 @@ import ProjectCard from "@/components/ui/ProjectCard";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import { projects } from "@/data/projects";
 
+const featured = projects.filter((p) => p.featured);
+const rest = projects.filter((p) => !p.featured);
+const ordered = [...featured, ...rest];
+
 export default function Projects() {
   return (
     <section id="proyectos" className="py-24 px-4 sm:px-6">
@@ -26,17 +30,38 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {projects.map((project, i) => (
+        {/* Misiones destacadas */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-6">
+          {featured.map((project, i) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
               className="flex"
             >
-              <ProjectCard project={project} />
+              <ProjectCard
+                project={project}
+                index={ordered.indexOf(project)}
+                featured
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Resto de misiones */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {rest.map((project, i) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
+              className="flex"
+            >
+              <ProjectCard project={project} index={ordered.indexOf(project)} />
             </motion.div>
           ))}
         </div>
