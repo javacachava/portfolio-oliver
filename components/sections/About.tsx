@@ -439,35 +439,60 @@ export default function About() {
               <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
                 Idiomas
               </p>
-              <div className="flex flex-col gap-5">
-                {languages.map((l, i) => (
-                  <div key={l.lang}>
-                    <div className="flex justify-between items-baseline mb-1.5">
-                      <span className="font-mono text-[13px] font-bold text-[var(--foreground)]">
-                        {l.lang}
-                      </span>
-                      <span
-                        className="font-mono text-[11px] font-semibold"
-                        style={{ color: l.color }}
-                      >
-                        {l.level}
-                      </span>
-                    </div>
-                    <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full rounded-full"
-                        style={{ background: l.color }}
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${l.value}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.75, ease: "easeOut", delay: i * 0.15 }}
-                      />
-                    </div>
-                    <p className="font-mono text-[10px] text-[var(--muted)] mt-1 opacity-70">
-                      {l.sublevel}
-                    </p>
-                  </div>
-                ))}
+              <div className="grid md:grid-cols-2 gap-4">
+                {languages.map((l, li) => {
+                  const segments = 20;
+                  const filled = Math.round((l.value / 100) * segments);
+                  return (
+                    <motion.div
+                      key={l.lang}
+                      initial={{ opacity: 0, y: 14 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: li * 0.12 }}
+                      className="rounded-xl border p-4"
+                      style={{
+                        borderColor: `${l.color}30`,
+                        background: `${l.color}06`,
+                      }}
+                    >
+                      <div className="flex justify-between items-baseline mb-3 gap-2">
+                        <span className="font-mono text-[13px] font-bold text-[var(--foreground)]">
+                          {l.lang}
+                        </span>
+                        <span
+                          className="font-mono text-[9px] tracking-wider px-1.5 py-px rounded shrink-0"
+                          style={{
+                            color: l.color,
+                            background: `${l.color}14`,
+                            border: `1px solid ${l.color}30`,
+                          }}
+                        >
+                          {l.level}
+                        </span>
+                      </div>
+                      <div className="flex gap-[3px]">
+                        {Array.from({ length: segments }).map((_, i) => (
+                          <motion.span
+                            key={i}
+                            className="h-2 flex-1 rounded-[2px]"
+                            style={{
+                              background: i < filled ? l.color : "var(--border)",
+                              boxShadow: i < filled ? `0 0 6px ${l.color}70` : "none",
+                            }}
+                            initial={{ opacity: 0, scaleY: 0.3 }}
+                            whileInView={{ opacity: i < filled ? 1 : 0.45, scaleY: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.25, delay: li * 0.1 + i * 0.015 }}
+                          />
+                        ))}
+                      </div>
+                      <p className="font-mono text-[10px] text-[var(--muted)] mt-2.5 opacity-70">
+                        {l.sublevel}
+                      </p>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
 

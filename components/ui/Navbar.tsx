@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 
 const links = [
   { label: "Skills", href: "/#skills" },
@@ -39,7 +38,7 @@ export default function Navbar() {
 
   return (
     <header className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#03001427] backdrop-blur-md z-50 px-4 sm:px-10">
-      <nav className="w-full h-full flex items-center justify-between m-auto max-w-7xl">
+      <nav className="relative w-full h-full flex items-center justify-between m-auto max-w-7xl">
         {/* Logo */}
         <a href="#" className="flex items-center gap-1.5 group">
           <span className="font-mono text-sm font-bold text-[#b49bff] opacity-60 group-hover:opacity-100 transition-opacity">
@@ -51,7 +50,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex h-full flex-row items-center">
+        <div className="hidden md:flex h-full flex-row items-center absolute left-1/2 -translate-x-1/2">
           <ul className="flex items-center justify-between gap-1 h-auto border border-[rgba(112,66,248,0.38)] bg-[rgba(3,0,20,0.37)] px-[20px] py-[10px] rounded-full text-gray-200">
             {links.map((l) => {
               const isActive = isLinkActive(l.href);
@@ -71,28 +70,6 @@ export default function Navbar() {
               );
             })}
           </ul>
-        </div>
-
-        {/* Social icons (desktop) */}
-        <div className="hidden md:flex flex-row gap-5">
-          <a
-            href="https://github.com/javacachava"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="text-white hover:text-[rgb(112,66,248)] transition-colors"
-          >
-            <GithubIcon size={22} />
-          </a>
-          <a
-            href="https://linkedin.com/in/oliver-ascencio"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="text-white hover:text-[rgb(112,66,248)] transition-colors"
-          >
-            <LinkedinIcon size={22} />
-          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -121,26 +98,6 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="flex justify-center gap-6 mt-6">
-            <a
-              href="https://github.com/javacachava"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="text-white"
-            >
-              <GithubIcon size={26} />
-            </a>
-            <a
-              href="https://linkedin.com/in/oliver-ascencio"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="text-white"
-            >
-              <LinkedinIcon size={26} />
-            </a>
-          </div>
         </div>
       )}
     </header>
