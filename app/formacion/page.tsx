@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/sections/Footer";
-import { StarsCanvas } from "@/components/ui/StarsCanvas";
+import DeferredStarsCanvas from "@/components/ui/DeferredStarsCanvas";
 import Constellation from "@/components/ui/Constellation";
 import FormacionList from "@/components/sections/FormacionList";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
@@ -23,7 +23,7 @@ const stats = [
 export default function FormacionPage() {
   return (
     <>
-      <StarsCanvas />
+      <DeferredStarsCanvas />
       <Navbar />
       <main className="relative z-10 pt-32 pb-24">
         {/* Header */}

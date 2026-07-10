@@ -238,7 +238,6 @@ export default function About() {
                       fill
                       className="object-cover object-top"
                       sizes="280px"
-                      priority={skin === 0}
                     />
                   </motion.div>
                 </AnimatePresence>

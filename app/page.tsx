@@ -9,12 +9,12 @@ import DataDuck from "@/components/sections/DataDuck";
 import Awards from "@/components/sections/Awards";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
-import { StarsCanvas } from "@/components/ui/StarsCanvas";
+import DeferredStarsCanvas from "@/components/ui/DeferredStarsCanvas";
 
 export default function Page() {
   return (
     <>
-      <StarsCanvas />
+      <DeferredStarsCanvas />
       <Navbar />
       <main className="relative z-10">
         <Hero />

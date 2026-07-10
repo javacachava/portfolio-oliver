@@ -2,12 +2,21 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useInView } from "react-intersection-observer";
 
 import { slideInFromTop } from "@/lib/motion";
 
 export default function Security() {
+  const { ref: sectionRef, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "300px 0px",
+  });
+
   return (
-    <section className="flex flex-row relative items-center justify-center min-h-screen w-full h-full overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="flex flex-row relative items-center justify-center min-h-screen w-full h-full overflow-hidden"
+    >
       <div className="absolute w-auto h-auto top-6 z-[5]">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -55,18 +64,23 @@ export default function Security() {
         </div>
       </div>
 
-      <div className="w-full flex items-start justify-center absolute">
-        <video
-          loop
-          muted
-          autoPlay
-          playsInline
-          preload="none"
-          className="w-full h-auto"
+      {inView && (
+        <div
+          className="w-full flex items-start justify-center absolute"
+          aria-hidden="true"
         >
-          <source src="/videos/encryption-bg.webm" type="video/webm" />
-        </video>
-      </div>
+          <video
+            loop
+            muted
+            autoPlay
+            playsInline
+            preload="none"
+            className="w-full h-auto"
+          >
+            <source src="/videos/encryption-bg.webm" type="video/webm" />
+          </video>
+        </div>
+      )}
     </section>
   );
 }

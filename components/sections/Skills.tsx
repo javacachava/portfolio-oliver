@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import SkillIcon from "@/components/ui/SkillIcon";
 import {
@@ -67,8 +68,14 @@ const EXTRA_STACK = [
 ];
 
 export default function Skills() {
+  const { ref: sectionRef, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "300px 0px",
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="skills"
       className="flex flex-col items-center justify-center gap-3 h-full relative overflow-hidden py-20"
       style={{ transform: "scale(0.9)" }}
@@ -143,20 +150,22 @@ export default function Skills() {
       </motion.div>
 
       {/* Background video */}
-      <div className="w-full h-full absolute -z-10">
-        <div className="w-full h-full opacity-30 absolute flex items-center justify-center bg-cover">
-          <video
-            className="w-full h-auto"
-            preload="none"
-            playsInline
-            loop
-            muted
-            autoPlay
-          >
-            <source src="/videos/skills-bg.webm" type="video/webm" />
-          </video>
+      {inView && (
+        <div className="w-full h-full absolute -z-10" aria-hidden="true">
+          <div className="w-full h-full opacity-30 absolute flex items-center justify-center bg-cover">
+            <video
+              className="w-full h-auto"
+              preload="none"
+              playsInline
+              loop
+              muted
+              autoPlay
+            >
+              <source src="/videos/skills-bg.webm" type="video/webm" />
+            </video>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

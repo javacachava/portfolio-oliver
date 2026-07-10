@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import {
@@ -11,18 +12,40 @@ import {
 } from "@/lib/motion";
 
 export default function Hero() {
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    const connection = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+
+    if (
+      connection.connection?.saveData ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => setShowVideo(true), 1000);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
   return (
     <section className="relative flex flex-col h-full w-full overflow-hidden">
       {/* Black hole video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover z-0 opacity-90"
-      >
-        <source src="/videos/blackhole.webm" type="video/webm" />
-      </video>
+      {showVideo && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover z-0 opacity-90"
+        >
+          <source src="/videos/blackhole.webm" type="video/webm" />
+        </video>
+      )}
 
       <motion.div
         initial="hidden"
@@ -119,7 +142,8 @@ export default function Hero() {
             width={650}
             draggable={false}
             className="select-none"
-            priority
+            loading="lazy"
+            sizes="650px"
           />
         </motion.div>
       </motion.div>

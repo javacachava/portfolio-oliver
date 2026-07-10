@@ -27,6 +27,7 @@ const cedarvilleCursive = Cedarville_Cursive({
   subsets: ["latin"],
   display: "swap",
   weight: "400",
+  preload: false,
 });
 
 export const metadata: Metadata = {
