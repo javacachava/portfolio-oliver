@@ -39,25 +39,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: "chismecito",
-    iconName: "TrendingUp",
-    title: "chismeci.to",
-    tagline: "Mercados de predicción impulsados por inteligencia colectiva",
-    description:
-      "Plataforma serverless de predicciones con créditos de participación (sin dinero real). Ingesta mercados automáticamente desde X (Twitter) y los resuelve con Edge Functions.",
-    stack: ["Supabase", "PostgreSQL", "Edge Functions", "Realtime", "X API", "JWT", "RLS"],
-    highlights: [
-      "Arquitectura 100% serverless (Edge Functions + Supabase)",
-      "Ingesta automática de mercados desde X vía cron",
-      "Row Level Security (RLS) con permisos mínimos",
-      "Admin solo por JWT role claim",
-    ],
-    github: "https://github.com/javacachava/chismeci.to",
-    status: "Serverless · En desarrollo activo",
-    statusType: "active",
-    accentColor: "#a78bfa",   // violet
-  },
-  {
     id: "whatsapp-order-bot",
     iconName: "MessageCircle",
     title: "Bot de Pedidos WhatsApp",

@@ -2,15 +2,25 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import {
+  Menu,
+  X,
+  Cpu,
+  Rocket,
+  CircleUser,
+  Users,
+  GraduationCap,
+  Mail,
+  type LucideIcon,
+} from "lucide-react";
 
-const links = [
-  { label: "Skills", href: "/#skills" },
-  { label: "Proyectos", href: "/#proyectos" },
-  { label: "Sobre mí", href: "/#sobre-mi" },
-  { label: "Wuju", href: "/#wuju" },
-  { label: "Formación", href: "/formacion" },
-  { label: "Contacto", href: "/#contacto" },
+const links: Array<{ label: string; href: string; Icon: LucideIcon }> = [
+  { label: "Skills", href: "/#skills", Icon: Cpu },
+  { label: "Proyectos", href: "/#proyectos", Icon: Rocket },
+  { label: "Sobre mí", href: "/#sobre-mi", Icon: CircleUser },
+  { label: "Wuju", href: "/#wuju", Icon: Users },
+  { label: "Formación", href: "/formacion", Icon: GraduationCap },
+  { label: "Contacto", href: "/#contacto", Icon: Mail },
 ];
 
 export default function Navbar() {
@@ -58,12 +68,16 @@ export default function Navbar() {
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className={`cursor-pointer px-2.5 text-sm transition ${
+                    className={`cursor-pointer px-2.5 text-sm transition inline-flex items-center gap-1.5 whitespace-nowrap ${
                       isActive
                         ? "text-[rgb(112,66,248)]"
                         : "hover:text-[rgb(112,66,248)]"
                     }`}
                   >
+                    <l.Icon
+                      size={13}
+                      className={isActive ? "" : "opacity-60"}
+                    />
                     {l.label}
                   </a>
                 </li>
@@ -91,8 +105,9 @@ export default function Navbar() {
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="cursor-pointer hover:text-[rgb(112,66,248)] transition text-center"
+                  className="cursor-pointer hover:text-[rgb(112,66,248)] transition inline-flex items-center gap-2"
                 >
+                  <l.Icon size={15} className="opacity-60" />
                   {l.label}
                 </a>
               </li>
