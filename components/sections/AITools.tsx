@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SparklesIcon } from "@heroicons/react/24/solid";
-import { Orbit } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import NeuralBackground from "@/components/ui/NeuralBackground";
 import {
@@ -12,20 +11,21 @@ import {
   slideInFromTop,
 } from "@/lib/motion";
 
-const TOOLS: Array<{ name: string; icon?: string }> = [
+const TOOLS: Array<{ name: string; icon: string }> = [
   { name: "Claude Code", icon: "/ai/claude.svg" },
   { name: "Codex", icon: "/ai/openai.svg" },
   { name: "ChatGPT", icon: "/ai/openai.svg" },
   { name: "Gemini", icon: "/ai/googlegemini.svg" },
   { name: "Google AI Studio", icon: "/ai/google.svg" },
-  { name: "Antigravity" },
+  { name: "Antigravity", icon: "/ai/antigravity.png" },
+  { name: "Cursor", icon: "/ai/cursor.svg" },
 ];
 
 function ToolIcon({
   tool,
   index,
 }: {
-  tool: { name: string; icon?: string };
+  tool: { name: string; icon: string };
   index: number;
 }) {
   const { ref, inView } = useInView({ triggerOnce: true });
@@ -42,18 +42,14 @@ function ToolIcon({
         className="h-16 w-16 rounded-2xl flex items-center justify-center border border-[#7042f8]/35 bg-[#0b0322]/70"
         style={{ boxShadow: "0 0 18px rgba(112,66,248,0.15)" }}
       >
-        {tool.icon ? (
-          <Image
-            src={tool.icon}
-            alt={tool.name}
-            width={30}
-            height={30}
-            unoptimized
-            className="opacity-90"
-          />
-        ) : (
-          <Orbit size={30} className="text-[#06b6d4] opacity-90" />
-        )}
+        <Image
+          src={tool.icon}
+          alt={tool.name}
+          width={30}
+          height={30}
+          unoptimized
+          className="opacity-90"
+        />
       </div>
       <span className="font-mono text-[10px] text-gray-400 text-center leading-tight">
         {tool.name}
@@ -102,7 +98,7 @@ export default function AITools() {
       </motion.div>
 
       {/* Iconos de herramientas */}
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-x-6 gap-y-8 justify-items-center max-w-4xl w-full">
+      <div className="flex flex-wrap justify-center gap-x-6 gap-y-8 max-w-4xl w-full">
         {TOOLS.map((t, i) => (
           <ToolIcon key={t.name} tool={t} index={i} />
         ))}

@@ -30,7 +30,6 @@ const ROW_FRONTEND: IconSkill[] = [
   { name: "React", image: "react.png", width: 80, height: 80 },
   { name: "Next.js", image: "next.png", width: 80, height: 80 },
   { name: "Tailwind CSS", image: "tailwind.png", width: 80, height: 80 },
-  { name: "Flutter", image: "flutter.svg", width: 60, height: 60 },
 ];
 
 const ROW_BACKEND: IconSkill[] = [
@@ -40,7 +39,6 @@ const ROW_BACKEND: IconSkill[] = [
   { name: "NestJS", image: "nestjs.svg", width: 70, height: 70 },
   { name: "Node.js", image: "node.png", width: 80, height: 80 },
   { name: "Express", image: "express.png", width: 80, height: 80 },
-  { name: "Spring Boot", image: "spring.svg", width: 62, height: 62 },
 ];
 
 const ROW_DATA: IconSkill[] = [
