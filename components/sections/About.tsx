@@ -9,16 +9,36 @@ const CYAN = "#06b6d4";
 const GREEN = "#00ff9f";
 const VIOLET = "#a78bfa";
 
-const skillStats = [
-  { name: "BACKEND",     value: 85, color: CYAN,   desc: "Node.js · NestJS · REST APIs" },
-  { name: "JAVA/SPRING", value: 78, color: PURPLE, desc: "Spring Boot · Maven · REST" },
-  { name: "TYPESCRIPT",  value: 80, color: CYAN,   desc: "Tipado estricto · Patrones avanzados" },
-  { name: "REACT/FRONT", value: 72, color: VIOLET, desc: "React · Vite · Tailwind CSS" },
-  { name: "CLOUD",       value: 65, color: GREEN,  desc: "AWS · Google Cloud · Vertex AI" },
-  { name: "DATABASES",   value: 78, color: CYAN,   desc: "PostgreSQL · PostGIS · Redis" },
-  { name: "SECURITY",    value: 75, color: VIOLET, desc: "OWASP Top 10 · JWT · RLS · Criptografía" },
-  { name: "DEVOPS",      value: 62, color: GREEN,  desc: "Docker · Compose · GitHub Actions" },
+// Autoevaluación auditada contra los repos reales — números honestos
+const dominios = [
+  { name: "Vue 3 · Pinia · Vitest", value: 90, desc: "899 tests · PWA offline · MSW" },
+  { name: "Laravel · PHP",          value: 80, desc: "PHPStan nv6 · 550 tests · Pint" },
+  { name: "Python · FastAPI",       value: 75, desc: "pytest · seguridad aplicada" },
+  { name: "Django",                 value: 72, desc: "HTMX · tests de admin" },
+  { name: "Supabase · Postgres",    value: 65, desc: "RLS · threat modeling" },
+  { name: "Three.js · JS vanilla",  value: 65, desc: "juego completo jugable" },
+  { name: "React",                  value: 62, desc: "UI en 4 proyectos" },
+  { name: "Node · Express",         value: 62, desc: "bot en producción · HMAC" },
+  { name: "Next.js",                value: 60, desc: "este portfolio · VPS propio" },
+  { name: "Docker · DevOps",        value: 58, desc: "Compose en prod · multi-stage" },
+  { name: "NestJS",                 value: 45, desc: "API geoespacial · en pausa" },
+  { name: "Spring Boot · Java",     value: 10, desc: "recién empezando" },
+  { name: "Flutter · Dart",         value: 5,  desc: "apenas arrancado" },
 ];
+
+const transversales = [
+  { name: "Seguridad",       value: 58, desc: "RLS · HMAC · CSRF · auditorías propias" },
+  { name: "Testing",         value: 60, desc: "1400+ tests donde se aplica" },
+  { name: "Higiene de repo", value: 55, desc: "limpieza en curso" },
+  { name: "Documentación",   value: 40, desc: "en mejora activa" },
+];
+
+function tierOf(pct: number) {
+  if (pct >= 80) return { color: GREEN,  label: "PRODUCCIÓN" };
+  if (pct >= 60) return { color: CYAN,   label: "SÓLIDO" };
+  if (pct >= 40) return { color: VIOLET, label: "EN DESARROLLO" };
+  return { color: "#9a91c5", label: "APRENDIENDO" };
+}
 
 const education = [
   {
@@ -64,38 +84,60 @@ const languages = [
   },
 ];
 
-function StatBar({
-  label,
+function DominioBar({
+  name,
   value,
-  color,
-  delay = 0,
   desc,
+  index,
 }: {
-  label: string;
+  name: string;
   value: number;
-  color: string;
-  delay?: number;
   desc?: string;
+  index: number;
 }) {
+  const t = tierOf(value);
+  const SEGMENTS = 20;
+  const filled = Math.round((value / 100) * SEGMENTS);
   return (
     <div>
-      <div className="flex justify-between items-baseline mb-1.5">
-        <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--foreground)]">
-          {label}
+      <div className="flex justify-between items-baseline mb-1.5 gap-2">
+        <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--foreground)] truncate">
+          {name}
         </span>
-        <span className="font-mono text-[11px] font-bold" style={{ color }}>
-          {value}%
+        <span className="flex items-baseline gap-2 shrink-0">
+          <span
+            className="font-mono text-[8px] tracking-wider px-1.5 py-px rounded"
+            style={{
+              color: t.color,
+              background: `${t.color}14`,
+              border: `1px solid ${t.color}30`,
+            }}
+          >
+            {t.label}
+          </span>
+          <span
+            className="font-mono text-[11px] font-bold tabular-nums"
+            style={{ color: t.color }}
+          >
+            {value}%
+          </span>
         </span>
       </div>
-      <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
-        <motion.div
-          className="h-full rounded-full"
-          style={{ background: color }}
-          initial={{ width: 0 }}
-          whileInView={{ width: `${value}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease: "easeOut", delay }}
-        />
+      <div className="flex gap-[3px]">
+        {Array.from({ length: SEGMENTS }).map((_, i) => (
+          <motion.span
+            key={i}
+            className="h-2 flex-1 rounded-[2px]"
+            style={{
+              background: i < filled ? t.color : "var(--border)",
+              boxShadow: i < filled ? `0 0 6px ${t.color}70` : "none",
+            }}
+            initial={{ opacity: 0, scaleY: 0.3 }}
+            whileInView={{ opacity: i < filled ? 1 : 0.45, scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.25, delay: index * 0.03 + i * 0.012 }}
+          />
+        ))}
       </div>
       {desc && (
         <p className="font-mono text-[10px] text-[var(--muted)] mt-1 opacity-70">
@@ -238,21 +280,30 @@ export default function About() {
             transition={{ duration: 0.55, delay: 0.1 }}
             className="flex flex-col gap-10"
           >
-            {/* SKILLS */}
+            {/* DOMINIO POR TECNOLOGÍA */}
+            <div>
+              <p className="font-mono text-xs text-[var(--muted)] mb-2 tracking-widest uppercase">
+                Dominio por tecnología
+              </p>
+              <p className="text-xs text-[var(--muted)] mb-6 opacity-80">
+                Autoevaluación auditada contra mis propios repos — números
+                reales, no marketing.
+              </p>
+              <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
+                {dominios.map((d, i) => (
+                  <DominioBar key={d.name} {...d} index={i} />
+                ))}
+              </div>
+            </div>
+
+            {/* TRANSVERSALES */}
             <div>
               <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
-                Skills
+                Transversales
               </p>
-              <div className="flex flex-col gap-4">
-                {skillStats.map((s, i) => (
-                  <StatBar
-                    key={s.name}
-                    label={s.name}
-                    value={s.value}
-                    color={s.color}
-                    delay={i * 0.07}
-                    desc={s.desc}
-                  />
+              <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
+                {transversales.map((d, i) => (
+                  <DominioBar key={d.name} {...d} index={i} />
                 ))}
               </div>
             </div>

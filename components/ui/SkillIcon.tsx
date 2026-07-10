@@ -38,7 +38,13 @@ export default function SkillIcon({
       transition={{ delay: index * 0.1 }}
       title={name}
     >
-      <Image src={`/skills/${src}`} width={width} height={height} alt={name} />
+      <Image
+        src={`/skills/${src}`}
+        width={width}
+        height={height}
+        alt={name}
+        unoptimized={src.endsWith(".svg")}
+      />
     </motion.div>
   );
 }

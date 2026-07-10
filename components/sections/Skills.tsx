@@ -16,38 +16,52 @@ interface IconSkill {
   height: number;
 }
 
-const ROW_BASE: IconSkill[] = [
-  { name: "HTML5", image: "html.png", width: 80, height: 80 },
-  { name: "CSS3", image: "css.png", width: 80, height: 80 },
+const ROW_LENGUAJES: IconSkill[] = [
   { name: "JavaScript", image: "js.png", width: 65, height: 65 },
   { name: "TypeScript", image: "ts.png", width: 80, height: 80 },
+  { name: "PHP", image: "php.svg", width: 80, height: 80 },
+  { name: "Python", image: "python.svg", width: 70, height: 70 },
+  { name: "HTML5", image: "html.png", width: 80, height: 80 },
+  { name: "CSS3", image: "css.png", width: 80, height: 80 },
 ];
 
 const ROW_FRONTEND: IconSkill[] = [
+  { name: "Vue 3", image: "vuejs.svg", width: 70, height: 70 },
   { name: "React", image: "react.png", width: 80, height: 80 },
-  { name: "Tailwind CSS", image: "tailwind.png", width: 80, height: 80 },
   { name: "Next.js", image: "next.png", width: 80, height: 80 },
-  { name: "Figma", image: "figma.png", width: 50, height: 50 },
+  { name: "Tailwind CSS", image: "tailwind.png", width: 80, height: 80 },
+  { name: "Flutter", image: "flutter.svg", width: 60, height: 60 },
 ];
 
 const ROW_BACKEND: IconSkill[] = [
+  { name: "Laravel", image: "laravel.svg", width: 65, height: 65 },
+  { name: "FastAPI", image: "fastapi.svg", width: 70, height: 70 },
+  { name: "Django", image: "django.svg", width: 55, height: 55 },
+  { name: "NestJS", image: "nestjs.svg", width: 70, height: 70 },
   { name: "Node.js", image: "node.png", width: 80, height: 80 },
   { name: "Express", image: "express.png", width: 80, height: 80 },
+  { name: "Spring Boot", image: "spring.svg", width: 62, height: 62 },
+];
+
+const ROW_DATA: IconSkill[] = [
   { name: "PostgreSQL", image: "postgresql.png", width: 70, height: 70 },
+  { name: "Supabase", image: "supabase.svg", width: 62, height: 62 },
   { name: "Firebase", image: "firebase.png", width: 55, height: 55 },
   { name: "Docker", image: "docker.png", width: 70, height: 70 },
+  { name: "Figma", image: "figma.png", width: 50, height: 50 },
 ];
 
 const EXTRA_STACK = [
-  "Java",
-  "Spring Boot",
-  "PHP",
-  "Python",
+  "Pinia",
+  "Vitest",
+  "pytest",
+  "PHPStan · Pint",
+  "Three.js",
+  "HTMX",
   "AWS Cloud",
   "Google Cloud",
   "Vertex AI",
   "Redis",
-  "Supabase",
   "PostGIS",
   "Git · GitHub",
   "OWASP Top 10",
@@ -94,7 +108,7 @@ export default function Skills() {
       </motion.div>
 
       {/* Icon rows */}
-      {[ROW_BASE, ROW_FRONTEND, ROW_BACKEND].map((row, r) => (
+      {[ROW_LENGUAJES, ROW_FRONTEND, ROW_BACKEND, ROW_DATA].map((row, r) => (
         <div
           key={r}
           className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center"
