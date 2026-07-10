@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { Orbit } from "lucide-react";
 import { useInView } from "react-intersection-observer";
+import NeuralBackground from "@/components/ui/NeuralBackground";
 import {
   slideInFromLeft,
   slideInFromRight,
@@ -51,7 +52,7 @@ function ToolIcon({
             className="opacity-90"
           />
         ) : (
-          <Orbit size={30} className="text-[#b49bff] opacity-90" />
+          <Orbit size={30} className="text-[#06b6d4] opacity-90" />
         )}
       </div>
       <span className="font-mono text-[10px] text-gray-400 text-center leading-tight">
@@ -65,8 +66,9 @@ export default function AITools() {
   return (
     <section
       id="ia"
-      className="flex flex-col items-center justify-center relative overflow-hidden py-20 px-4"
+      className="flex flex-col items-center justify-center relative overflow-hidden py-24 px-4"
     >
+      <NeuralBackground />
       {/* Header — mismo patrón que la sección de tecnologías */}
       <motion.div
         initial="hidden"
@@ -100,7 +102,7 @@ export default function AITools() {
       </motion.div>
 
       {/* Iconos de herramientas */}
-      <div className="flex flex-row justify-center flex-wrap gap-x-6 gap-y-8 max-w-3xl">
+      <div className="grid grid-cols-3 sm:grid-cols-6 gap-x-6 gap-y-8 justify-items-center max-w-4xl w-full">
         {TOOLS.map((t, i) => (
           <ToolIcon key={t.name} tool={t} index={i} />
         ))}
