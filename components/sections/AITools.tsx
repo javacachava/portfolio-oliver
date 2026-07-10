@@ -13,10 +13,10 @@ import {
 
 const TOOLS: Array<{ name: string; icon: string }> = [
   { name: "Claude Code", icon: "/ai/claude.svg" },
-  { name: "Codex", icon: "/ai/openai.svg" },
+  { name: "Codex", icon: "/ai/codex.svg" },
   { name: "ChatGPT", icon: "/ai/openai.svg" },
   { name: "Gemini", icon: "/ai/googlegemini.svg" },
-  { name: "Google AI Studio", icon: "/ai/google.svg" },
+  { name: "Google AI Studio", icon: "/ai/aistudio.png" },
   { name: "Antigravity", icon: "/ai/antigravity.png" },
   { name: "Cursor", icon: "/ai/cursor.svg" },
 ];

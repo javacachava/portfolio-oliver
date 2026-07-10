@@ -4,18 +4,10 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <p className="font-mono text-xs text-[var(--muted)] mb-1.5">
-            [oliver@wuju ~]$&nbsp;<span className="cursor-blink text-[var(--accent)]" />
+            [oliver@dev ~]$&nbsp;<span className="cursor-blink text-[var(--accent)]" />
           </p>
           <p className="text-xs text-[var(--muted)]">
-            © 2026 Oliver Ascencio ·{" "}
-            <a
-              href="https://github.com/javacachava"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--foreground)] transition-colors"
-            >
-              Wuju
-            </a>
+            © 2026 Oliver Alexander Ascencio Pleitez
           </p>
         </div>
       </div>

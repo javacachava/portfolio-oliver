@@ -22,11 +22,11 @@ const SPECIAL_MOVES = [
   },
   {
     name: "Producto end-to-end",
-    desc: "De idea a cliente real en producción (Pizza Brava)",
+    desc: "De idea a cliente real en producción",
   },
   {
     name: "Negociación & sociedades",
-    desc: "Contrato de Wuju · acuerdos freelance",
+    desc: "Contratos de sociedad · acuerdos freelance",
   },
 ];
 
@@ -309,7 +309,7 @@ export default function About() {
             {/* Name & class */}
             <div className="px-5 pt-3 pb-2">
               <h3 className="text-base font-bold text-[var(--foreground)] leading-5 mb-0.5">
-                Oliver Ascencio
+                Oliver Alexander Ascencio Pleitez
               </h3>
               <p className="font-mono text-xs text-[var(--accent)] mb-4">
                 Full-Stack · 20 años
@@ -317,7 +317,7 @@ export default function About() {
 
               {/* Short bio */}
               <p className="text-xs text-[var(--muted)] leading-relaxed">
-                Cofundador y líder técnico de Wuju. Backend TypeScript/Node.js,
+                Líder técnico full-stack. Backend TypeScript/Node.js,
                 cloud AWS/GCP y sistemas en tiempo real.
               </p>
             </div>

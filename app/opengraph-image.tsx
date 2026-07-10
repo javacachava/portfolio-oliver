@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Oliver Ascencio — Desarrollador Full-Stack";
+export const alt = "Oliver Alexander Ascencio Pleitez — Desarrollador Full-Stack";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -69,7 +69,7 @@ export default function OgImage() {
               letterSpacing: "-0.02em",
             }}
           >
-            Oliver Ascencio
+            Oliver Alexander Ascencio Pleitez
           </div>
           <div
             style={{
@@ -78,7 +78,7 @@ export default function OgImage() {
               fontWeight: 500,
             }}
           >
-            Desarrollador Full-Stack · Cofundador de Wuju
+            Desarrollador Full-Stack · Santa Ana, El Salvador
           </div>
           <div
             style={{

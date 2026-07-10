@@ -13,8 +13,8 @@ const metrics = [
 ];
 
 const gitLog = [
-  { hash: "a4f2c", ref: "prod", msg: "pizzabrava-bot: WhatsApp order bot · cliente real", live: true  },
-  { hash: "d8e9f", ref: "dev",  msg: "pizzabrava-pos: POS modular · fase 2/8",            live: false },
+  { hash: "a4f2c", ref: "prod", msg: "order-bot: WhatsApp order bot · cliente real",      live: true  },
+  { hash: "d8e9f", ref: "prod", msg: "restaurant-pos: v1.0 · 1,400+ tests · producción",  live: true  },
   { hash: "c2b7e", ref: "dev",  msg: "tuguiasv: geospatial B2B infra · CONACYT",          live: false },
   { hash: "f1a4d", ref: "dev",  msg: "chismeci-to: prediction markets serverless",         live: false },
   { hash: "e5c8b", ref: "dev",  msg: "flowcore: hydraulic sim · 121 reqs",                live: false },
@@ -151,7 +151,7 @@ export default function Wuju() {
 
               <div className="mt-2 pt-4 border-t border-[var(--border)] flex items-center justify-between">
                 <span className="font-mono text-[10px] text-[var(--muted)]">
-                  5 commits · 1 in prod · 4 in dev
+                  5 commits · 2 in prod · 3 in dev
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff]">
                   Santa Ana, SV

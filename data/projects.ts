@@ -58,12 +58,12 @@ export const projects: Project[] = [
     accentColor: "#a78bfa",   // violet
   },
   {
-    id: "pizzabrava-bot",
+    id: "whatsapp-order-bot",
     iconName: "MessageCircle",
-    title: "Pizza Brava Bot",
+    title: "Bot de Pedidos WhatsApp",
     tagline: "Pedidos 24/7 sin mesero — en producción real",
     description:
-      "Bot de WhatsApp para Pizza Brava El Salvador. Toma pedidos a cualquier hora, recuerda clientes frecuentes, sugiere combos y notifica al dueño. El menú se actualiza desde un JSON — sin tocar código.",
+      "Bot de WhatsApp para un restaurante local. Toma pedidos a cualquier hora, recuerda clientes frecuentes, sugiere combos y notifica al dueño. El menú se actualiza desde un JSON — sin tocar código.",
     stack: ["JavaScript", "Node.js", "Meta Cloud API", "WhatsApp Business"],
     highlights: [
       "En producción con cliente real",
@@ -78,24 +78,26 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: "pizzabrava-pos",
+    id: "restaurant-pos",
     iconName: "Monitor",
-    title: "Pizza Brava POS",
-    tagline: "POS modular para restaurante — mismo cliente, solución completa",
+    title: "POS para Restaurante",
+    tagline: "Sistema de punto de venta completo — v1.0 en producción",
     description:
-      "Sistema de punto de venta con 4 dominios operativos aislados: mesero, cocina (KDS), caja y administración. Kitchen Display en tiempo real con sincronización via Firestore. Complementa el bot de WhatsApp del mismo restaurante.",
-    stack: ["Laravel PHP 8.3", "React", "Inertia.js", "PostgreSQL 16", "Redis", "Laravel Reverb", "Firestore", "Docker"],
+      "Sistema de punto de venta con 4 dominios operativos aislados: mesero, cocina (KDS), caja y administración. Tiempo real con WebSockets (Laravel Reverb), PWA offline-first con sincronización y impresión térmica de tickets.",
+    stack: ["Laravel PHP 8.4", "Vue 3", "TypeScript", "Pinia", "PostgreSQL 16", "Redis", "Laravel Reverb", "Docker"],
     highlights: [
+      "v1.0 lanzado y operando en producción",
       "4 módulos por rol con acceso estrictamente separado",
-      "KDS (Kitchen Display System) en tiempo real",
-      "Roadmap documentado en 8 fases",
-      "Mismo cliente que el bot → muestra capacidad de entrega end-to-end",
+      "KDS (Kitchen Display System) en tiempo real vía WebSockets",
+      "1,400+ tests: 550 PHPUnit + 899 Vitest + 26 E2E Playwright",
+      "PWA offline-first: la operación sigue sin internet y sincroniza al volver",
     ],
     github: "https://github.com/javacachava/POS",
-    status: "En desarrollo activo · Fase 2/8",
-    statusType: "active",
-    accentColor: "#7042f8",   // purple
-    note: "Proyecto de servicio social ESIT · Nov 2025 – Mar 2026",
+    status: "En producción ✓ · v1.0",
+    statusType: "live",
+    accentColor: "#00ff9f",   // green — LIVE = operational
+    featured: true,
+    note: "Iniciado como proyecto de servicio social ESIT · v1.0 en producción desde Jul 2026",
   },
   {
     id: "invitaciones",

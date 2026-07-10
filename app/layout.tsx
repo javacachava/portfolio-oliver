@@ -31,10 +31,15 @@ const cedarvilleCursive = Cedarville_Cursive({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oliver.wuju.dev"),
-  title: "Oliver Ascencio — Desarrollador Full-Stack",
+  title: "Oliver Alexander Ascencio Pleitez — Desarrollador Full-Stack",
   description:
-    "Portfolio de Oliver Ascencio. Desarrollador Full-Stack y cofundador de Wuju. Proyectos reales en TypeScript, Node.js, React y cloud. Santa Ana, El Salvador.",
-  authors: [{ name: "Oliver Ascencio", url: "https://github.com/javacachava" }],
+    "Portfolio de Oliver Alexander Ascencio Pleitez. Desarrollador Full-Stack. Proyectos reales en TypeScript, Node.js, React y cloud. Santa Ana, El Salvador.",
+  authors: [
+    {
+      name: "Oliver Alexander Ascencio Pleitez",
+      url: "https://github.com/javacachava",
+    },
+  ],
   keywords: [
     "desarrollador",
     "full-stack",
@@ -42,7 +47,6 @@ export const metadata: Metadata = {
     "Node.js",
     "React",
     "El Salvador",
-    "Wuju",
     "portafolio",
   ],
   openGraph: {

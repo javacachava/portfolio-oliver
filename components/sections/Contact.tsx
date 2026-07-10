@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { slideInFromTop } from "@/lib/motion";
@@ -55,8 +55,7 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.25 }}
         className="text-[var(--muted)] max-w-md mt-3 mb-10"
       >
-        ¿Un proyecto, una idea o algo para Wuju? Un correo o un WhatsApp y
-        seguimos la conversación.
+        ¿Un proyecto o una idea? Un correo y seguimos la conversación.
       </motion.p>
 
       {/* CTAs */}
@@ -73,15 +72,6 @@ export default function Contact() {
         >
           <Mail size={15} />
           oliver.a.ascencio@gmail.com
-        </a>
-        <a
-          href="https://wa.me/50375398164"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 py-3 px-8 text-white rounded-lg text-sm font-medium border border-[#00ff9f]/40 hover:bg-[#00ff9f]/10 transition-colors"
-        >
-          <MessageCircle size={15} className="text-[#00ff9f]" />
-          WhatsApp
         </a>
       </motion.div>
 
