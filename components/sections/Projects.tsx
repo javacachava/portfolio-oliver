@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ProjectCard from "@/components/ui/ProjectCard";
+import ProjectLaptop from "@/components/ui/ProjectLaptop";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import { projects } from "@/data/projects";
 
@@ -30,20 +30,15 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Índice de misiones — filas editoriales */}
-        <div className="border-t border-[var(--border)]">
-          {ordered.map((project, i) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.4, delay: Math.min(i * 0.06, 0.25) }}
-            >
-              <ProjectCard project={project} index={i} />
-            </motion.div>
-          ))}
-        </div>
+        {/* Visor laptop — pasá los proyectos con las flechas o arrastrando */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5 }}
+        >
+          <ProjectLaptop projects={ordered} />
+        </motion.div>
 
       </div>
     </section>
