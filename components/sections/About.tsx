@@ -9,6 +9,7 @@ import SectionEyebrow from "@/components/ui/SectionEyebrow";
 // Skins del personaje — agregar imágenes aquí (pixel-art, fotos reales…)
 const SKINS = [
   { src: "/images/oliver.png", label: "PIXEL" },
+  { src: "/images/oliver-skin2.png", label: "RETRATO" },
 ];
 
 const SPECIAL_MOVES = [

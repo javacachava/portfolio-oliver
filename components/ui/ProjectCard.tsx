@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ExternalLink, Images } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import { GithubIcon } from "@/components/ui/BrandIcons";
 import ProjectGallery from "@/components/ui/ProjectGallery";
 import type { Project } from "@/data/projects";
 
@@ -120,17 +119,6 @@ export default function ProjectRow({
             >
               <ExternalLink size={12} />
               Ver demo
-            </a>
-          )}
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 font-mono text-[11px] px-4 py-2 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-white hover:border-[#7042f8]/60 transition-colors"
-            >
-              <GithubIcon size={12} />
-              GitHub
             </a>
           )}
         </div>

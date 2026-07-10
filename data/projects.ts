@@ -93,7 +93,6 @@ export const projects: Project[] = [
       "App Android nativa empacada con Capacitor",
       "Check-in en tiempo real con Supabase Realtime",
     ],
-    github: "https://github.com/javacachava/invitacion-baby-shower",
     status: "Funcional · Deploy en Vercel",
     statusType: "functional",
     accentColor: "#06b6d4",   // cyan
