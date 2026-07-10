@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Mail, MessageCircle, GitBranch, ExternalLink } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 interface Connection {
   cmd:   string;
@@ -19,7 +20,7 @@ const connections: Connection[] = [
     label: "Email",
     value: "oliver.a.ascencio@gmail.com",
     href:  "mailto:oliver.a.ascencio@gmail.com",
-    color: "#0ea5e9",
+    color: "#7042f8",
     Icon:  Mail,
   },
   {
@@ -27,7 +28,7 @@ const connections: Connection[] = [
     label: "WhatsApp",
     value: "+503 7539-8164",
     href:  "https://wa.me/50375398164",
-    color: "#10b981",
+    color: "#00ff9f",
     Icon:  MessageCircle,
   },
   {
@@ -43,7 +44,7 @@ const connections: Connection[] = [
     label: "LinkedIn",
     value: "in/oliver-ascencio",
     href:  "https://linkedin.com/in/oliver-ascencio",
-    color: "#fbbf24",
+    color: "#06b6d4",
     Icon:  ExternalLink,
   },
 ];
@@ -60,9 +61,7 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="font-pixel text-[9px] text-[var(--accent)] mb-3 tracking-widest uppercase">
-            ▸ OPEN TO CONNECT
-          </p>
+          <SectionEyebrow className="mb-3">Contacto</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
             Hablemos.
           </h2>
@@ -117,7 +116,7 @@ export default function Contact() {
                   <Icon size={18} style={{ color }} />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-pixel text-[8px] text-[var(--muted)] mb-1">{label}</p>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)] mb-1">{label}</p>
                   <p
                     className="text-sm font-medium truncate transition-colors"
                     style={{ color: "var(--foreground)" }}

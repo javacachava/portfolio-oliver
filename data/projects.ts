@@ -35,7 +35,7 @@ export const projects: Project[] = [
     github: "https://github.com/javacachava/TuGuiaSV",
     status: "Backend funcional · Demo disponible",
     statusType: "functional",
-    accentColor: "#0ea5e9",   // blue
+    accentColor: "#06b6d4",   // cyan
     featured: true,
   },
   {
@@ -94,7 +94,7 @@ export const projects: Project[] = [
     github: "https://github.com/javacachava/POS",
     status: "En desarrollo activo · Fase 2/8",
     statusType: "active",
-    accentColor: "#0ea5e9",   // blue
+    accentColor: "#7042f8",   // purple
     note: "Proyecto de servicio social ESIT · Nov 2025 – Mar 2026",
   },
   {
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     github: "https://github.com/javacachava/invitacion-baby-shower",
     status: "Funcional · Deploy en Vercel",
     statusType: "functional",
-    accentColor: "#ef4444",
+    accentColor: "#06b6d4",   // cyan
   },
   {
     id: "flowcore",

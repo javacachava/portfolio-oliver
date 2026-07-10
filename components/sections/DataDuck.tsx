@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight } from "lucide-react";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 function Counter({ from = 0, to, duration = 1.3 }: { from?: number; to: number; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -34,10 +35,10 @@ function Counter({ from = 0, to, duration = 1.3 }: { from?: number; to: number; 
 }
 
 const metrics = [
-  { to: 9,    from: 0,    label: "Desarrolladores", color: "#0ea5e9" },
+  { to: 9,    from: 0,    label: "Desarrolladores", color: "#7042f8" },
   { to: 5,    from: 0,    label: "Productos",        color: "#a78bfa" },
-  { to: 2,    from: 0,    label: "Clientes activos", color: "#10b981" },
-  { to: 2026, from: 2020, label: "Fundación",        color: "#fbbf24" },
+  { to: 2,    from: 0,    label: "Clientes activos", color: "#00ff9f" },
+  { to: 2026, from: 2020, label: "Fundación",        color: "#06b6d4" },
 ];
 
 const gitLog = [
@@ -60,9 +61,7 @@ export default function Wuju() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="font-pixel text-[9px] text-[var(--accent)] mb-3 tracking-widest uppercase">
-            ▸ GUILD: WUJU
-          </p>
+          <SectionEyebrow className="mb-3">Wuju</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
             Software hecho en El Salvador
             <br className="hidden sm:block" /> para El Salvador.
@@ -98,7 +97,7 @@ export default function Wuju() {
                   style={{ borderTopColor: m.color, borderTopWidth: "2px" }}
                 >
                   <p
-                    className="text-3xl font-bold tabular-nums font-pixel mb-1"
+                    className="text-3xl font-bold tabular-nums mb-1"
                     style={{ color: m.color }}
                   >
                     <Counter from={m.from} to={m.to} />
@@ -135,8 +134,8 @@ export default function Wuju() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="terminal-card rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden"
             style={{
-              "--t-glow":   "rgba(14,165,233,0.12)",
-              "--t-accent": "rgba(14,165,233,0.3)",
+              "--t-glow":   "rgba(112,66,248,0.12)",
+              "--t-accent": "rgba(112,66,248,0.3)",
             } as React.CSSProperties}
           >
             {/* Terminal header */}
@@ -169,8 +168,8 @@ export default function Wuju() {
                     className="font-mono text-[10px] px-1.5 py-0.5 rounded shrink-0 mt-0.5"
                     style={
                       entry.live
-                        ? { color: "#4ade80", background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.25)" }
-                        : { color: "#38bdf8", background: "rgba(56,189,248,0.10)", border: "1px solid rgba(56,189,248,0.2)" }
+                        ? { color: "#00ff9f", background: "rgba(0,255,159,0.12)", border: "1px solid rgba(0,255,159,0.25)" }
+                        : { color: "#06b6d4", background: "rgba(6,182,212,0.10)", border: "1px solid rgba(6,182,212,0.2)" }
                     }
                   >
                     {entry.live ? "prod" : "dev"}
@@ -183,8 +182,8 @@ export default function Wuju() {
                 <span className="font-mono text-[10px] text-[var(--muted)]">
                   5 commits · 1 in prod · 4 in dev
                 </span>
-                <span className="font-pixel text-[7px] text-[var(--accent)]">
-                  SANTA ANA, SV
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff]">
+                  Santa Ana, SV
                 </span>
               </div>
 

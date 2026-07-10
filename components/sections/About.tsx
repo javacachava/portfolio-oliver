@@ -2,16 +2,22 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
+
+const PURPLE = "#7042f8";
+const CYAN = "#06b6d4";
+const GREEN = "#00ff9f";
+const VIOLET = "#a78bfa";
 
 const skillStats = [
-  { name: "BACKEND",     value: 85, color: "#0ea5e9", desc: "Node.js · NestJS · REST APIs" },
-  { name: "JAVA/SPRING", value: 78, color: "#ef4444", desc: "Spring Boot · Maven · REST" },
-  { name: "TYPESCRIPT",  value: 80, color: "#38bdf8", desc: "Tipado estricto · Patrones avanzados" },
-  { name: "REACT/FRONT", value: 72, color: "#a78bfa", desc: "React · Vite · Tailwind CSS" },
-  { name: "CLOUD",       value: 65, color: "#00ff9f", desc: "AWS · Google Cloud · Vertex AI" },
-  { name: "DATABASES",   value: 78, color: "#0ea5e9", desc: "PostgreSQL · PostGIS · Redis" },
-  { name: "SECURITY",    value: 75, color: "#a78bfa", desc: "OWASP Top 10 · JWT · RLS · Criptografía" },
-  { name: "DEVOPS",      value: 62, color: "#00ff9f", desc: "Docker · Compose · GitHub Actions" },
+  { name: "BACKEND",     value: 85, color: CYAN,   desc: "Node.js · NestJS · REST APIs" },
+  { name: "JAVA/SPRING", value: 78, color: PURPLE, desc: "Spring Boot · Maven · REST" },
+  { name: "TYPESCRIPT",  value: 80, color: CYAN,   desc: "Tipado estricto · Patrones avanzados" },
+  { name: "REACT/FRONT", value: 72, color: VIOLET, desc: "React · Vite · Tailwind CSS" },
+  { name: "CLOUD",       value: 65, color: GREEN,  desc: "AWS · Google Cloud · Vertex AI" },
+  { name: "DATABASES",   value: 78, color: CYAN,   desc: "PostgreSQL · PostGIS · Redis" },
+  { name: "SECURITY",    value: 75, color: VIOLET, desc: "OWASP Top 10 · JWT · RLS · Criptografía" },
+  { name: "DEVOPS",      value: 62, color: GREEN,  desc: "Docker · Compose · GitHub Actions" },
 ];
 
 const education = [
@@ -21,7 +27,7 @@ const education = [
     status: "2.° año · 2025–2029",
     cum: "8.69",
     cumLabel: "CUM",
-    color: "#0ea5e9",
+    color: PURPLE,
   },
   {
     level: "TSU en Ciberseguridad",
@@ -29,7 +35,7 @@ const education = [
     status: "Graduando · Servicio social completado",
     cum: "8.89",
     cumLabel: "CUM",
-    color: "#a78bfa",
+    color: CYAN,
   },
   {
     level: "Bachillerato Técnico Vocacional ITSI",
@@ -37,7 +43,7 @@ const education = [
     status: "Finalizado · 1.er lugar · Diploma de Honor",
     cum: null,
     cumLabel: "",
-    color: "#00ff9f",
+    color: GREEN,
   },
 ];
 
@@ -47,14 +53,14 @@ const languages = [
     level: "Nativo",
     sublevel: "100% fluidez oral y escrita",
     value: 100,
-    color: "#00ff9f",
+    color: GREEN,
   },
   {
     lang: "Inglés",
     level: "En progreso → B2",
     sublevel: "Lectura técnica fluida · Clases intensivas en curso",
     value: 32,
-    color: "#0ea5e9",
+    color: PURPLE,
   },
 ];
 
@@ -112,9 +118,7 @@ export default function About() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="font-pixel text-[9px] text-[var(--accent)] mb-3 tracking-widest uppercase">
-            ► SELECT YOUR CHARACTER ◄
-          </p>
+          <SectionEyebrow className="mb-3">Perfil</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)]">
             Sobre mí
           </h2>
@@ -129,12 +133,12 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
             className="pixel-card rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden"
-            style={{ "--pixel-shadow": "#fbbf24" } as React.CSSProperties}
+            style={{ "--pixel-shadow": "#7042f8" } as React.CSSProperties}
           >
             {/* Top bar */}
-            <div className="bg-[var(--gold)]/10 border-b border-[var(--gold)]/30 px-5 py-2.5 flex items-center justify-between">
-              <span className="font-pixel text-[8px] text-[var(--gold)]">► PLAYER 01</span>
-              <span className="font-pixel text-[8px] text-[var(--gold)]">EL SALVADOR ◄</span>
+            <div className="bg-[#7042f8]/10 border-b border-[#7042f8]/30 px-5 py-2.5 flex items-center justify-between">
+              <span className="font-mono text-[10px] tracking-wider uppercase text-[#b49bff]">Player 01</span>
+              <span className="font-mono text-[10px] tracking-wider uppercase text-[#b49bff]">El Salvador</span>
             </div>
 
             {/* Photo */}
@@ -142,8 +146,8 @@ export default function About() {
               <div
                 className="w-full aspect-[4/5] rounded-lg overflow-hidden relative"
                 style={{
-                  border: "2px solid var(--gold)",
-                  boxShadow: "4px 4px 0 rgba(251,191,36,0.25), 0 0 30px rgba(251,191,36,0.08)",
+                  border: "2px solid #7042f8",
+                  boxShadow: "4px 4px 0 rgba(112,66,248,0.25), 0 0 30px rgba(6,182,212,0.1)",
                   background: "linear-gradient(160deg, #0d0d24 0%, #13132d 100%)",
                 }}
               >
@@ -155,27 +159,27 @@ export default function About() {
                   sizes="280px"
                   priority
                 />
-                <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[var(--gold)]" />
-                <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[var(--gold)]" />
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[var(--gold)]" />
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[var(--gold)]" />
+                <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#7042f8]" />
+                <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#7042f8]" />
+                <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#7042f8]" />
+                <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#7042f8]" />
               </div>
             </div>
 
             {/* Name & class */}
             <div className="px-5 pt-3 pb-2">
-              <h3 className="font-pixel text-[10px] text-[var(--foreground)] leading-5 mb-0.5">
-                OLIVER ASCENCIO
+              <h3 className="text-base font-bold text-[var(--foreground)] leading-5 mb-0.5">
+                Oliver Ascencio
               </h3>
-              <p className="font-pixel text-[8px] text-[var(--accent)] mb-4">
-                FULL-STACK · 20 AÑOS
+              <p className="font-mono text-xs text-[var(--accent)] mb-4">
+                Full-Stack · 20 años
               </p>
 
               {/* Education GPA cards */}
               <div className="flex flex-col gap-2 mb-5">
                 <div
                   className="rounded-lg px-3 py-2.5 border"
-                  style={{ borderColor: "#0ea5e9" + "40", background: "#0ea5e9" + "08" }}
+                  style={{ borderColor: "#7042f8" + "40", background: "#7042f8" + "08" }}
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -186,7 +190,7 @@ export default function About() {
                         UNICAES · 2.° año
                       </p>
                     </div>
-                    <span className="font-pixel text-[9px] text-[#0ea5e9] shrink-0 ml-2">
+                    <span className="font-mono text-xs font-bold text-[#7042f8] shrink-0 ml-2">
                       8.69
                     </span>
                   </div>
@@ -194,7 +198,7 @@ export default function About() {
 
                 <div
                   className="rounded-lg px-3 py-2.5 border"
-                  style={{ borderColor: "#a78bfa" + "40", background: "#a78bfa" + "08" }}
+                  style={{ borderColor: "#06b6d4" + "40", background: "#06b6d4" + "08" }}
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -205,7 +209,7 @@ export default function About() {
                         ESIT / MINED · Graduando
                       </p>
                     </div>
-                    <span className="font-pixel text-[9px] text-[#a78bfa] shrink-0 ml-2">
+                    <span className="font-mono text-xs font-bold text-[#06b6d4] shrink-0 ml-2">
                       8.89
                     </span>
                   </div>
@@ -221,8 +225,8 @@ export default function About() {
 
             {/* Bottom bar */}
             <div className="border-t border-[var(--border)] px-5 py-3 flex items-center justify-between">
-              <span className="font-pixel text-[7px] text-[var(--muted)]">SANTA ANA, SV</span>
-              <span className="font-pixel text-[7px] text-[var(--gold)] animate-pulse">PRESS START</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Santa Ana, SV</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff] animate-pulse">Disponible</span>
             </div>
           </motion.div>
 
@@ -236,8 +240,8 @@ export default function About() {
           >
             {/* SKILLS */}
             <div>
-              <p className="font-pixel text-[9px] text-[var(--gold)] mb-5 tracking-wider">
-                ▸ SKILLS
+              <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+                Skills
               </p>
               <div className="flex flex-col gap-4">
                 {skillStats.map((s, i) => (
@@ -255,8 +259,8 @@ export default function About() {
 
             {/* EDUCATION */}
             <div>
-              <p className="font-pixel text-[9px] text-[var(--gold)] mb-5 tracking-wider">
-                ▸ EDUCACIÓN
+              <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+                Educación
               </p>
               <div className="flex flex-col gap-3">
                 {education.map((e) => (
@@ -277,7 +281,7 @@ export default function About() {
                     {e.cum && (
                       <div className="text-right shrink-0">
                         <span
-                          className="font-pixel text-[11px] block"
+                          className="font-mono text-sm font-bold block"
                           style={{ color: e.color }}
                         >
                           {e.cum}
@@ -292,8 +296,8 @@ export default function About() {
 
             {/* LANGUAGES */}
             <div>
-              <p className="font-pixel text-[9px] text-[var(--gold)] mb-5 tracking-wider">
-                ▸ IDIOMAS
+              <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+                Idiomas
               </p>
               <div className="flex flex-col gap-5">
                 {languages.map((l, i) => (

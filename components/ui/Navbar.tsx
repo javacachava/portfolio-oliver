@@ -35,7 +35,7 @@ export default function Navbar() {
       <nav className="w-full h-full flex items-center justify-between m-auto max-w-7xl">
         {/* Logo */}
         <a href="#" className="flex items-center gap-1.5 group">
-          <span className="font-pixel text-[9px] text-[#b49bff] opacity-60 group-hover:opacity-100 transition-opacity">
+          <span className="font-mono text-sm font-bold text-[#b49bff] opacity-60 group-hover:opacity-100 transition-opacity">
             ›_
           </span>
           <span className="text-sm font-semibold text-gray-300 tracking-tight">

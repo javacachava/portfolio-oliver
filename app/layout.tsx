@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono, Press_Start_2P, Cedarville_Cursive } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono, Cedarville_Cursive } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,13 +20,6 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500"],
-});
-
-const pressStart2P = Press_Start_2P({
-  variable: "--font-press-start-2p",
-  subsets: ["latin"],
-  display: "swap",
-  weight: "400",
 });
 
 const cedarvilleCursive = Cedarville_Cursive({
@@ -81,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} ${cedarvilleCursive.variable} dark h-full antialiased`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cedarvilleCursive.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground overflow-y-scroll overflow-x-hidden">
         {children}

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import ProjectCard from "@/components/ui/ProjectCard";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import { projects } from "@/data/projects";
 
 export default function Projects() {
@@ -15,9 +16,7 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="text-sm font-mono text-[#b49bff] mb-2 tracking-widest uppercase">
-            Proyectos
-          </p>
+          <SectionEyebrow className="mb-2">Proyectos</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 mb-3 w-fit pb-1">
             Software real. Clientes reales.
           </h2>
@@ -51,7 +50,7 @@ export default function Projects() {
           className="mt-10 rounded-xl border border-[#00ff9f]/20 bg-[#00ff9f]/5 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start"
         >
           <div className="shrink-0 w-10 h-10 rounded-full bg-[#00ff9f]/15 border border-[#00ff9f]/30 flex items-center justify-center">
-            <span className="font-pixel text-[9px] text-[#00ff9f]">JT</span>
+            <span className="font-mono text-sm font-bold text-[#00ff9f]">JT</span>
           </div>
           <div className="flex-1">
             <p className="text-foreground text-base leading-relaxed mb-4">
@@ -65,7 +64,7 @@ export default function Projects() {
                 <p className="text-xs text-muted">Dueño · Pizza Brava · Santa Ana, El Salvador</p>
               </div>
               <span
-                className="font-pixel text-[7px] px-2 py-1 rounded ml-auto"
+                className="font-mono text-[10px] font-semibold tracking-wider px-2 py-1 rounded ml-auto"
                 style={{ color: "#00ff9f", background: "rgba(0,255,159,0.1)", border: "1px solid rgba(0,255,159,0.25)" }}
               >
                 ● CLIENTE ACTIVO

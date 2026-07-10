@@ -4,16 +4,9 @@ import { motion } from "framer-motion";
 import { Trophy, Medal } from "lucide-react";
 import { awards } from "@/data/awards";
 import { certifications } from "@/data/certifications";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
-const CERT_COLORS = [
-  "#10b981", // emerald — Java
-  "#f97316", // orange  — AWS
-  "#a78bfa", // violet  — ITIL
-  "#0ea5e9", // sky     — Google Cloud
-  "#fbbf24", // gold    — AI Bootcamp
-  "#06b6d4", // cyan    — SOLID
-  "#f43f5e", // rose    — StartUps
-];
+const CERT_COLORS = ["#7042f8", "#06b6d4", "#00ff9f", "#a78bfa"];
 
 export default function Awards() {
   return (
@@ -27,9 +20,7 @@ export default function Awards() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="font-pixel text-[9px] text-[var(--gold)] mb-3 tracking-widest uppercase">
-            ▸ ACHIEVEMENTS & SKILLS
-          </p>
+          <SectionEyebrow className="mb-3">Logros & certificaciones</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)]">
             Reconocimiento fuera del aula.
           </h2>
@@ -44,8 +35,8 @@ export default function Awards() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="font-pixel text-[8px] text-[var(--gold)] mb-5 tracking-wider">
-              ▸ LOGROS
+            <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+              Logros
             </p>
             <div className="flex flex-col gap-3">
               {awards.map((a, i) => (
@@ -59,9 +50,9 @@ export default function Awards() {
                   style={
                     a.highlight
                       ? {
-                          borderColor: "rgba(251,191,36,0.35)",
-                          background: "rgba(251,191,36,0.05)",
-                          boxShadow: "0 0 20px rgba(251,191,36,0.08)",
+                          borderColor: "rgba(112,66,248,0.35)",
+                          background: "rgba(112,66,248,0.05)",
+                          boxShadow: "0 0 20px rgba(112,66,248,0.1)",
                         }
                       : {
                           borderColor: "var(--border)",
@@ -70,8 +61,8 @@ export default function Awards() {
                   }
                 >
                   {a.highlight && (
-                    <div className="px-4 py-1.5 border-b flex items-center gap-2" style={{ borderColor: "rgba(251,191,36,0.2)", background: "rgba(251,191,36,0.06)" }}>
-                      <span className="font-pixel text-[7px] text-[var(--gold)]">▸ ACHIEVEMENT UNLOCKED</span>
+                    <div className="px-4 py-1.5 border-b flex items-center gap-2" style={{ borderColor: "rgba(112,66,248,0.2)", background: "rgba(112,66,248,0.06)" }}>
+                      <span className="font-mono text-[10px] tracking-wider uppercase text-[#b49bff]">Destacado</span>
                     </div>
                   )}
                   <div className="flex items-start gap-3 p-4">
@@ -79,12 +70,12 @@ export default function Awards() {
                       className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0"
                       style={
                         a.highlight
-                          ? { background: "rgba(251,191,36,0.15)", border: "1px solid rgba(251,191,36,0.3)" }
+                          ? { background: "rgba(112,66,248,0.15)", border: "1px solid rgba(112,66,248,0.3)" }
                           : { background: "var(--card-elevated)", border: "1px solid var(--border)" }
                       }
                     >
                       {a.highlight
-                        ? <Trophy size={15} style={{ color: "var(--gold)" }} />
+                        ? <Trophy size={15} style={{ color: "#b49bff" }} />
                         : <Medal size={14} className="text-[var(--muted)]" />
                       }
                     </div>
@@ -115,8 +106,8 @@ export default function Awards() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <p className="font-pixel text-[8px] text-[var(--gold)] mb-5 tracking-wider">
-              ▸ SKILLS ACQUIRED
+            <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+              Skills adquiridos
             </p>
             <div className="flex flex-wrap gap-2.5">
               {certifications.map((c, i) => {
@@ -141,7 +132,7 @@ export default function Awards() {
                       {c.name}
                     </p>
                     <div className="flex items-center justify-between gap-3 mt-1.5">
-                      <p className="font-pixel text-[7px] text-[var(--muted)]">{c.issuer}</p>
+                      <p className="font-mono text-[10px] text-[var(--muted)]">{c.issuer}</p>
                       <span className="font-mono text-[10px] shrink-0" style={{ color }}>
                         {c.date}
                       </span>

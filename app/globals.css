@@ -11,12 +11,6 @@
   --card-elevated: #130636;
   --accent: #7042f8;
   --accent-hover: #8f6aff;
-  --gold: #fbbf24;
-  --violet: #a78bfa;
-  --green: #00ff9f;
-  --red: #ef4444;
-  --space-purple: #7042f8;
-  --space-cyan: #06b6d4;
 }
 
 @media (prefers-color-scheme: light) {
@@ -29,8 +23,6 @@
     --card-elevated: #ffffff;
     --accent: #0284c7;
     --accent-hover: #0369a1;
-    --gold: #d97706;
-    --violet: #7c3aed;
   }
 }
 
@@ -45,7 +37,6 @@
   --color-accent-hover: var(--accent-hover);
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-pixel: var(--font-press-start-2p), monospace;
 }
 
 body {
@@ -57,10 +48,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
   letter-spacing: -0.02em;
-}
-
-.font-pixel {
-  font-family: var(--font-pixel);
 }
 
 * {

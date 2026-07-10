@@ -7,7 +7,7 @@ import type { Project } from "@/data/projects";
 
 const STATUS: Record<Project["statusType"], { label: string; color: string }> = {
   live:       { label: "● LIVE",  color: "#00ff9f" },
-  active:     { label: "◎ DEV",   color: "#0ea5e9" },
+  active:     { label: "◎ DEV",   color: "#06b6d4" },
   functional: { label: "◈ DEMO",  color: "#a78bfa" },
 };
 
@@ -40,7 +40,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           ~/projects/<span style={{ color: c }}>{project.id}</span>
         </span>
         <span
-          className="font-pixel text-[7px] px-1.5 py-0.5 rounded shrink-0"
+          className="font-mono text-[10px] font-semibold tracking-wider px-1.5 py-0.5 rounded shrink-0"
           style={{ color: st.color, background: `${st.color}14`, border: `1px solid ${st.color}30` }}
         >
           {st.label}
@@ -92,7 +92,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             <div className="absolute bottom-3 right-3 w-5 h-5 border-b border-r opacity-40" style={{ borderColor: c }} />
             {/* Center */}
             <div className="flex flex-col items-center gap-2 relative z-10">
-              <span className="font-pixel text-[10px] opacity-50" style={{ color: c }}>
+              <span className="font-mono text-xs tracking-wider opacity-50" style={{ color: c }}>
                 {project.id.toUpperCase()}
               </span>
             </div>
