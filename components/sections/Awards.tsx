@@ -1,12 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Trophy, Medal } from "lucide-react";
+import { Trophy, Medal, ArrowRight } from "lucide-react";
 import { awards } from "@/data/awards";
-import { certifications } from "@/data/certifications";
+import { formacion, formacionStats } from "@/data/formacion";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
+import Counter from "@/components/ui/Counter";
 
-const CERT_COLORS = ["#7042f8", "#06b6d4", "#00ff9f", "#a78bfa"];
+// Mini-constelación decorativa del teaser (posiciones fijas, una estrella por categoría)
+const TEASER_STARS = [
+  { x: 40,  y: 55,  r: 5 },
+  { x: 105, y: 25,  r: 4 },
+  { x: 175, y: 60,  r: 6 },
+  { x: 240, y: 30,  r: 4 },
+  { x: 285, y: 85,  r: 5 },
+  { x: 215, y: 120, r: 4 },
+  { x: 130, y: 100, r: 5 },
+  { x: 60,  y: 130, r: 4 },
+];
 
 export default function Awards() {
   return (
@@ -99,7 +110,7 @@ export default function Awards() {
             </div>
           </motion.div>
 
-          {/* ── Skills Acquired ── */}
+          {/* ── Teaser: mapa de formación ── */}
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -107,40 +118,82 @@ export default function Awards() {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
-              Skills adquiridos
+              Formación
             </p>
-            <div className="flex flex-wrap gap-2.5">
-              {certifications.map((c, i) => {
-                const color = CERT_COLORS[i % CERT_COLORS.length];
-                return (
-                  <motion.div
-                    key={c.name}
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: i * 0.06 }}
-                    className="rounded-xl p-3 terminal-card"
-                    style={{
-                      borderColor:     `${color}30`,
-                      border:          `1px solid ${color}30`,
-                      background:      `${color}0a`,
-                      "--t-glow":      `${color}15`,
-                      "--t-accent":    `${color}40`,
-                    } as React.CSSProperties}
-                  >
-                    <p className="text-sm font-medium text-[var(--foreground)] leading-snug max-w-[200px]">
-                      {c.name}
+
+            <a
+              href="/formacion"
+              className="group block rounded-xl border border-[#7042f8]/30 bg-[#0b0322]/60 overflow-hidden terminal-card"
+              style={{
+                "--t-glow":   "rgba(112,66,248,0.15)",
+                "--t-accent": "rgba(112,66,248,0.4)",
+              } as React.CSSProperties}
+            >
+              {/* Mini-constelación decorativa */}
+              <div className="relative h-[170px] overflow-hidden">
+                <svg viewBox="0 0 320 160" className="w-full h-full">
+                  {TEASER_STARS.map((s, i) =>
+                    i < TEASER_STARS.length - 1 ? (
+                      <line
+                        key={`l${i}`}
+                        x1={s.x} y1={s.y}
+                        x2={TEASER_STARS[i + 1].x} y2={TEASER_STARS[i + 1].y}
+                        stroke={formacion[i % formacion.length].color}
+                        strokeWidth="0.75"
+                        opacity="0.25"
+                        className="group-hover:opacity-60 transition-opacity duration-500"
+                      />
+                    ) : null
+                  )}
+                  {TEASER_STARS.map((s, i) => {
+                    const color = formacion[i % formacion.length].color;
+                    return (
+                      <circle
+                        key={`s${i}`}
+                        cx={s.x} cy={s.y} r={s.r}
+                        fill={color}
+                        opacity="0.8"
+                        className="animate-pulse"
+                        style={{
+                          animationDelay: `${i * 0.35}s`,
+                          animationDuration: "3s",
+                          filter: `drop-shadow(0 0 5px ${color})`,
+                        }}
+                      />
+                    );
+                  })}
+                </svg>
+              </div>
+
+              {/* Counters */}
+              <div className="grid grid-cols-3 border-t border-[#7042f8]/20">
+                {[
+                  { value: formacionStats.totalHours, suffix: "h", label: "documentadas", color: "#7042f8" },
+                  { value: formacionStats.totalItems, suffix: "", label: "ítems", color: "#06b6d4" },
+                  { value: formacionStats.totalInstitutions, suffix: "", label: "instituciones", color: "#00ff9f" },
+                ].map((s) => (
+                  <div key={s.label} className="py-4 text-center">
+                    <p className="text-xl font-bold tabular-nums" style={{ color: s.color }}>
+                      <Counter to={s.value} />{s.suffix}
                     </p>
-                    <div className="flex items-center justify-between gap-3 mt-1.5">
-                      <p className="font-mono text-[10px] text-[var(--muted)]">{c.issuer}</p>
-                      <span className="font-mono text-[10px] shrink-0" style={{ color }}>
-                        {c.date}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                    <p className="font-mono text-[9px] text-[var(--muted)] uppercase tracking-wider mt-0.5">
+                      {s.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="flex items-center justify-between px-5 py-4 border-t border-[#7042f8]/20 button-primary">
+                <span className="text-sm text-white font-medium">
+                  Explorar mapa de formación
+                </span>
+                <ArrowRight
+                  size={16}
+                  className="text-[#b49bff] group-hover:translate-x-1 transition-transform"
+                />
+              </div>
+            </a>
           </motion.div>
 
         </div>

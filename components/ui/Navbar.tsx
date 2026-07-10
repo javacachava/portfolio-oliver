@@ -1,21 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 
 const links = [
-  { label: "Skills", href: "#skills" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Sobre mí", href: "#sobre-mi" },
-  { label: "Wuju", href: "#wuju" },
-  { label: "Premios", href: "#premios" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Proyectos", href: "/#proyectos" },
+  { label: "Sobre mí", href: "/#sobre-mi" },
+  { label: "Wuju", href: "/#wuju" },
+  { label: "Formación", href: "/formacion" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
 
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
@@ -29,6 +31,11 @@ export default function Navbar() {
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
   }, []);
+
+  const isLinkActive = (href: string) =>
+    href === "/formacion"
+      ? pathname === "/formacion"
+      : pathname !== "/formacion" && href === `/#${activeSection}`;
 
   return (
     <header className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#03001427] backdrop-blur-md z-50 px-4 sm:px-10">
@@ -47,7 +54,7 @@ export default function Navbar() {
         <div className="hidden md:flex h-full flex-row items-center">
           <ul className="flex items-center justify-between gap-1 h-auto border border-[rgba(112,66,248,0.38)] bg-[rgba(3,0,20,0.37)] px-[20px] py-[10px] rounded-full text-gray-200">
             {links.map((l) => {
-              const isActive = `#${activeSection}` === l.href;
+              const isActive = isLinkActive(l.href);
               return (
                 <li key={l.href}>
                   <a
