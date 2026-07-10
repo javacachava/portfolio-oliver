@@ -4,6 +4,7 @@ import Skills from "@/components/sections/Skills";
 import Security from "@/components/sections/Security";
 import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
+import AITools from "@/components/sections/AITools";
 import DataDuck from "@/components/sections/DataDuck";
 import Awards from "@/components/sections/Awards";
 import Contact from "@/components/sections/Contact";
@@ -20,6 +21,7 @@ export default function Page() {
         <Skills />
         <Security />
         <Projects />
+        <AITools />
         <About />
         <DataDuck />
         <Awards />

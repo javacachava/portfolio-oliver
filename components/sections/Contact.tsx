@@ -1,135 +1,111 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MessageCircle, GitBranch, ExternalLink } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import SectionEyebrow from "@/components/ui/SectionEyebrow";
+import { Mail, MessageCircle } from "lucide-react";
+import { SparklesIcon } from "@heroicons/react/24/solid";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
+import { slideInFromTop } from "@/lib/motion";
 
-interface Connection {
-  cmd:   string;
-  label: string;
-  value: string;
-  href:  string;
-  color: string;
-  Icon:  LucideIcon;
-}
-
-const connections: Connection[] = [
+const SOCIAL_CHIPS = [
   {
-    cmd:   "$ connect --email",
-    label: "Email",
-    value: "oliver.a.ascencio@gmail.com",
-    href:  "mailto:oliver.a.ascencio@gmail.com",
-    color: "#7042f8",
-    Icon:  Mail,
+    label: "github.com/javacachava",
+    href: "https://github.com/javacachava",
+    Icon: GithubIcon,
   },
   {
-    cmd:   "$ connect --whatsapp",
-    label: "WhatsApp",
-    value: "+503 7539-8164",
-    href:  "https://wa.me/50375398164",
-    color: "#00ff9f",
-    Icon:  MessageCircle,
-  },
-  {
-    cmd:   "$ connect --github",
-    label: "GitHub",
-    value: "github.com/javacachava",
-    href:  "https://github.com/javacachava",
-    color: "#a78bfa",
-    Icon:  GitBranch,
-  },
-  {
-    cmd:   "$ connect --linkedin",
-    label: "LinkedIn",
-    value: "in/oliver-ascencio",
-    href:  "https://linkedin.com/in/oliver-ascencio",
-    color: "#06b6d4",
-    Icon:  ExternalLink,
+    label: "in/oliver-ascencio",
+    href: "https://linkedin.com/in/oliver-ascencio",
+    Icon: LinkedinIcon,
   },
 ];
 
 export default function Contact() {
   return (
-    <section id="contacto" className="py-24 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto">
+    <section
+      id="contacto"
+      className="py-28 px-4 sm:px-6 flex flex-col items-center text-center"
+    >
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideInFromTop}
+        className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9] mb-6"
+      >
+        <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
+        <span className="Welcome-text text-[13px]">
+          Disponible para proyectos remotos o en El Salvador
+        </span>
+      </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.15 }}
+        className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 pb-2"
+      >
+        Hablemos.
+      </motion.h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.25 }}
+        className="text-[var(--muted)] max-w-md mt-3 mb-10"
+      >
+        ¿Un proyecto, una idea o algo para Wuju? Un correo o un WhatsApp y
+        seguimos la conversación.
+      </motion.p>
+
+      {/* CTAs */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.35 }}
+        className="flex flex-col sm:flex-row gap-3 mb-10 w-full sm:w-auto px-6 sm:px-0"
+      >
+        <a
+          href="mailto:oliver.a.ascencio@gmail.com"
+          className="button-primary flex items-center justify-center gap-2 py-3 px-8 text-white rounded-lg text-sm font-medium"
         >
-          <SectionEyebrow className="mb-3">Contacto</SectionEyebrow>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
-            Hablemos.
-          </h2>
-          <p className="text-[var(--muted)] max-w-lg">
-            Disponible para proyectos remotos o en El Salvador.
-            También podés contactarme para proyectos de Wuju.
-          </p>
-        </motion.div>
+          <Mail size={15} />
+          oliver.a.ascencio@gmail.com
+        </a>
+        <a
+          href="https://wa.me/50375398164"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 py-3 px-8 text-white rounded-lg text-sm font-medium border border-[#00ff9f]/40 hover:bg-[#00ff9f]/10 transition-colors"
+        >
+          <MessageCircle size={15} className="text-[#00ff9f]" />
+          WhatsApp
+        </a>
+      </motion.div>
 
-        <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
-          {connections.map(({ cmd, label, value, href, color, Icon }, i) => (
-            <motion.a
-              key={label}
-              href={href}
-              target={href.startsWith("http") || href.startsWith("https") ? "_blank" : undefined}
-              rel={href.startsWith("http") || href.startsWith("https") ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.08 }}
-              className="flex flex-col rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden terminal-card group"
-              style={{
-                "--t-glow":   `${color}20`,
-                "--t-accent": `${color}40`,
-              } as React.CSSProperties}
-            >
-              {/* Terminal header */}
-              <div
-                className="flex items-center gap-3 px-4 py-2.5 border-b"
-                style={{ background: `${color}0a`, borderColor: `${color}20` }}
-              >
-                <div className="flex gap-1.5">
-                  {(["#ff5f57", "#febc2e", "#28c840"] as const).map((c) => (
-                    <span key={c} className="block w-2 h-2 rounded-full" style={{ background: c }} />
-                  ))}
-                </div>
-                <span className="font-mono text-[10px]" style={{ color }}>
-                  {cmd}
-                </span>
-              </div>
-
-              {/* Content */}
-              <div className="flex items-center gap-4 px-4 py-4">
-                <div
-                  className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110"
-                  style={{
-                    background:  `${color}18`,
-                    border:      `1px solid ${color}40`,
-                    boxShadow:   `0 0 14px ${color}20`,
-                  }}
-                >
-                  <Icon size={18} style={{ color }} />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)] mb-1">{label}</p>
-                  <p
-                    className="text-sm font-medium truncate transition-colors"
-                    style={{ color: "var(--foreground)" }}
-                  >
-                    {value}
-                  </p>
-                </div>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-
-      </div>
+      {/* Social chips */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.45 }}
+        className="flex flex-wrap justify-center gap-2"
+      >
+        {SOCIAL_CHIPS.map(({ label, href, Icon }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-mono text-[11px] px-3.5 py-1.5 rounded-full border border-[#7042f8]/40 bg-[#0b0322]/60 text-gray-300 hover:text-white hover:border-[#7042f8] transition-colors"
+          >
+            <Icon size={13} />
+            {label}
+          </a>
+        ))}
+      </motion.div>
     </section>
   );
 }

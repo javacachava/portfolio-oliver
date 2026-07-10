@@ -30,15 +30,6 @@ const SPECIAL_MOVES = [
   },
 ];
 
-const AI_TOOLS: Array<{ name: string; icon?: string }> = [
-  { name: "Claude Code", icon: "/ai/claude.svg" },
-  { name: "Codex", icon: "/ai/openai.svg" },
-  { name: "ChatGPT", icon: "/ai/openai.svg" },
-  { name: "Gemini", icon: "/ai/googlegemini.svg" },
-  { name: "Google AI Studio", icon: "/ai/google.svg" },
-  { name: "Antigravity" },
-];
-
 const PURPLE = "#7042f8";
 const CYAN = "#06b6d4";
 const GREEN = "#00ff9f";
@@ -431,45 +422,6 @@ export default function About() {
                 ))}
               </div>
             </div>
-
-            {/* INGENIERÍA ASISTIDA POR IA */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45 }}
-              className="rounded-xl border border-[#7042f8]/30 bg-[#7042f8]/[0.05] p-5"
-            >
-              <p className="font-mono text-xs tracking-widest uppercase text-[#b49bff] mb-2">
-                ▸ Ingeniería asistida por IA
-              </p>
-              <p className="text-sm text-[var(--muted)] leading-relaxed mb-4">
-                Programo sin IA — y la uso como multiplicador, no como muleta:
-                specs primero, agentes para ejecutar, revisión crítica del
-                output y tests antes de integrar. El flujo con el que se
-                construyó este portfolio.
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {AI_TOOLS.map((t) => (
-                  <span
-                    key={t.name}
-                    className="inline-flex items-center gap-1.5 font-mono text-[10px] px-2.5 py-1 rounded-full border border-[#7042f8]/40 bg-[#030014]/60 text-gray-300"
-                  >
-                    {t.icon && (
-                      <Image
-                        src={t.icon}
-                        alt=""
-                        width={12}
-                        height={12}
-                        unoptimized
-                        className="opacity-80"
-                      />
-                    )}
-                    {t.name}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
 
             {/* EDUCATION */}
             <div>
