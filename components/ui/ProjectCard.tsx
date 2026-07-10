@@ -1,7 +1,10 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { ExternalLink, Images } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import { GithubIcon } from "@/components/ui/BrandIcons";
+import ProjectGallery from "@/components/ui/ProjectGallery";
 import type { Project } from "@/data/projects";
 
 const STATUS: Record<Project["statusType"], { label: string; color: string }> = {
@@ -17,9 +20,11 @@ export default function ProjectRow({
   project: Project;
   index: number;
 }) {
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const c = project.accentColor;
   const st = STATUS[project.statusType];
   const num = String(index + 1).padStart(2, "0");
+  const hasImages = (project.images?.length ?? 0) > 0;
 
   return (
     <div className="group relative border-b border-[var(--border)]">
@@ -89,31 +94,58 @@ export default function ProjectRow({
           )}
         </div>
 
-        {/* Links */}
+        {/* Acciones */}
         <div className="flex md:flex-col gap-2 shrink-0 md:pt-1">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 font-mono text-[11px] px-4 py-2 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-white hover:border-[#7042f8]/60 transition-colors"
-          >
-            <GithubIcon size={12} />
-            GitHub
-          </a>
+          {hasImages && (
+            <button
+              onClick={() => setGalleryOpen(true)}
+              className="flex items-center justify-center gap-1.5 font-mono text-[11px] px-4 py-2 rounded-lg transition-all hover:-translate-y-px cursor-pointer"
+              style={{ background: `${c}18`, color: c, border: `1px solid ${c}30` }}
+            >
+              <Images size={12} />
+              Ver capturas
+            </button>
+          )}
           {project.demo && (
             <a
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-1.5 font-mono text-[11px] px-4 py-2 rounded-lg transition-all hover:-translate-y-px"
-              style={{ background: `${c}18`, color: c, border: `1px solid ${c}30` }}
+              style={
+                hasImages
+                  ? { border: "1px solid var(--border)", color: "var(--muted)" }
+                  : { background: `${c}18`, color: c, border: `1px solid ${c}30` }
+              }
             >
               <ExternalLink size={12} />
               Ver demo
             </a>
           )}
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1.5 font-mono text-[11px] px-4 py-2 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-white hover:border-[#7042f8]/60 transition-colors"
+            >
+              <GithubIcon size={12} />
+              GitHub
+            </a>
+          )}
         </div>
       </div>
+
+      <AnimatePresence>
+        {galleryOpen && project.images && (
+          <ProjectGallery
+            images={project.images}
+            title={project.title}
+            color={c}
+            onClose={() => setGalleryOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

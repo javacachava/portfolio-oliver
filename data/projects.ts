@@ -6,9 +6,11 @@ export interface Project {
   description: string;
   stack: string[];
   highlights: string[];
-  github: string;
+  /** Solo para repos públicos — omitir si el repo es privado */
+  github?: string;
   demo?: string;
-  image?: string;
+  /** Capturas para la galería (rutas bajo /public), ej. "/projects/pos-1.png" */
+  images?: string[];
   status: string;
   statusType: "live" | "active" | "functional";
   accentColor: string;
@@ -32,7 +34,6 @@ export const projects: Project[] = [
       "Planes B2B con precios reales: Free($0) / Basic($29.99) / Pro($99.99) / Enterprise",
       "Offline-first con OpenStreetMap",
     ],
-    github: "https://github.com/javacachava/TuGuiaSV",
     status: "Backend funcional · Demo disponible",
     statusType: "functional",
     accentColor: "#06b6d4",   // cyan
@@ -52,7 +53,6 @@ export const projects: Project[] = [
       "Tests incluidos",
       "Webhook con validación de firma Meta (listo para producción)",
     ],
-    github: "https://github.com/javacachava/pizzabrava-bot",
     status: "En producción ✓ · Cliente real",
     statusType: "live",
     accentColor: "#00ff9f",   // green — LIVE = operational
@@ -73,7 +73,6 @@ export const projects: Project[] = [
       "1,400+ tests: 550 PHPUnit + 899 Vitest + 26 E2E Playwright",
       "PWA offline-first: la operación sigue sin internet y sincroniza al volver",
     ],
-    github: "https://github.com/javacachava/POS",
     status: "En producción ✓ · v1.0",
     statusType: "live",
     accentColor: "#00ff9f",   // green — LIVE = operational
@@ -113,7 +112,6 @@ export const projects: Project[] = [
       "Genera series temporales de nivel y caudal para análisis de infraestructura",
       "100% offline — sin dependencias externas post-instalación",
     ],
-    github: "https://github.com/javacachava/FlowCore",
     status: "Funcional · Deploy disponible",
     statusType: "functional",
     accentColor: "#a78bfa",   // violet
