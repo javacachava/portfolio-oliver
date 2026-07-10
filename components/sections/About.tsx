@@ -1,8 +1,43 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
+
+// Skins del personaje — agregar imágenes aquí (pixel-art, fotos reales…)
+const SKINS = [
+  { src: "/images/oliver.png", label: "PIXEL" },
+];
+
+const SPECIAL_MOVES = [
+  {
+    name: "Arquitectura backend",
+    desc: "Modelado ER · esquemas relacionales y geoespaciales",
+  },
+  {
+    name: "Documentación técnica",
+    desc: "Nivel tesis: requisitos, diagramas, specs",
+  },
+  {
+    name: "Producto end-to-end",
+    desc: "De idea a cliente real en producción (Pizza Brava)",
+  },
+  {
+    name: "Negociación & sociedades",
+    desc: "Contrato de Wuju · acuerdos freelance",
+  },
+];
+
+const AI_TOOLS: Array<{ name: string; icon?: string }> = [
+  { name: "Claude Code", icon: "/ai/claude.svg" },
+  { name: "Codex", icon: "/ai/openai.svg" },
+  { name: "ChatGPT", icon: "/ai/openai.svg" },
+  { name: "Gemini", icon: "/ai/googlegemini.svg" },
+  { name: "Google AI Studio", icon: "/ai/google.svg" },
+  { name: "Antigravity" },
+];
 
 const PURPLE = "#7042f8";
 const CYAN = "#06b6d4";
@@ -149,6 +184,7 @@ function DominioBar({
 }
 
 export default function About() {
+  const [skin, setSkin] = useState(0);
   return (
     <section id="sobre-mi" className="py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
@@ -183,29 +219,98 @@ export default function About() {
               <span className="font-mono text-[10px] tracking-wider uppercase text-[#b49bff]">El Salvador</span>
             </div>
 
-            {/* Photo */}
+            {/* Selector de skin — estilo selección de personaje */}
             <div className="px-5 pt-5 pb-2">
               <div
-                className="w-full aspect-[4/5] rounded-lg overflow-hidden relative"
+                className="w-full aspect-[4/5] rounded-lg overflow-hidden relative group/skin"
                 style={{
                   border: "2px solid #7042f8",
                   boxShadow: "4px 4px 0 rgba(112,66,248,0.25), 0 0 30px rgba(6,182,212,0.1)",
                   background: "linear-gradient(160deg, #0d0d24 0%, #13132d 100%)",
                 }}
               >
-                <Image
-                  src="/images/oliver.png"
-                  alt="Oliver Ascencio"
-                  fill
-                  className="object-cover object-top"
-                  sizes="280px"
-                  priority
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={skin}
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={SKINS[skin].src}
+                      alt={`Oliver Ascencio — ${SKINS[skin].label}`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="280px"
+                      priority={skin === 0}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Scanlines holo */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 3px)",
+                  }}
                 />
+
                 <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#7042f8]" />
                 <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#7042f8]" />
                 <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#7042f8]" />
                 <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#7042f8]" />
+
+                {/* Flechas ◄ ► */}
+                {SKINS.length > 1 && (
+                  <>
+                    <button
+                      aria-label="Skin anterior"
+                      onClick={() => setSkin((skin - 1 + SKINS.length) % SKINS.length)}
+                      className="absolute left-1.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-md flex items-center justify-center border border-[#7042f8]/50 bg-[#030014]/70 text-[#b49bff] hover:bg-[#7042f8]/30 hover:text-white transition-colors cursor-pointer"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button
+                      aria-label="Skin siguiente"
+                      onClick={() => setSkin((skin + 1) % SKINS.length)}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-md flex items-center justify-center border border-[#7042f8]/50 bg-[#030014]/70 text-[#b49bff] hover:bg-[#7042f8]/30 hover:text-white transition-colors cursor-pointer"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </>
+                )}
+
+                {/* Etiqueta de skin */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-2.5 py-1 rounded-md border border-[#7042f8]/40 bg-[#030014]/80 backdrop-blur-sm">
+                  <span className="font-mono text-[9px] tracking-widest text-[#b49bff]">
+                    SKIN {String(skin + 1).padStart(2, "0")}/{String(SKINS.length).padStart(2, "0")}
+                  </span>
+                  <span className="font-mono text-[9px] tracking-widest text-[#06b6d4]">
+                    {SKINS[skin].label}
+                  </span>
+                </div>
               </div>
+
+              {/* Dots */}
+              {SKINS.length > 1 && (
+                <div className="flex justify-center gap-1.5 mt-2.5">
+                  {SKINS.map((s, i) => (
+                    <button
+                      key={s.label}
+                      aria-label={`Skin ${s.label}`}
+                      onClick={() => setSkin(i)}
+                      className="h-1.5 rounded-full transition-all cursor-pointer"
+                      style={{
+                        width: i === skin ? 18 : 6,
+                        background: i === skin ? "#7042f8" : "var(--border)",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Name & class */}
@@ -258,6 +363,25 @@ export default function About() {
                 </div>
               </div>
 
+              {/* Special moves */}
+              <div className="rounded-lg border border-[#06b6d4]/25 bg-[#06b6d4]/[0.04] px-3 py-2.5 mb-5">
+                <p className="font-mono text-[9px] tracking-widest uppercase text-[#06b6d4] mb-2">
+                  ▸ Special moves
+                </p>
+                <ul className="flex flex-col gap-1.5">
+                  {SPECIAL_MOVES.map((m) => (
+                    <li key={m.name}>
+                      <p className="font-mono text-[10px] font-semibold text-[var(--foreground)]">
+                        {m.name}
+                      </p>
+                      <p className="font-mono text-[9px] text-[var(--muted)] leading-snug">
+                        {m.desc}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               {/* Short bio */}
               <p className="text-xs text-[var(--muted)] leading-relaxed">
                 Cofundador y líder técnico de Wuju. Backend TypeScript/Node.js,
@@ -307,6 +431,45 @@ export default function About() {
                 ))}
               </div>
             </div>
+
+            {/* INGENIERÍA ASISTIDA POR IA */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45 }}
+              className="rounded-xl border border-[#7042f8]/30 bg-[#7042f8]/[0.05] p-5"
+            >
+              <p className="font-mono text-xs tracking-widest uppercase text-[#b49bff] mb-2">
+                ▸ Ingeniería asistida por IA
+              </p>
+              <p className="text-sm text-[var(--muted)] leading-relaxed mb-4">
+                Programo sin IA — y la uso como multiplicador, no como muleta:
+                specs primero, agentes para ejecutar, revisión crítica del
+                output y tests antes de integrar. El flujo con el que se
+                construyó este portfolio.
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {AI_TOOLS.map((t) => (
+                  <span
+                    key={t.name}
+                    className="inline-flex items-center gap-1.5 font-mono text-[10px] px-2.5 py-1 rounded-full border border-[#7042f8]/40 bg-[#030014]/60 text-gray-300"
+                  >
+                    {t.icon && (
+                      <Image
+                        src={t.icon}
+                        alt=""
+                        width={12}
+                        height={12}
+                        unoptimized
+                        className="opacity-80"
+                      />
+                    )}
+                    {t.name}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
 
             {/* EDUCATION */}
             <div>
