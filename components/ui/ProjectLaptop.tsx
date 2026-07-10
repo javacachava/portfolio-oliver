@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ExternalLink, Images } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Images, Terminal, X } from "lucide-react";
 import ProjectGallery from "@/components/ui/ProjectGallery";
+import LaptopTerminal from "@/components/ui/LaptopTerminal";
 import type { Project } from "@/data/projects";
 
 const STATUS: Record<Project["statusType"], { label: string; color: string }> = {
@@ -17,10 +18,12 @@ function ScreenContent({
   project,
   num,
   onOpenGallery,
+  onOpenTerminal,
 }: {
   project: Project;
   num: string;
   onOpenGallery: () => void;
+  onOpenTerminal: () => void;
 }) {
   const c = project.accentColor;
   const st = STATUS[project.statusType];
@@ -36,11 +39,22 @@ function ScreenContent({
         <span className="font-mono text-[8px] sm:text-[10px] tracking-widest text-[var(--muted)] truncate">
           MISSION {num} · <span style={{ color: c }}>{project.id.toUpperCase()}</span>
         </span>
-        <span
-          className="font-mono text-[8px] sm:text-[10px] font-semibold tracking-wider px-1.5 py-0.5 rounded shrink-0"
-          style={{ color: st.color, background: `${st.color}14`, border: `1px solid ${st.color}30` }}
-        >
-          {st.label}
+        <span className="flex items-center gap-1.5 shrink-0">
+          <span
+            className="font-mono text-[8px] sm:text-[10px] font-semibold tracking-wider px-1.5 py-0.5 rounded"
+            style={{ color: st.color, background: `${st.color}14`, border: `1px solid ${st.color}30` }}
+          >
+            {st.label}
+          </span>
+          <button
+            onClick={onOpenTerminal}
+            aria-label="Abrir terminal"
+            title="Abrir terminal"
+            className="flex items-center justify-center h-4.5 w-4.5 sm:h-5 sm:w-5 rounded cursor-pointer hover:scale-110 transition-transform"
+            style={{ color: c, background: `${c}14`, border: `1px solid ${c}30` }}
+          >
+            <Terminal size={10} />
+          </button>
         </span>
       </div>
 
@@ -87,37 +101,38 @@ function ScreenContent({
           <p className="hidden sm:[display:-webkit-box] text-sm text-[var(--muted)] opacity-70 leading-relaxed line-clamp-3">
             {project.description}
           </p>
-          <ul className="flex flex-col gap-1 mt-0.5">
-            {project.highlights.slice(0, 3).map((h) => (
-              <li
-                key={h}
-                className="flex items-start gap-1.5 text-[9px] sm:text-sm text-[var(--muted)] leading-snug"
-              >
-                <span className="shrink-0" style={{ color: c }}>›</span>
-                <span className="line-clamp-1">{h}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="flex flex-wrap gap-1 mt-0.5">
-            {project.stack.slice(0, 6).map((s) => (
-              <span
-                key={s}
-                className="font-mono text-[8px] sm:text-[10px] px-1.5 py-0.5 rounded border"
-                style={{ color: `${c}cc`, background: `${c}0c`, borderColor: `${c}25` }}
-              >
-                {s}
-              </span>
-            ))}
-            {project.stack.length > 6 && (
-              <span className="font-mono text-[8px] sm:text-[9px] px-1 py-0.5 text-[var(--muted)]">
-                +{project.stack.length - 6}
-              </span>
-            )}
+          {/* Contenido medio: se trunca antes de empujar el prompt fuera */}
+          <div className="flex-1 min-h-0 overflow-hidden flex flex-col gap-1.5 sm:gap-2.5 mt-0.5">
+            <ul className="flex flex-col gap-1">
+              {project.highlights.slice(0, 3).map((h) => (
+                <li
+                  key={h}
+                  className="flex items-start gap-1.5 text-[9px] sm:text-sm text-[var(--muted)] leading-snug"
+                >
+                  <span className="shrink-0" style={{ color: c }}>›</span>
+                  <span className="line-clamp-1">{h}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-1 max-h-[3.2em] overflow-hidden">
+              {project.stack.slice(0, 6).map((s) => (
+                <span
+                  key={s}
+                  className="font-mono text-[8px] sm:text-[10px] px-1.5 py-0.5 rounded border h-fit"
+                  style={{ color: `${c}cc`, background: `${c}0c`, borderColor: `${c}25` }}
+                >
+                  {s}
+                </span>
+              ))}
+              {project.stack.length > 6 && (
+                <span className="font-mono text-[8px] sm:text-[9px] px-1 py-0.5 text-[var(--muted)]">
+                  +{project.stack.length - 6}
+                </span>
+              )}
+            </div>
           </div>
 
-          <div className="flex-1" />
-
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2 shrink-0 pt-1">
             <span className="font-mono text-[9px] sm:text-[10px] text-[var(--muted)] truncate">
               <span style={{ color: c }}>$</span> {project.id} --status
               <span className="cursor-blink ml-1" style={{ color: c }} />
@@ -153,6 +168,9 @@ function ScreenContent({
 export default function ProjectLaptop({ projects }: { projects: Project[] }) {
   const [idx, setIdx] = useState(0);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [termMode, setTermMode] = useState(false);
+  const [litKey, setLitKey] = useState<number | null>(null);
+  const litTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const project = projects[idx];
   const c = project.accentColor;
@@ -166,6 +184,14 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
     () => setIdx((i) => (i + 1) % projects.length),
     [projects.length]
   );
+
+  // Ilumina una tecla del deck al tipear en la terminal
+  const glowKey = useCallback((key: string) => {
+    const code = key === " " ? 49 : ([...key].reduce((a, ch) => a + ch.charCodeAt(0), 0) % 48);
+    setLitKey(code);
+    if (litTimer.current) clearTimeout(litTimer.current);
+    litTimer.current = setTimeout(() => setLitKey(null), 160);
+  }, []);
 
   return (
     <div className="relative w-full max-w-2xl mx-auto">
@@ -212,6 +238,47 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
             />
             {/* Display */}
             <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-[#030014] border border-black/60 shadow-[inset_0_0_12px_rgba(0,0,0,0.8)]">
+              {termMode ? (
+                <div className="absolute inset-0 flex flex-col">
+                  {/* Barra de la terminal */}
+                  <div
+                    className="flex items-center justify-between gap-2 px-3 py-1.5 shrink-0"
+                    style={{ borderBottom: `1px solid ${c}20`, background: `${c}08` }}
+                  >
+                    <span className="font-mono text-[8px] sm:text-[10px] tracking-widest text-[var(--muted)]">
+                      oliver@wuju: <span style={{ color: c }}>~/terminal</span>
+                    </span>
+                    <button
+                      onClick={() => setTermMode(false)}
+                      aria-label="Cerrar terminal"
+                      className="flex items-center justify-center h-4.5 w-4.5 sm:h-5 sm:w-5 rounded cursor-pointer hover:scale-110 transition-transform"
+                      style={{ color: c, background: `${c}14`, border: `1px solid ${c}30` }}
+                    >
+                      <X size={10} />
+                    </button>
+                  </div>
+                  <div className="relative flex-1 min-h-0">
+                    <LaptopTerminal
+                      projects={projects}
+                      activeIndex={idx}
+                      accent={c}
+                      onOpenProject={(i) => {
+                        setIdx(i);
+                        setTermMode(false);
+                      }}
+                      onOpenGallery={() => {
+                        if (project.images?.length) {
+                          setGalleryOpen(true);
+                          return true;
+                        }
+                        return false;
+                      }}
+                      onExit={() => setTermMode(false)}
+                      onKeystroke={glowKey}
+                    />
+                  </div>
+                </div>
+              ) : (
               <AnimatePresence mode="wait">
                 <motion.div
                   key={project.id}
@@ -232,9 +299,11 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
                     project={project}
                     num={num}
                     onOpenGallery={() => setGalleryOpen(true)}
+                    onOpenTerminal={() => setTermMode(true)}
                   />
                 </motion.div>
               </AnimatePresence>
+              )}
 
               {/* Glare estático de esquina */}
               <div
@@ -289,19 +358,26 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
               className="grid grid-cols-[repeat(14,1fr)] gap-[3px] sm:gap-1 rounded-md p-1 sm:p-1.5"
               style={{ background: "rgba(0,0,0,0.35)", boxShadow: `0 0 18px ${c}22` }}
             >
-              {Array.from({ length: 56 }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-[7px] sm:h-[11px] rounded-[2px] ${
-                    i === 42 ? "col-span-1" : ""
-                  } ${i === 49 ? "col-span-4" : ""}`}
-                  style={{
-                    background: "linear-gradient(180deg, #23233f 0%, #17172e 100%)",
-                    boxShadow: `inset 0 -1px 0 rgba(0,0,0,0.6), 0 0 4px ${c}18`,
-                    border: `1px solid ${c}10`,
-                  }}
-                />
-              ))}
+              {Array.from({ length: 56 }).map((_, i) => {
+                const lit = litKey === i;
+                return (
+                  <div
+                    key={i}
+                    className={`h-[7px] sm:h-[11px] rounded-[2px] transition-shadow duration-100 ${
+                      i === 49 ? "col-span-4" : ""
+                    }`}
+                    style={{
+                      background: lit
+                        ? `linear-gradient(180deg, ${c}55 0%, ${c}30 100%)`
+                        : "linear-gradient(180deg, #23233f 0%, #17172e 100%)",
+                      boxShadow: lit
+                        ? `0 0 10px ${c}, inset 0 -1px 0 rgba(0,0,0,0.4)`
+                        : `inset 0 -1px 0 rgba(0,0,0,0.6), 0 0 4px ${c}18`,
+                      border: `1px solid ${lit ? c : `${c}10`}`,
+                    }}
+                  />
+                );
+              })}
             </div>
 
             {/* Trackpad */}
