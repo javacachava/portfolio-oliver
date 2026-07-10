@@ -188,66 +188,148 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
       </button>
 
       {/* ── Laptop ── */}
-      <div className="select-none">
-        {/* Pantalla */}
-        <div
-          className="relative rounded-t-2xl bg-[#101024] p-2 sm:p-3 pt-3.5 sm:pt-5 border-2 border-b-0 transition-shadow duration-500"
-          style={{
-            borderColor: `${c}45`,
-            boxShadow: `0 0 60px ${c}18, inset 0 0 20px rgba(0,0,0,0.5)`,
-          }}
+      <div className="select-none" style={{ perspective: "1800px" }}>
+        {/* Pantalla — se abre al entrar en viewport */}
+        <motion.div
+          initial={{ rotateX: -68, opacity: 0.6 }}
+          whileInView={{ rotateX: 0, opacity: 1 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ type: "spring", stiffness: 50, damping: 13, delay: 0.25 }}
+          style={{ transformOrigin: "bottom center", transformStyle: "preserve-3d" }}
         >
-          {/* Cámara */}
           <div
-            className="absolute top-1.5 sm:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
-            style={{ background: `${c}60`, boxShadow: `0 0 5px ${c}80` }}
-          />
-          {/* Display */}
-          <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-[#030014] border border-[var(--border)]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: 34 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -34 }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
-                className="absolute inset-0"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.15}
-                onDragEnd={(_, info) => {
-                  if (info.offset.x < -60) next();
-                  else if (info.offset.x > 60) prev();
+            className="relative rounded-t-2xl p-2 sm:p-3 pt-3.5 sm:pt-5 pb-4 sm:pb-6 border transition-shadow duration-500"
+            style={{
+              borderColor: `${c}40`,
+              background: "linear-gradient(180deg, #17172e 0%, #101024 55%, #0c0c1c 100%)",
+              boxShadow: `0 0 70px ${c}1c, inset 0 1px 0 rgba(255,255,255,0.06), inset 0 0 24px rgba(0,0,0,0.55)`,
+            }}
+          >
+            {/* Cámara */}
+            <div
+              className="absolute top-1.5 sm:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
+              style={{ background: `${c}70`, boxShadow: `0 0 6px ${c}90, inset 0 0 2px #000` }}
+            />
+            {/* Display */}
+            <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-[#030014] border border-black/60 shadow-[inset_0_0_12px_rgba(0,0,0,0.8)]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, x: 34 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -34 }}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  className="absolute inset-0"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.15}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x < -60) next();
+                    else if (info.offset.x > 60) prev();
+                  }}
+                >
+                  <ScreenContent
+                    project={project}
+                    num={num}
+                    onOpenGallery={() => setGalleryOpen(true)}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Glare estático de esquina */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(115deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.015) 28%, transparent 45%)",
                 }}
-              >
-                <ScreenContent
-                  project={project}
-                  num={num}
-                  onOpenGallery={() => setGalleryOpen(true)}
+              />
+              {/* Reflejo que barre la pantalla */}
+              <motion.div
+                className="absolute inset-y-0 w-1/3 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(105deg, transparent, rgba(255,255,255,0.07), transparent)",
+                }}
+                animate={{ x: ["-160%", "420%"] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
+              />
+            </div>
+
+            {/* Logo en el bezel inferior */}
+            <span
+              className="absolute bottom-1 sm:bottom-1.5 left-1/2 -translate-x-1/2 font-mono text-[8px] sm:text-[10px] font-bold tracking-widest"
+              style={{ color: `${c}55` }}
+            >
+              ›_
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Bisagra */}
+        <div className="relative mx-[2%] h-[5px] sm:h-[7px] flex items-center justify-between rounded-sm bg-gradient-to-b from-[#050510] to-[#12122a] border-x border-black/50">
+          <div className="h-full w-10 sm:w-14 rounded-sm bg-[#1b1b34] border-x border-black/60" />
+          <div className="h-full w-10 sm:w-14 rounded-sm bg-[#1b1b34] border-x border-black/60" />
+        </div>
+
+        {/* Deck: teclado + trackpad en perspectiva */}
+        <div style={{ perspective: "900px" }}>
+          <div
+            className="relative mx-[-5%] rounded-b-[20px] border px-[6%] pt-2 sm:pt-3 pb-1.5 sm:pb-2"
+            style={{
+              transform: "rotateX(48deg)",
+              transformOrigin: "top center",
+              borderColor: `${c}30`,
+              background: "linear-gradient(180deg, #191932 0%, #12122a 60%, #0a0a1a 100%)",
+              boxShadow: `inset 0 1px 0 rgba(255,255,255,0.07), 0 18px 40px rgba(0,0,0,0.55), 0 6px 30px ${c}14`,
+            }}
+          >
+            {/* Teclado retroiluminado */}
+            <div
+              className="grid grid-cols-[repeat(14,1fr)] gap-[3px] sm:gap-1 rounded-md p-1 sm:p-1.5"
+              style={{ background: "rgba(0,0,0,0.35)", boxShadow: `0 0 18px ${c}22` }}
+            >
+              {Array.from({ length: 56 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-[7px] sm:h-[11px] rounded-[2px] ${
+                    i === 42 ? "col-span-1" : ""
+                  } ${i === 49 ? "col-span-4" : ""}`}
+                  style={{
+                    background: "linear-gradient(180deg, #23233f 0%, #17172e 100%)",
+                    boxShadow: `inset 0 -1px 0 rgba(0,0,0,0.6), 0 0 4px ${c}18`,
+                    border: `1px solid ${c}10`,
+                  }}
                 />
-              </motion.div>
-            </AnimatePresence>
+              ))}
+            </div>
+
+            {/* Trackpad */}
+            <div
+              className="mx-auto mt-1.5 sm:mt-2 h-6 sm:h-9 w-[34%] rounded-md"
+              style={{
+                background: "linear-gradient(180deg, #15152c 0%, #101022 100%)",
+                border: "1px solid rgba(255,255,255,0.05)",
+                boxShadow: "inset 0 1px 3px rgba(0,0,0,0.6)",
+              }}
+            />
+
+            {/* LED de encendido */}
+            <div
+              className="absolute right-[7%] bottom-2 sm:bottom-3 w-1 h-1 rounded-full animate-pulse"
+              style={{ background: c, boxShadow: `0 0 6px ${c}` }}
+            />
           </div>
         </div>
 
-        {/* Base / teclado */}
-        <div className="relative">
-          <div
-            className="h-3.5 sm:h-5 rounded-b-2xl border-2 border-t-0 mx-[-3%]"
-            style={{
-              borderColor: `${c}35`,
-              background: "linear-gradient(180deg, #16162e 0%, #0b0b1e 100%)",
-            }}
-          >
-            {/* Muesca de apertura */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 w-20 sm:w-28 h-1.5 sm:h-2 rounded-b-lg bg-[#060612]" />
-          </div>
-          {/* Sombra de apoyo */}
-          <div
-            className="mx-auto mt-1 h-2 w-3/4 rounded-full opacity-60"
-            style={{ background: `radial-gradient(ellipse at center, ${c}25, transparent 70%)`, filter: "blur(6px)" }}
-          />
-        </div>
+        {/* Luz ambiental sobre el escritorio */}
+        <div
+          className="mx-auto -mt-2 h-5 w-[85%] rounded-full opacity-70"
+          style={{
+            background: `radial-gradient(ellipse at center, ${c}2e 0%, ${c}10 45%, transparent 75%)`,
+            filter: "blur(10px)",
+          }}
+        />
       </div>
 
       {/* Controles inferiores */}
