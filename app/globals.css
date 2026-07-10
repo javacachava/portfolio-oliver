@@ -39,6 +39,13 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
+html,
+body {
+  /* Las animaciones de entrada (x: ±100) ensanchan el documento en móvil
+     y fuerzan zoom-out del viewport — clip evita el scroll lateral */
+  overflow-x: clip;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

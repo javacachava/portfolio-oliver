@@ -21,7 +21,7 @@ const gitLog = [
 
 export default function Wuju() {
   return (
-    <section id="wuju" className="py-24 px-4 sm:px-6">
+    <section id="wuju" className="py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
 
         <motion.div

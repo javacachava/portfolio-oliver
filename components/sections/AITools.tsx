@@ -62,7 +62,7 @@ export default function AITools() {
   return (
     <section
       id="ia"
-      className="flex flex-col items-center justify-center relative overflow-hidden py-24 px-4"
+      className="flex flex-col items-center justify-center relative overflow-hidden py-16 sm:py-24 px-4"
     >
       <NeuralBackground />
       {/* Header — mismo patrón que la sección de tecnologías */}

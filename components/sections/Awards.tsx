@@ -21,7 +21,7 @@ const TEASER_STARS = [
 
 export default function Awards() {
   return (
-    <section id="premios" className="py-24 px-4 sm:px-6 bg-[var(--card)]/20">
+    <section id="premios" className="py-16 sm:py-24 px-4 sm:px-6 bg-[var(--card)]/20">
       <div className="max-w-6xl mx-auto">
 
         <motion.div

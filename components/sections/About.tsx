@@ -178,7 +178,7 @@ function DominioBar({
 export default function About() {
   const [skin, setSkin] = useState(0);
   return (
-    <section id="sobre-mi" className="py-24 px-4 sm:px-6">
+    <section id="sobre-mi" className="py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
 
         <motion.div
