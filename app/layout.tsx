@@ -32,12 +32,12 @@ const cedarvilleCursive = Cedarville_Cursive({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oliver.wuju.dev"),
-  title: "Oliver Alexander Ascencio Pleitez — Desarrollador Full-Stack",
+  title: "Oliver Ascencio — Desarrollador Full-Stack",
   description:
-    "Portfolio de Oliver Alexander Ascencio Pleitez. Desarrollador Full-Stack. Proyectos reales en TypeScript, Node.js, React y cloud. Santa Ana, El Salvador.",
+    "Portfolio de Oliver Ascencio. Desarrollador Full-Stack. Proyectos reales en TypeScript, Node.js, React y cloud. Santa Ana, El Salvador.",
   authors: [
     {
-      name: "Oliver Alexander Ascencio Pleitez",
+      name: "Oliver Ascencio",
       url: "https://github.com/javacachava",
     },
   ],

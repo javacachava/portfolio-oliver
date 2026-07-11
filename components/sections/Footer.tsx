@@ -7,7 +7,7 @@ export default function Footer() {
             [oliver@dev ~]$&nbsp;<span className="cursor-blink text-[var(--accent)]" />
           </p>
           <p className="text-xs text-[var(--muted)]">
-            © 2026 Oliver Alexander Ascencio Pleitez
+            © 2026 Oliver Ascencio
           </p>
         </div>
       </div>

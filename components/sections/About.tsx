@@ -309,7 +309,7 @@ export default function About() {
             {/* Name & class */}
             <div className="px-5 pt-3 pb-2">
               <h3 className="text-base font-bold text-[var(--foreground)] leading-5 mb-0.5">
-                Oliver Alexander Ascencio Pleitez
+                Oliver Ascencio
               </h3>
               <p className="font-mono text-xs text-[var(--accent)] mb-4">
                 Full-Stack · 20 años

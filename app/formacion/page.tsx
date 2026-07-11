@@ -9,9 +9,9 @@ import Counter from "@/components/ui/Counter";
 import { formacionStats } from "@/data/formacion";
 
 export const metadata: Metadata = {
-  title: "Formación — Oliver Alexander Ascencio Pleitez",
+  title: "Formación — Oliver Ascencio",
   description:
-    "Formación académica, certificaciones gubernamentales, bootcamps y reconocimientos de Oliver Alexander Ascencio Pleitez. Más de 200 horas documentadas de formación complementaria.",
+    "Formación académica, certificaciones gubernamentales, bootcamps y reconocimientos de Oliver Ascencio. Más de 200 horas documentadas de formación complementaria.",
 };
 
 const stats = [
