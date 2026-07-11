@@ -370,7 +370,7 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
         {/* Deck: teclado + trackpad en perspectiva */}
         <div style={{ perspective: "900px" }}>
           <div
-            className="relative mx-[-5%] rounded-b-[20px] border px-[6%] pt-2 sm:pt-3 pb-1.5 sm:pb-2"
+            className="relative mx-0 sm:mx-[-5%] rounded-b-[20px] border px-[6%] pt-2 sm:pt-3 pb-1.5 sm:pb-2"
             style={{
               transform: "rotateX(48deg)",
               transformOrigin: "top center",

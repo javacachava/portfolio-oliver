@@ -115,7 +115,7 @@ export default function Skills() {
       {[ROW_LENGUAJES, ROW_FRONTEND, ROW_BACKEND, ROW_DATA].map((row, r) => (
         <div
           key={r}
-          className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center"
+          className="flex w-full max-w-4xl flex-row flex-wrap justify-center items-center mt-4 gap-5 px-5 sm:px-0"
         >
           {row.map((skill, i) => (
             <SkillIcon
