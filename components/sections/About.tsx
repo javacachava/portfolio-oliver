@@ -178,7 +178,7 @@ function DominioBar({
 export default function About() {
   const [skin, setSkin] = useState(0);
   return (
-    <section id="sobre-mi" className="py-16 sm:py-24 px-4 sm:px-6">
+    <section id="sobre-mi" className="py-12 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
 
         <motion.div
@@ -186,7 +186,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
           <SectionEyebrow className="mb-3">Perfil</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)]">
@@ -194,7 +194,7 @@ export default function About() {
           </h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-[280px_1fr] gap-10 items-start">
+        <div className="grid lg:grid-cols-[280px_1fr] gap-6 sm:gap-10 items-start">
 
           {/* ─── COLUMNA IZQUIERDA: card + special moves ─── */}
           <div className="flex flex-col gap-5">

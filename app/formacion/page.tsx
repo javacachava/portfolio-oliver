@@ -25,9 +25,9 @@ export default function FormacionPage() {
     <>
       <DeferredStarsCanvas />
       <Navbar />
-      <main className="relative z-10 pt-32 pb-24">
+      <main className="relative z-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
         {/* Header */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-14 text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-10 sm:mb-14 text-center">
           <SectionEyebrow className="mb-3 justify-center flex">
             $ cat formacion --all
           </SectionEyebrow>

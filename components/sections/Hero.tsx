@@ -50,7 +50,7 @@ export default function Hero() {
       <motion.div
         initial="hidden"
         animate="visible"
-        className="relative z-10 flex flex-col lg:flex-row items-center justify-center px-5 sm:px-10 lg:px-20 mt-32 lg:mt-40 mb-20 w-full gap-10"
+        className="relative z-10 flex flex-col lg:flex-row items-center justify-center px-5 sm:px-10 lg:px-20 mt-24 sm:mt-32 lg:mt-40 mb-14 sm:mb-20 w-full gap-6 sm:gap-10"
       >
         {/* Left: copy */}
         <div className="h-full w-full flex flex-col gap-5 justify-center m-auto text-start max-w-2xl">

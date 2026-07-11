@@ -65,6 +65,16 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (max-width: 639px) {
+  .font-mono.tracking-widest {
+    letter-spacing: 0.06em;
+  }
+
+  .font-mono.tracking-wider {
+    letter-spacing: 0.035em;
+  }
+}
+
 /* ═══════════════════════════ KEYFRAMES ═══════════════════════════ */
 
 @keyframes twinkle {

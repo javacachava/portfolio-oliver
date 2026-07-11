@@ -7,7 +7,7 @@ export default function SectionEyebrow({
 }) {
   return (
     <p
-      className={`text-sm font-mono text-[#b49bff] tracking-widest uppercase ${className}`}
+      className={`text-sm font-mono text-[#b49bff] tracking-[0.08em] sm:tracking-widest uppercase ${className}`}
     >
       {children}
     </p>

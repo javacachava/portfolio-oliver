@@ -15,9 +15,9 @@ export default function Security() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-row relative items-center justify-center min-h-screen w-full h-full overflow-hidden"
+      className="flex flex-col relative items-center justify-center min-h-[28rem] sm:min-h-screen w-full overflow-hidden px-4 py-12 sm:px-0 sm:py-0"
     >
-      <div className="absolute w-auto h-auto top-6 z-[5]">
+      <div className="relative sm:absolute sm:top-6 z-[5] mb-10 sm:mb-0">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -33,7 +33,7 @@ export default function Security() {
         </motion.div>
       </div>
 
-      <div className="flex flex-col items-center justify-center translate-y-[-50px] absolute z-[20] w-auto h-auto">
+      <div className="flex flex-col items-center justify-center relative sm:absolute sm:translate-y-[-50px] z-[20] w-auto h-auto">
         <div className="flex flex-col items-center group cursor-pointer w-auto h-auto">
           <Image
             src="/lock-top.png"
@@ -58,7 +58,7 @@ export default function Security() {
         </div>
       </div>
 
-      <div className="absolute z-[20] bottom-[10px] px-[5px]">
+      <div className="relative sm:absolute sm:bottom-[10px] z-[20] px-[5px] mt-10 sm:mt-0">
         <div className="cursive text-[20px] font-medium text-center text-gray-300">
           Seguridad en cada capa del stack.
         </div>

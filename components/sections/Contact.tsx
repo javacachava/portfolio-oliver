@@ -23,7 +23,7 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="py-20 sm:py-28 px-4 sm:px-6 flex flex-col items-center text-center"
+      className="py-14 sm:py-28 px-4 sm:px-6 flex flex-col items-center text-center"
     >
       <motion.div
         initial="hidden"

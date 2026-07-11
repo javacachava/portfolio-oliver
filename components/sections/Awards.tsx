@@ -21,7 +21,7 @@ const TEASER_STARS = [
 
 export default function Awards() {
   return (
-    <section id="premios" className="py-16 sm:py-24 px-4 sm:px-6 bg-[var(--card)]/20">
+    <section id="premios" className="py-12 sm:py-24 px-4 sm:px-6 bg-[var(--card)]/20">
       <div className="max-w-6xl mx-auto">
 
         <motion.div
@@ -29,7 +29,7 @@ export default function Awards() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
           <SectionEyebrow className="mb-3">Logros & certificaciones</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)]">
@@ -37,7 +37,7 @@ export default function Awards() {
           </h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-10">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-10">
 
           {/* ── Achievements ── */}
           <motion.div

@@ -11,14 +11,14 @@ const ordered = [...featured, ...rest];
 
 export default function Projects() {
   return (
-    <section id="proyectos" className="py-16 sm:py-24 px-4 sm:px-6">
+    <section id="proyectos" className="py-12 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
           <SectionEyebrow className="mb-2">Proyectos</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 mb-3 w-fit pb-1">
