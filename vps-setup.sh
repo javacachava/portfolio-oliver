@@ -19,6 +19,9 @@ npm i -g pm2
 echo "==> Instalando Nginx + Certbot..."
 apt install -y nginx certbot python3-certbot-nginx
 
+echo "==> Endureciendo la firma de Nginx..."
+printf 'server_tokens off;\n' > /etc/nginx/conf.d/00-server-tokens.conf
+
 echo "==> Creando estructura de carpetas..."
 mkdir -p /var/www/oliver-portfolio
 mkdir -p /var/www/wuju-landing
