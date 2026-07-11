@@ -15,9 +15,9 @@ export default function Security() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col relative items-center justify-center min-h-[28rem] sm:min-h-screen w-full overflow-hidden px-4 py-12 sm:px-0 sm:py-0"
+      className="flex flex-col relative items-center justify-center sm:min-h-screen w-full overflow-hidden px-4 py-10 sm:px-0 sm:py-0"
     >
-      <div className="relative sm:absolute sm:top-6 z-[5] mb-10 sm:mb-0">
+      <div className="relative sm:absolute sm:top-6 z-[5] mb-8 sm:mb-0">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -51,14 +51,14 @@ export default function Security() {
           />
         </div>
 
-        <div className="Welcome-box px-[15px] py-[4px] z-[20] border my-[20px] border-[#7042F88B] opacity-[0.9]">
+        <div className="Welcome-box px-[15px] py-[4px] z-[20] border my-3 sm:my-[20px] border-[#7042F88B] opacity-[0.9]">
           <h3 className="Welcome-text text-[12px]">
             OWASP Top 10 · JWT · RLS · Criptografía aplicada
           </h3>
         </div>
       </div>
 
-      <div className="relative sm:absolute sm:bottom-[10px] z-[20] px-[5px] mt-10 sm:mt-0">
+      <div className="relative sm:absolute sm:bottom-[10px] z-[20] px-[5px] mt-8 sm:mt-0">
         <div className="cursive text-[20px] font-medium text-center text-gray-300">
           Seguridad en cada capa del stack.
         </div>
@@ -66,7 +66,7 @@ export default function Security() {
 
       {inView && (
         <div
-          className="w-full flex items-start justify-center absolute"
+          className="absolute inset-0 flex items-center justify-center"
           aria-hidden="true"
         >
           <video
@@ -75,7 +75,7 @@ export default function Security() {
             autoPlay
             playsInline
             preload="none"
-            className="w-full h-auto"
+            className="w-full h-full object-cover"
           >
             <source src="/videos/encryption-bg.webm" type="video/webm" />
           </video>
