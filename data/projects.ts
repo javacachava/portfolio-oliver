@@ -57,6 +57,7 @@ export const projects: Project[] = [
     statusType: "live",
     accentColor: "#00ff9f",   // green — LIVE = operational
     featured: true,
+    demo: "/demos/restaurante-chatbot/",
   },
   {
     id: "restaurant-pos",
@@ -77,6 +78,7 @@ export const projects: Project[] = [
     statusType: "live",
     accentColor: "#00ff9f",   // green — LIVE = operational
     featured: true,
+    demo: "/demos/pos/",
     note: "Iniciado como proyecto de servicio social ESIT · v1.0 en producción desde Jul 2026",
   },
   {

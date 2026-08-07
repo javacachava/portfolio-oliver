@@ -1,0 +1,1846 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Bot de pedidos por chat — Demo interactivo</title>
+</head>
+<body>
+<style>
+  /* ═══ Tokens ═══ */
+  :root {
+    color-scheme: dark;
+    --bg: #0e1420;
+    --bg-deep: #080d16;
+    --surface: #161d2b;
+    --raised: #1e2637;
+    --border: #2a3446;
+    --border-bright: #3a4760;
+    --tp: #e8edf5;
+    --ts: #97a3b6;
+    --tm: #6b7789;
+    --ember: #e2552a;
+    --ember-h: #f0663c;
+    --ember-soft: rgba(226, 85, 42, 0.14);
+    --cyan: #22d3ee;
+    --cyan-soft: rgba(34, 211, 238, 0.12);
+    --violet: #a78bfa;
+    --violet-soft: rgba(167, 139, 250, 0.13);
+    --success: #34d399;
+    --success-soft: rgba(52, 211, 153, 0.13);
+    --warning: #fbbf24;
+    --warning-soft: rgba(251, 191, 36, 0.13);
+    --danger: #f87171;
+    --danger-soft: rgba(248, 113, 113, 0.13);
+    --font: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body {
+    min-height: 100dvh;
+    background:
+      radial-gradient(1100px 520px at 12% -8%, rgba(226, 85, 42, 0.10), transparent 60%),
+      radial-gradient(900px 460px at 92% 4%, rgba(34, 211, 238, 0.07), transparent 60%),
+      var(--bg);
+    color: var(--tp);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+  }
+  button { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: 0.45; }
+  input { font: inherit; }
+  *:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(226, 85, 42, 0.5); border-radius: 8px; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 9999px; }
+  h1, h2, h3 { margin: 0; letter-spacing: -0.02em; }
+  p { margin: 0; }
+  .ic { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ic-sm { width: 13px; height: 13px; }
+  .tnum { font-variant-numeric: tabular-nums; }
+
+  /* ═══ Top bar ═══ */
+  .topbar {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 12px clamp(12px, 3vw, 26px);
+    background: rgba(14, 20, 32, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .tb-brand { display: flex; align-items: center; gap: 10px; }
+  .tb-logo {
+    display: grid; place-items: center;
+    width: 34px; height: 34px; border-radius: 11px; flex: none;
+    background: linear-gradient(145deg, var(--ember-h), #b8401d);
+    box-shadow: 0 3px 14px rgba(226, 85, 42, 0.35);
+    color: #fff;
+  }
+  .tb-title { font-size: 14.5px; font-weight: 700; line-height: 1.2; }
+  .tb-sub { font-size: 11px; color: var(--tm); letter-spacing: 0.08em; text-transform: uppercase; }
+  .tb-chip {
+    padding: 4px 10px; border-radius: 9999px;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+    background: var(--ember-soft); color: var(--ember-h);
+    border: 1px solid rgba(226, 85, 42, 0.35);
+  }
+  .tb-right { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+  .toggle {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 38px; padding: 6px 12px; border-radius: 10px;
+    font-size: 12.5px; font-weight: 600; color: var(--ts);
+    background: var(--surface); border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .toggle:hover { color: var(--tp); border-color: var(--border-bright); }
+  .toggle .sw {
+    width: 30px; height: 17px; border-radius: 9999px; flex: none;
+    background: var(--border-bright); position: relative; transition: background 0.15s;
+  }
+  .toggle .sw::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--tm); transition: all 0.15s;
+  }
+  .toggle.on { color: var(--tp); border-color: rgba(34, 211, 238, 0.4); background: var(--cyan-soft); }
+  .toggle.on .sw { background: rgba(34, 211, 238, 0.35); }
+  .toggle.on .sw::after { left: 15px; background: var(--cyan); }
+  .btn-reset {
+    display: inline-flex; align-items: center; gap: 6px;
+    min-height: 38px; padding: 6px 12px; border-radius: 10px;
+    font-size: 12.5px; font-weight: 600; color: var(--ts);
+    border: 1px solid var(--border); background: var(--surface);
+  }
+  .btn-reset:hover { color: var(--tp); border-color: var(--border-bright); }
+  @media (max-width: 700px) { .toggle span.lbl, .btn-reset span.lbl { display: none; } }
+
+  /* ═══ Layout ═══ */
+  .stage {
+    flex: 1; width: 100%; max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: 396px minmax(0, 1fr); gap: clamp(14px, 2vw, 24px);
+    padding: clamp(14px, 2.4vw, 26px) clamp(12px, 3vw, 26px) 32px;
+    align-items: start;
+  }
+  @media (max-width: 1040px) {
+    .stage { grid-template-columns: 1fr; max-width: 620px; }
+    .pane { display: none; }
+    .pane.active { display: flex; }
+    .mtabs { display: flex; }
+  }
+  .mtabs {
+    display: none; gap: 6px; padding: 10px clamp(12px, 3vw, 26px) 0;
+    max-width: 620px; margin: 0 auto; width: 100%;
+  }
+  .mtab {
+    flex: 1; min-height: 42px; border-radius: 10px;
+    font-size: 13px; font-weight: 700; color: var(--ts);
+    background: var(--surface); border: 1px solid var(--border);
+  }
+  .mtab.on { background: var(--ember-soft); color: var(--ember-h); border-color: rgba(226, 85, 42, 0.4); }
+  .pane { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+  /* ═══ Teléfono / chat ═══ */
+  .phone {
+    display: flex; flex-direction: column;
+    height: min(720px, calc(100dvh - 150px)); min-height: 520px;
+    border-radius: 26px; overflow: hidden;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-bright);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  }
+  .ph-head {
+    display: flex; align-items: center; gap: 10px; flex: none;
+    padding: 12px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .ph-avatar {
+    display: grid; place-items: center;
+    width: 38px; height: 38px; border-radius: 50%; flex: none;
+    background: linear-gradient(145deg, var(--ember-h), #b8401d);
+    color: #fff;
+  }
+  .ph-who { flex: 1; min-width: 0; }
+  .ph-name { font-size: 14px; font-weight: 700; }
+  .ph-status { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--success); }
+  .ph-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+  .ph-status.human { color: var(--warning); }
+  .ph-status.human .dot { background: var(--warning); }
+  .ph-status.closed { color: var(--tm); }
+  .ph-status.closed .dot { background: var(--tm); animation: none; }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+  .ph-meta { font-size: 10.5px; color: var(--tm); font-family: var(--mono); text-align: right; }
+
+  .ph-body {
+    flex: 1; min-height: 0; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 16px 14px;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(226, 85, 42, 0.04), transparent 70%),
+      var(--bg-deep);
+  }
+  .day-sep {
+    align-self: center; margin: 2px 0 6px;
+    padding: 3px 11px; border-radius: 9999px;
+    background: var(--raised); border: 1px solid var(--border);
+    font-size: 10.5px; font-weight: 700; color: var(--tm);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .row { display: flex; flex-direction: column; max-width: 84%; animation: pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1); }
+  @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(0.98); } }
+  .row.bot { align-self: flex-start; }
+  .row.me { align-self: flex-end; align-items: flex-end; }
+  .row.sys { align-self: center; max-width: 92%; }
+  .bubble {
+    position: relative;
+    padding: 9px 12px 7px;
+    border-radius: 14px;
+    font-size: 13.6px; line-height: 1.48;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .row.bot .bubble {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+  }
+  .row.me .bubble {
+    background: linear-gradient(145deg, var(--ember-h), var(--ember));
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 3px 14px rgba(226, 85, 42, 0.25);
+  }
+  .row.sys .bubble {
+    background: var(--warning-soft);
+    border: 1px dashed rgba(251, 191, 36, 0.4);
+    color: var(--warning);
+    font-size: 12px; font-weight: 600;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .bubble b { font-weight: 800; }
+  .bubble i { font-style: italic; opacity: 0.85; }
+  .stamp {
+    display: flex; align-items: center; gap: 3px; justify-content: flex-end;
+    margin: 3px 2px 0;
+    font-size: 10px; color: var(--tm); font-variant-numeric: tabular-nums;
+  }
+  .row.me .stamp { color: rgba(255, 255, 255, 0.6); }
+  .row.me .stamp .ic { width: 13px; height: 13px; color: #7dd3fc; }
+
+  .qr { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+  .qr button {
+    display: inline-flex; align-items: center; gap: 5px;
+    min-height: 38px; padding: 7px 13px; border-radius: 10px;
+    font-size: 12.5px; font-weight: 700;
+    color: var(--cyan);
+    background: var(--cyan-soft);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    transition: all 0.15s;
+  }
+  .qr button:hover { background: rgba(34, 211, 238, 0.2); transform: translateY(-1px); }
+  .qr button:active { transform: translateY(0); }
+
+  .typing { display: flex; gap: 4px; align-items: center; padding: 12px 14px; }
+  .typing i {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--tm);
+    animation: blink 1.3s infinite;
+  }
+  .typing i:nth-child(2) { animation-delay: 0.18s; }
+  .typing i:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes blink { 0%, 60%, 100% { opacity: 0.25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+
+  .ph-chips {
+    display: flex; gap: 6px; flex: none;
+    padding: 8px 12px 0; overflow-x: auto; scrollbar-width: none;
+  }
+  .ph-chips::-webkit-scrollbar { display: none; }
+  .ph-chips button {
+    flex: none; white-space: nowrap;
+    padding: 6px 11px; border-radius: 9999px;
+    font-size: 11.5px; font-weight: 600; color: var(--ts);
+    background: var(--surface); border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .ph-chips button:hover { color: var(--tp); border-color: var(--border-bright); }
+  .ph-input {
+    display: flex; align-items: center; gap: 8px; flex: none;
+    padding: 10px 12px 12px;
+    background: var(--surface); border-top: 1px solid var(--border);
+  }
+  .ph-input input {
+    flex: 1; min-width: 0;
+    min-height: 44px; padding: 10px 14px;
+    border-radius: 9999px;
+    background: var(--bg-deep); border: 1px solid var(--border);
+    color: var(--tp); font-size: 13.5px;
+  }
+  .ph-input input::placeholder { color: var(--tm); }
+  .ph-input input:focus { border-color: var(--ember); box-shadow: 0 0 0 3px rgba(226, 85, 42, 0.16); outline: none; }
+  .ph-send {
+    display: grid; place-items: center;
+    width: 44px; height: 44px; border-radius: 50%; flex: none;
+    background: var(--ember); color: #fff;
+    box-shadow: 0 3px 14px rgba(226, 85, 42, 0.35);
+    transition: all 0.15s;
+  }
+  .ph-send:hover:not(:disabled) { background: var(--ember-h); transform: translateY(-1px); }
+
+  /* ═══ Inspector ═══ */
+  .card {
+    border-radius: 16px; padding: 15px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+  .card-h {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--tm);
+  }
+  .card-h .ic { width: 14px; height: 14px; }
+  .card-h .tail { margin-left: auto; letter-spacing: 0; text-transform: none; font-weight: 600; font-size: 11px; }
+  .insp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 1240px) { .insp-grid { grid-template-columns: 1fr; } }
+
+  /* pipeline del webhook */
+  .pipe { display: flex; flex-direction: column; gap: 7px; }
+  .pipe-row {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 10px; border-radius: 9px;
+    background: var(--raised); border: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .pipe-row .ic { width: 13px; height: 13px; color: var(--success); }
+  .pipe-row .lbl { flex: 1; min-width: 0; color: var(--ts); }
+  .pipe-row .val { font-family: var(--mono); font-size: 11px; color: var(--tp); font-variant-numeric: tabular-nums; }
+  .pipe-row.warn { border-color: rgba(251, 191, 36, 0.35); background: var(--warning-soft); }
+  .pipe-row.warn .ic { color: var(--warning); }
+
+  /* rail de la máquina de estados */
+  .rail { display: flex; flex-direction: column; gap: 1px; }
+  .rail-row {
+    position: relative;
+    display: flex; align-items: center; gap: 10px;
+    padding: 5px 8px; border-radius: 8px;
+    font-family: var(--mono); font-size: 11.5px;
+    color: var(--tm);
+    transition: all 0.18s;
+  }
+  .rail-row .rdot {
+    width: 9px; height: 9px; border-radius: 50%; flex: none;
+    background: var(--border-bright);
+    box-shadow: 0 0 0 3px var(--surface);
+    z-index: 1;
+  }
+  .rail-row::before {
+    content: ''; position: absolute; left: 12px; top: -1px; bottom: -1px;
+    width: 1px; background: var(--border);
+  }
+  .rail-row:first-child::before { top: 50%; }
+  .rail-row:last-child::before { bottom: 50%; }
+  .rail-row.seen { color: var(--ts); }
+  .rail-row.seen .rdot { background: var(--success); }
+  .rail-row.on {
+    background: var(--cyan-soft);
+    color: var(--cyan);
+    font-weight: 700;
+  }
+  .rail-row.on .rdot {
+    background: var(--cyan);
+    box-shadow: 0 0 0 3px var(--surface), 0 0 12px rgba(34, 211, 238, 0.7);
+    animation: pulse 1.6s infinite;
+  }
+  .rail-row .rlbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rail-row .rnote { font-size: 10px; opacity: 0.75; font-family: var(--font); }
+
+  /* sesión JSON */
+  .json {
+    margin: 0; padding: 11px 12px;
+    border-radius: 10px;
+    background: var(--bg-deep); border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 11px; line-height: 1.6;
+    color: var(--ts);
+    overflow-x: auto; white-space: pre;
+  }
+  .json .k { color: var(--violet); }
+  .json .s { color: var(--success); }
+  .json .n { color: var(--cyan); }
+  .json .b { color: var(--warning); }
+  .json .nu { color: var(--tm); }
+
+  /* NLU */
+  .nlu-empty { font-size: 12px; color: var(--tm); padding: 6px 2px; }
+  .nlu-in {
+    padding: 8px 11px; border-radius: 9px; margin-bottom: 9px;
+    background: var(--bg-deep); border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 11.5px; color: var(--tp);
+  }
+  .nlu-steps { display: flex; flex-direction: column; gap: 6px; }
+  .nlu-step { display: flex; align-items: baseline; gap: 8px; font-size: 12px; }
+  .nlu-step .sl { flex: 0 0 92px; color: var(--tm); font-size: 11px; }
+  .nlu-step .sv { flex: 1; min-width: 0; font-family: var(--mono); font-size: 11.5px; color: var(--ts); }
+  .nlu-hit {
+    display: flex; align-items: center; gap: 9px;
+    margin-top: 10px; padding: 9px 11px; border-radius: 10px;
+    background: var(--success-soft); border: 1px solid rgba(52, 211, 153, 0.3);
+  }
+  .nlu-hit.miss { background: var(--danger-soft); border-color: rgba(248, 113, 113, 0.3); }
+  .nlu-hit .ic { color: var(--success); }
+  .nlu-hit.miss .ic { color: var(--danger); }
+  .nlu-hit .hn { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 700; }
+  .nlu-hit .hs {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    padding: 2px 7px; border-radius: 6px;
+    background: rgba(52, 211, 153, 0.18); color: var(--success);
+  }
+  .nlu-hit.miss .hs { background: rgba(248, 113, 113, 0.18); color: var(--danger); }
+  .mod-chip {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 1px 7px; border-radius: 6px; margin-right: 4px;
+    font-size: 11px; font-weight: 700;
+    background: var(--violet-soft); color: var(--violet);
+  }
+
+  /* carrito */
+  .cart-row {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 6px 0; font-size: 12.5px;
+  }
+  .cart-row + .cart-row { border-top: 1px solid rgba(42, 52, 70, 0.7); }
+  .cart-q { font-family: var(--mono); font-weight: 700; color: var(--ember-h); min-width: 22px; }
+  .cart-n { flex: 1; min-width: 0; }
+  .cart-n em { display: block; font-size: 11px; color: var(--violet); font-style: normal; }
+  .cart-p { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .cart-total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 9px; padding-top: 9px;
+    border-top: 1px dashed var(--border-bright);
+    font-size: 12px; color: var(--ts);
+  }
+  .cart-total b { font-size: 18px; font-weight: 800; color: var(--tp); font-variant-numeric: tabular-nums; }
+  .cart-empty { font-size: 12px; color: var(--tm); padding: 4px 0; }
+  .upsell-flags { display: flex; gap: 5px; margin-top: 9px; flex-wrap: wrap; }
+  .flag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 6px;
+    font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+    background: var(--raised); color: var(--tm); border: 1px solid var(--border);
+  }
+  .flag.spent { background: var(--violet-soft); color: var(--violet); border-color: rgba(167, 139, 250, 0.3); }
+
+  /* panel del dueño */
+  .owner-cmds { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 11px; }
+  .owner-cmds button {
+    padding: 6px 11px; border-radius: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    color: var(--ts); background: var(--raised); border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .owner-cmds button:hover:not(:disabled) { color: var(--tp); border-color: var(--border-bright); }
+  .owner-cmds button.hot { color: var(--warning); border-color: rgba(251, 191, 36, 0.35); background: var(--warning-soft); }
+  .owner-feed { display: flex; flex-direction: column; gap: 9px; max-height: 300px; overflow-y: auto; }
+  .onote {
+    padding: 10px 12px; border-radius: 11px;
+    background: var(--bg-deep); border: 1px solid var(--border);
+    border-left: 3px solid var(--ember);
+    font-size: 12px; line-height: 1.5;
+    white-space: pre-wrap; word-break: break-word;
+    animation: pop 0.22s ease-out;
+  }
+  .onote.persona { border-left-color: var(--warning); }
+  .onote.msg { border-left-color: var(--cyan); }
+  .onote b { font-weight: 800; }
+  .onote i { font-style: italic; color: var(--tm); }
+  .onote .ot { display: block; margin-bottom: 4px; font-family: var(--mono); font-size: 10px; color: var(--tm); }
+  .owner-empty { font-size: 12px; color: var(--tm); padding: 8px 0; }
+
+  /* log */
+  .log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 190px; overflow-y: auto; }
+  .log li { display: flex; gap: 9px; font-family: var(--mono); font-size: 11px; color: var(--ts); }
+  .log li time { color: var(--tm); flex: none; font-variant-numeric: tabular-nums; }
+  .log li .tr { color: var(--cyan); }
+  .log li .ar { color: var(--tm); }
+
+  /* footer nota */
+  .foot {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 12px 15px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 12px; color: var(--tm);
+  }
+  .foot .ic { color: var(--tm); }
+  .foot b { color: var(--ts); font-weight: 600; }
+  .foot .sep { color: var(--border-bright); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+
+<svg style="display:none" aria-hidden="true"><defs>
+<symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+<symbol id="i-check-check" viewBox="0 0 24 24"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+<symbol id="i-git-branch" viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+<symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+<symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+<symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-user-check" viewBox="0 0 24 24"><path d="m16 11 2 2 4-4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+<symbol id="i-headset" viewBox="0 0 24 24"><path d="M3 11h3a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M18 11h3v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1z"/><path d="M3 11a9 9 0 0 1 18 0"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></symbol>
+</defs></svg>
+
+<header class="topbar">
+  <div class="tb-brand">
+    <div class="tb-logo"><svg class="ic ic-lg" style="width:19px;height:19px"><use href="#i-bot"/></svg></div>
+    <div>
+      <div class="tb-title">Bot de pedidos por chat</div>
+      <div class="tb-sub">Máquina de estados · NLU sin LLM</div>
+    </div>
+  </div>
+  <span class="tb-chip">DEMO</span>
+  <div class="tb-right">
+    <button class="toggle on" id="tgHorario"><span class="sw"></span><span class="lbl">Local abierto</span></button>
+    <button class="toggle" id="tgCliente"><span class="sw"></span><span class="lbl">Cliente conocido</span></button>
+    <button class="btn-reset" id="btnReset"><svg class="ic ic-sm"><use href="#i-rotate-ccw"/></svg><span class="lbl">Reiniciar</span></button>
+  </div>
+</header>
+
+<nav class="mtabs">
+  <button class="mtab on" data-pane="chat">Chat</button>
+  <button class="mtab" data-pane="motor">El motor</button>
+</nav>
+
+<main class="stage">
+  <!-- ═══ Chat ═══ -->
+  <section class="pane active" data-pane="chat">
+    <div class="phone">
+      <div class="ph-head">
+        <div class="ph-avatar"><svg class="ic" style="width:19px;height:19px"><use href="#i-bot"/></svg></div>
+        <div class="ph-who">
+          <div class="ph-name">Restaurante Demo</div>
+          <div class="ph-status" id="phStatus"><span class="dot"></span><span id="phStatusTxt">Asistente en línea</span></div>
+        </div>
+        <div class="ph-meta">+503 7000-0000<br><span id="phCount">0 msg</span></div>
+      </div>
+      <div class="ph-body" id="chat"></div>
+      <div class="ph-chips" id="chips"></div>
+      <form class="ph-input" id="chatForm">
+        <input id="chatInput" placeholder="Escribí como un cliente real…" autocomplete="off">
+        <button class="ph-send" type="submit" aria-label="Enviar"><svg class="ic"><use href="#i-send"/></svg></button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══ Motor ═══ -->
+  <section class="pane" data-pane="motor">
+    <div class="card">
+      <div class="card-h"><svg class="ic"><use href="#i-shield"/></svg>Entrada del webhook<span class="tail" id="rlTail"></span></div>
+      <div class="pipe" id="pipe"></div>
+    </div>
+
+    <div class="insp-grid">
+      <div class="card">
+        <div class="card-h"><svg class="ic"><use href="#i-git-branch"/></svg>Máquina de estados<span class="tail" id="pasoTail"></span></div>
+        <div class="rail" id="rail"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <div class="card">
+          <div class="card-h"><svg class="ic"><use href="#i-brain"/></svg>NLU · última lectura</div>
+          <div id="nlu"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><svg class="ic"><use href="#i-cart"/></svg>Carrito de la sesión<span class="tail" id="cartTail"></span></div>
+          <div id="cart"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insp-grid">
+      <div class="card">
+        <div class="card-h"><svg class="ic"><use href="#i-bell"/></svg>Panel del dueño</div>
+        <div class="owner-cmds" id="ownerCmds"></div>
+        <div class="owner-feed" id="ownerFeed"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <div class="card">
+          <div class="card-h"><svg class="ic"><use href="#i-activity"/></svg>Sesión persistida (SQLite)</div>
+          <pre class="json" id="sessionJson"></pre>
+        </div>
+        <div class="card">
+          <div class="card-h"><svg class="ic"><use href="#i-git-branch"/></svg>Transiciones registradas</div>
+          <ul class="log" id="log"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <svg class="ic ic-sm"><use href="#i-info"/></svg>
+    <span><b>Toda la lógica que ves corre acá.</b> Es el mismo motor del bot en producción — máquina de estados, parser de texto y reglas de upsell — portado al navegador.</span>
+    <span class="sep">·</span>
+    <span>Node.js · Express · SQLite (WAL) · Cloud API de mensajería · webhook firmado · sin LLM</span>
+    <span class="sep">·</span>
+    <span>Nombres, menú y teléfonos son ficticios.</span>
+  </div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════════════════════════════
+     MENÚ — mismo esquema que data/menu.json (nombres y precios de demo)
+     ═══════════════════════════════════════════════════════════════ */
+  var MENU = {
+    pizzas: [
+      { n: 'Frutos del Mar', p: 16.00 }, { n: 'Marinera', p: 15.00 },
+      { n: 'De Cangrejo', p: 15.00 }, { n: 'Camaronera', p: 15.00 },
+      { n: 'Margarita', p: 13.00 }, { n: 'Pollo Alfredo', p: 13.00 },
+      { n: 'Suprema', p: 13.00 }, { n: 'Siciliana', p: 13.00 },
+      { n: 'Vegetariana', p: 13.00 }, { n: 'Hawaiana', p: 13.00 },
+      { n: 'Cuatro Estaciones', p: 10.00 }, { n: 'Pepperoni', p: 10.00 },
+      { n: 'Chili Cheese', p: 8.50 }, { n: 'Argentina', p: 8.50 },
+      { n: 'Tres Quesos', p: 8.50 }, { n: 'Pollo BBQ', p: 8.50 },
+      { n: 'Clásica (2 ingredientes)', p: 7.50 }, { n: 'Personal (2 ingredientes)', p: 3.50 }
+    ],
+    combos: [
+      { n: 'Combo Personal', p: 10.00, d: '1 pizza 2 ing. + nuditos de ajo' },
+      { n: 'Combo Familiar 1', p: 15.00, d: '1 pizza 3 ing. + pan ajo + soda 1.5 L' },
+      { n: 'Combo Ahorro', p: 17.00, d: '2 pizzas 2 ing. + pan ajo o nuditos' },
+      { n: 'Combo Familiar 2', p: 21.00, d: '2 pizzas 3 ing. + pan ajo + soda 1.5 L' },
+      { n: 'Combo Familiar 3', p: 29.50, d: '3 pizzas 3 ing. + pan ajo + soda 1.5 L' }
+    ],
+    birria: [
+      { n: 'Pizza de Birria', p: 13.00 }, { n: 'Personal de Birria', p: 6.00 },
+      { n: 'Burritos de Birria', p: 7.00 }, { n: 'Quesibirria', p: 7.00 },
+      { n: 'Tacos de Birria', p: 6.50 }, { n: 'Pupusas', p: 1.50 }
+    ],
+    burgers: [
+      { n: 'Clásica + Papas', p: 5.50 }, { n: 'Burger Pollo Alfredo', p: 7.00 },
+      { n: 'Full Cheddar', p: 7.00 }, { n: 'Burger de Birria', p: 7.00 }
+    ],
+    platos: [
+      { n: 'Lomo de Aguja', p: 8.00 }, { n: 'Camarones Empanizados', p: 8.00 },
+      { n: 'Camarones al Ajillo', p: 8.00 }, { n: 'Churrasco', p: 7.00 },
+      { n: 'Costilla', p: 7.00 }, { n: 'Orden de Alitas', p: 7.00 },
+      { n: 'Pollo Asado', p: 6.50 }, { n: 'Aros de Cebolla', p: 5.00 }
+    ],
+    entradas: [
+      { n: 'Cachete', p: 4.00 }, { n: 'Pinchito', p: 4.00 }, { n: 'Quesadilla', p: 4.00 },
+      { n: 'Costillita', p: 3.50 }, { n: 'Carnita', p: 3.50 }, { n: 'Chorizo', p: 3.50 },
+      { n: 'Enchiladas', p: 3.50 }, { n: 'Choripán', p: 3.50 }, { n: 'Nachos', p: 5.00 }
+    ],
+    bebidas: [
+      { n: 'Soda 1.5 L', p: 2.50 }, { n: 'Soda en lata', p: 1.00 },
+      { n: 'Agua', p: 0.75 }, { n: 'Limonada', p: 1.50 }, { n: 'Té helado', p: 1.50 }
+    ]
+  };
+  var NOMBRES_CATEGORIA = {
+    pizzas: 'Pizzas', combos: 'Combos', birria: 'Birria', burgers: 'Hamburguesas',
+    platos: 'Platos fuertes', entradas: 'Entradas', bebidas: 'Bebidas'
+  };
+  var CAT_COMIDA = ['pizzas', 'combos', 'birria', 'burgers', 'platos', 'entradas'];
+
+  var cfg = {
+    ENVIO_VARIABLE: true, COSTO_ENVIO: 2.00, PEDIDO_MINIMO: 0,
+    TEL_LLAMADAS: '2222-3333',
+    PRECIO_PAN_AJO_REF: 3.00, PRECIO_SODA_REF: 2.50,
+    RATE_LIMIT_MAX: 30
+  };
+
+  /* ═══════════════════════════════════════════════════════════════
+     CART — puerto de src/cart.js
+     ═══════════════════════════════════════════════════════════════ */
+  function money(n) { return '$' + n.toFixed(2); }
+  function norm(t) {
+    return (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+  }
+  function agregarItem(s, cat, item, qty, mod) {
+    qty = qty || 1; mod = mod || '';
+    var ex = s.pedido.find(function (x) { return x.n === item.n && x.cat === cat && (x.mod || '') === mod; });
+    if (ex) ex.qty += qty;
+    else s.pedido.push({ cat: cat, n: item.n, p: item.p, qty: qty, mod: mod });
+  }
+  function subtotal(s) { return s.pedido.reduce(function (a, x) { return a + x.p * x.qty; }, 0); }
+  function envio(s) {
+    if (s.entrega === 'recoger') return 0;
+    if (cfg.ENVIO_VARIABLE) return 0;
+    return cfg.COSTO_ENVIO;
+  }
+  function totalConEnvio(s) { return subtotal(s) + envio(s); }
+  function tieneBebida(s) { return s.pedido.some(function (x) { return x.cat === 'bebidas'; }); }
+  function tieneComida(s) { return s.pedido.some(function (x) { return CAT_COMIDA.indexOf(x.cat) >= 0; }); }
+  function cuentaPizzasSueltas(s) {
+    return s.pedido.filter(function (x) { return x.cat === 'pizzas'; })
+      .reduce(function (a, x) { return a + x.qty; }, 0);
+  }
+  function lineasCarrito(s) {
+    if (!s.pedido.length) return '_(vacío)_';
+    return s.pedido.map(function (x, i) {
+      var linea = (i + 1) + '. ' + (x.qty > 1 ? x.qty + '× ' : '') + x.n + ' — ' + money(x.p * x.qty);
+      return x.mod ? linea + '\n   _' + x.mod + '_' : linea;
+    }).join('\n');
+  }
+  function resumenCarrito(s, conEnvio) {
+    var txt = '🛒 *Tu pedido:*\n' + lineasCarrito(s) + '\n\n*Subtotal: ' + money(subtotal(s)) + '*';
+    if (!conEnvio) return txt;
+    if (s.entrega === 'recoger') txt += '\n*Total: ' + money(subtotal(s)) + '*';
+    else if (s.entrega === 'delivery') {
+      if (cfg.ENVIO_VARIABLE) txt += '\n🛵 _El costo de envío depende de tu zona; te lo confirmamos al coordinar la entrega._';
+      else if (envio(s) > 0) txt += '\n🛵 Envío: ' + money(envio(s)) + '\n*Total: ' + money(totalConEnvio(s)) + '*';
+      else txt += '\n*Total: ' + money(subtotal(s)) + '*';
+    } else txt += '\n*Total: ' + money(totalConEnvio(s)) + '*';
+    return txt;
+  }
+  function resumenChip(s) {
+    var n = s.pedido.reduce(function (a, x) { return a + x.qty; }, 0);
+    return n > 0 ? '(' + n + ' ítem' + (n > 1 ? 's' : '') + ' · ' + money(subtotal(s)) + ')' : '';
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     NLU — puerto de src/nlu.js (reglas, sin LLM)
+     ═══════════════════════════════════════════════════════════════ */
+  var PAL_A_NUM = { una: 1, un: 1, uno: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10 };
+  var MOD_KW = 'sin|extra|doble|mitad|poca|poco|pocas|pocos|mucha|mucho|muchas|muchos';
+  var MOD_SRC = '\\b(' + MOD_KW + ')\\b\\s+([a-z]+(?:\\s+(?!' + MOD_KW + '\\b)[a-z]+)?)';
+
+  function extraerModificaciones(q) {
+    var re = new RegExp(MOD_SRC, 'g');
+    var mods = [], m;
+    while ((m = re.exec(q)) !== null) mods.push(m[1] + ' ' + m[2]);
+    var limpio = q.replace(new RegExp(MOD_SRC, 'g'), '').replace(/\s+/g, ' ').trim();
+    return { mod: mods.join(', '), limpio: limpio };
+  }
+
+  // Igual que el original, pero devuelve también la traza para el inspector.
+  function buscarProducto(texto, trace) {
+    var q = norm(texto), qty = 1;
+    var mDelDigit = q.match(/^(\d+)\s+(.*)/);
+    var mDelWord = q.match(/^([a-z]+)\s+(.*)/);
+    var mFin = q.match(/(.*)\bx\s?(\d+)\b/) || q.match(/(.*)\s(\d+)$/);
+    if (mDelDigit) { qty = parseInt(mDelDigit[1], 10); q = mDelDigit[2]; }
+    else if (mDelWord && PAL_A_NUM[mDelWord[1]]) { qty = PAL_A_NUM[mDelWord[1]]; q = mDelWord[2]; }
+    else if (mFin && parseInt(mFin[2], 10) <= 30) { qty = parseInt(mFin[2], 10); q = mFin[1].trim(); }
+
+    var ex = extraerModificaciones(q);
+    q = ex.limpio;
+    if (trace) { trace.norm = norm(texto); trace.qty = qty; trace.mod = ex.mod; trace.limpio = q; }
+    if (q.length < 3) { if (trace) trace.score = 0; return null; }
+
+    var stop = ['de','la','el','los','las','con','una','uno','un','dos','tres','quiero','dame','y','porfa','por','favor','me','das','pizza'];
+    var palabras = q.split(/\s+/).filter(function (w) { return w && stop.indexOf(w) < 0; });
+    function stem(w) {
+      if (w.length > 4 && /es$/.test(w)) return w.slice(0, -2);
+      if (w.length > 3 && /s$/.test(w)) return w.slice(0, -1);
+      return w;
+    }
+    var qStem = stem(q), palStem = palabras.map(stem);
+
+    var mejor = null, mejorScore = 0;
+    Object.keys(MENU).forEach(function (cat) {
+      MENU[cat].forEach(function (item) {
+        var nn = norm(item.n), score = 0;
+        if (nn.indexOf(q) >= 0 || q.indexOf(nn) >= 0) score += 5;
+        if (nn.indexOf(qStem) >= 0 || qStem.indexOf(nn) >= 0) score += 4;
+        palStem.forEach(function (w) { if (w.length >= 3 && nn.indexOf(w) >= 0) score += 2; });
+        if (score > mejorScore) { mejorScore = score; mejor = { cat: cat, item: item, qty: qty, mod: ex.mod }; }
+      });
+    });
+    if (trace) { trace.score = mejorScore; trace.hit = mejorScore >= 2 ? mejor : null; }
+    return mejorScore >= 2 ? mejor : null;
+  }
+
+  function buscarProductos(texto) {
+    var partes = texto.split(/\s*(?:,|\+|&|\sy\s|\smas\s)\s*/i)
+      .map(function (p) { return p.trim(); })
+      .filter(function (p) { return p.length >= 3; });
+    if (partes.length < 2) return [];
+    var found = [];
+    partes.forEach(function (p) { var m = buscarProducto(p); if (m) found.push(m); });
+    return found.length >= 2 ? found : [];
+  }
+  function agregarVarios(s, items) {
+    items.forEach(function (m) { agregarItem(s, m.cat, m.item, m.qty, m.mod || ''); });
+  }
+  function etiquetaItems(items) {
+    return items.map(function (m) { return (m.qty > 1 ? m.qty + '× ' : '') + m.item.n; }).join(', ');
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ESTADO
+     ═══════════════════════════════════════════════════════════════ */
+  var TEL = '50370000000';
+  var CLIENTE_CONOCIDO = {
+    nombre: 'Karla Méndez',
+    direcciones: ['Col. Miralvalle, calle 3, casa 45, portón azul']
+  };
+
+  var S, clientes, modoHumano, msgCount, rateWindow;
+
+  function nuevaSesion(paso) {
+    return {
+      paso: paso, pedido: [], upsell: {}, entrega: null,
+      nombre: null, direccion: null, telefonoAlterno: null, pago: null,
+      agendado: false, categoriaActual: null
+    };
+  }
+
+  function initState(keepToggles) {
+    var abierto = keepToggles ? UI.abierto : true;
+    var conocido = keepToggles ? UI.conocido : false;
+    UI.abierto = abierto;
+    UI.conocido = conocido;
+    S = null;
+    clientes = {};
+    if (conocido) clientes[TEL] = { nombre: CLIENTE_CONOCIDO.nombre, direcciones: CLIENTE_CONOCIDO.direcciones.slice() };
+    modoHumano = {};
+    msgCount = 0;
+    rateWindow = 0;
+    UI.chat = [];
+    UI.owner = [];
+    UI.log = [];
+    UI.nlu = null;
+    UI.seen = {};
+    UI.lastPipe = null;
+  }
+
+  var UI = { abierto: true, conocido: false, chat: [], owner: [], log: [], nlu: null, seen: {}, lastPipe: null, pane: 'chat' };
+
+  /* ═══════════════════════════════════════════════════════════════
+     CANAL — sustituye al cliente de mensajería: en vez de llamar a la Cloud
+     API, empuja las burbujas a la cola del chat.
+     ═══════════════════════════════════════════════════════════════ */
+  var queue = [], draining = false;
+
+  function enviarMensaje(texto) { queue.push({ kind: 'bot', text: texto }); drain(); }
+  function enviarBotones(texto, botones) { queue.push({ kind: 'bot', text: texto, qr: botones }); drain(); }
+  function avisoSistema(texto) { queue.push({ kind: 'sys', text: texto }); drain(); }
+
+  function drain() {
+    if (draining || !queue.length) return;
+    draining = true;
+    var next = queue.shift();
+    var delay = next.kind === 'sys' ? 260 : Math.min(1000, 380 + next.text.length * 3);
+    if (next.kind === 'bot') showTyping(true);
+    setTimeout(function () {
+      showTyping(false);
+      UI.chat.push({ who: next.kind === 'sys' ? 'sys' : 'bot', text: next.text, qr: next.qr || null, at: new Date() });
+      renderChat();
+      draining = false;
+      if (queue.length) drain();
+      else renderInspector();
+    }, delay);
+  }
+
+  var typingEl = null;
+  function showTyping(on) {
+    var chat = document.getElementById('chat');
+    if (on) {
+      if (typingEl) return;
+      typingEl = document.createElement('div');
+      typingEl.className = 'row bot';
+      typingEl.innerHTML = '<div class="bubble" style="padding:0"><div class="typing"><i></i><i></i><i></i></div></div>';
+      chat.appendChild(typingEl);
+      chat.scrollTop = chat.scrollHeight;
+    } else if (typingEl) {
+      typingEl.remove();
+      typingEl = null;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     HORARIO — puerto de src/horario.js (el toggle sustituye al reloj)
+     ═══════════════════════════════════════════════════════════════ */
+  function estaAbierto() { return UI.abierto; }
+  function mensajeCerrado() {
+    return 'Lo sentimos, en este momento estamos *fuera de horario* 🕐\n\n' +
+      'Horario de atención:\nLun, Mié-Sáb: 11am - 9pm\nMartes: Cerrado\n\n' +
+      'Escríbenos en horario o llámanos al 📞 ' + cfg.TEL_LLAMADAS;
+  }
+  function saludo() {
+    var h = new Date().getHours();
+    if (h < 12) return 'Buenos días';
+    if (h < 19) return 'Buenas tardes';
+    return 'Buenas noches';
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     DUEÑO — puerto de src/owner.js
+     ═══════════════════════════════════════════════════════════════ */
+  function ownerNote(tipo, texto) {
+    UI.owner.push({ tipo: tipo, text: texto, at: new Date() });
+  }
+  function notificarPedido(s) {
+    var items = s.pedido.map(function (p) {
+      return '  • ' + (p.qty > 1 ? p.qty + '× ' : '') + p.n + ' — ' + money(p.p * p.qty) +
+        (p.mod ? '\n    _' + p.mod + '_' : '');
+    }).join('\n');
+    var tipo = s.entrega === 'recoger' ? '🏃 Pasa a recoger' : '🛵 Delivery';
+    var METODOS = { '1': 'Efectivo', '2': 'Tarjeta en puerta', '3': 'Transferencia' };
+    ownerNote('pedido',
+      (s.agendado ? '📝 *PEDIDO AGENDADO* (entra en cuanto abran)' : '🔔 *NUEVO PEDIDO*') + '\n\n' +
+      '👤 *Cliente:* ' + s.nombre + '\n' +
+      '📞 *Tel. cliente:* +' + TEL + '\n' +
+      '📞 *Tel. alterno:* ' + (s.telefonoAlterno || '—') + '\n' +
+      '🚚 *Tipo:* ' + tipo + '\n' +
+      (s.entrega === 'recoger' ? '' : '📍 *Dirección:* ' + s.direccion + '\n') +
+      '💳 *Pago:* ' + (METODOS[s.pago] || s.pago) + '\n\n' +
+      '🍕 *Productos:*\n' + items + '\n\n' +
+      'Subtotal: ' + money(subtotal(s)) + '\n' +
+      (s.entrega === 'recoger'
+        ? '*TOTAL: ' + money(subtotal(s)) + '*'
+        : '🛵 Envío: *coordinar con el cliente (según zona)*\n*TOTAL productos: ' + money(subtotal(s)) + '*') +
+      '\n─────────────────\n_Para atenderlo manualmente: *AGENTE +' + TEL + '*_');
+  }
+  function notificarPersona(nombre) {
+    ownerNote('persona',
+      '👤 *CLIENTE PIDE ATENCIÓN PERSONAL*\n\n' +
+      '📞 Número: +' + TEL + '\n' +
+      (nombre ? '👤 Nombre: ' + nombre + '\n' : '') +
+      '\n_Para pausar el bot y atenderlo: *AGENTE +' + TEL + '*_');
+  }
+  var ESTADOS_DUENHO = {
+    HORNO: '🔥 ¡Tu pedido está en el horno! Sale en unos minutos.',
+    CAMINO: '🛵 Tu pedido salió en moto. Llega en ~10-15 min.',
+    LISTO: '✅ Tu pedido está *listo para recoger*.'
+  };
+  function comandoDuenho(cmd) {
+    if (ESTADOS_DUENHO[cmd]) {
+      enviarMensaje(ESTADOS_DUENHO[cmd]);
+      ownerNote('msg', '✅ Aviso "' + cmd + '" enviado a +' + TEL);
+      logTransicion('dueño:' + cmd, S ? S.paso : 'nuevo');
+      return;
+    }
+    if (cmd === 'AGENTE') {
+      modoHumano[TEL] = true;
+      ownerNote('msg', '✅ *Bot pausado para +' + TEL + '*\nAhora escribís vos. Cuando termines: *BOT +' + TEL + '*');
+      avisoSistema('Bot pausado — modo humano activo. Lo que escriba el cliente se reenvía al dueño.');
+      logTransicion('dueño:AGENTE', 'modo_humano');
+      return;
+    }
+    if (cmd === 'BOT') {
+      delete modoHumano[TEL];
+      S = nuevaSesion('finalizado');
+      ownerNote('msg', '✅ *Bot reactivado para +' + TEL + '*\nEl asistente retomó la conversación.');
+      enviarMensaje('Gracias por tu paciencia 🙏 Si necesitás algo más escribí *"hola"* y con gusto te ayudo. 🍕');
+      logTransicion('dueño:BOT', 'finalizado');
+      return;
+    }
+    if (cmd === 'RESET') {
+      S = null;
+      delete modoHumano[TEL];
+      ownerNote('msg', '✅ Sesión de +' + TEL + ' reiniciada.\nLa próxima vez que escriba arranca desde cero.');
+      logTransicion('dueño:RESET', 'nuevo');
+    }
+  }
+
+  function logTransicion(antes, despues) {
+    UI.log.push({ at: new Date(), antes: antes, despues: despues });
+    if (UI.log.length > 40) UI.log.shift();
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     FLOW — puerto de src/flow.js (pantallas + handlers de paso)
+     ═══════════════════════════════════════════════════════════════ */
+  function mostrarBienvenidaCerrado() {
+    S = nuevaSesion('bienvenida_cerrado');
+    enviarBotones(mensajeCerrado() + '\n\n' +
+      '📝 Pero si querés, *te tomamos el pedido ahora* y lo sacamos en cuanto abramos. ' +
+      'Tu pedido entra primero en la fila 🚀',
+      [{ id: 'agendar', t: '📝 Agendar pedido' }, { id: 'no', t: '⏰ Mejor luego' }]);
+  }
+
+  function mostrarBienvenida() {
+    S = nuevaSesion('bienvenida');
+    var c = clientes[TEL];
+    if (c && c.nombre) S.nombre = c.nombre;
+    var primer = c && c.nombre ? c.nombre.split(' ')[0] : null;
+    var cabecera = primer
+      ? '🍕 ' + saludo() + ', *' + primer + '* 👋 ¡Qué bueno tenerte de vuelta!'
+      : '🍕 *Restaurante Demo* · Pizzas y Asados\n\n' + saludo() +
+        ' 👋 Soy tu asistente y te ayudo a pedir en menos de un minuto.';
+    enviarBotones(cabecera + '\n\n¿Cómo seguimos?\n1️⃣ Ver menú y pedir\n2️⃣ Hablar con una persona',
+      [{ id: '1', t: '🍕 Ver menú' }, { id: '2', t: '🙋 Una persona' }]);
+  }
+
+  function mostrarMenuPrincipal() {
+    S.paso = 'menu_principal';
+    var tieneItems = S.pedido.length > 0;
+    enviarMensaje('¿Qué se te antoja? 😋\n\n' +
+      '1️⃣ Pizzas\n2️⃣ Combos *(más barato)*\n3️⃣ Birria\n4️⃣ Hamburguesas\n' +
+      '5️⃣ Platos fuertes\n6️⃣ Entradas\n7️⃣ Bebidas 🥤\n\n' +
+      (tieneItems ? '8️⃣ Ver / confirmar mi pedido  ' + resumenChip(S) + '\n' : '') +
+      '9️⃣ Horarios y contacto\n0️⃣ Hablar con una persona\n\n' +
+      '💡 También podés *escribir* lo que querés, ej: _"2 hawaianas y una soda"_');
+  }
+
+  function mostrarCategoria(categoria) {
+    var items = MENU[categoria];
+    var lineas = items.map(function (i, idx) {
+      return (idx + 1) + '. ' + i.n + ' — ' + money(i.p) + (i.d ? '\n   (' + i.d + ')' : '');
+    }).join('\n');
+    S.paso = 'eligiendo';
+    S.categoriaActual = categoria;
+    enviarMensaje('*' + NOMBRES_CATEGORIA[categoria] + '*\n\n' + lineas + '\n\n' +
+      'Escribí el *número* (o el nombre, ej: _"' + items[0].n + '"_).\n' +
+      'Para 2 o más: _"2 ' + items[0].n + '"_\n' +
+      '*"menu"* para volver · *"0"* para una persona.');
+  }
+
+  function trasAgregar(agregado) {
+    // Upsell 1: comida sin bebida → ofrece bebida (una sola vez).
+    if (tieneComida(S) && !tieneBebida(S) && !S.upsell.bebida) {
+      S.upsell.bebida = true;
+      S.paso = 'upsell_bebida';
+      var soda = MENU.bebidas[0];
+      enviarBotones('✅ Agregado: *' + agregado + '*\n\n' + resumenCarrito(S) + '\n\n' +
+        '🥤 ¿Le sumás una *' + soda.n + '* bien fría por ' + money(soda.p) + '? Combina perfecto 😉',
+        [{ id: 'si', t: '🥤 Sí, ' + money(soda.p) }, { id: 'no', t: '➡️ No, gracias' }, { id: 'ver', t: '🛒 Ver bebidas' }]);
+      return;
+    }
+    // Upsell 2: 2+ pizzas sueltas y el combo ahorra ≥ $1 real.
+    if (cuentaPizzasSueltas(S) >= 2 && !S.pedido.some(function (x) { return x.cat === 'combos'; }) && !S.upsell.combo) {
+      S.upsell.combo = true;
+      var numPizzas = cuentaPizzasSueltas(S);
+      var combo = numPizzas >= 3 ? MENU.combos[4] : numPizzas === 2 ? MENU.combos[3] : MENU.combos[0];
+      var subPizzas = S.pedido.filter(function (x) { return x.cat === 'pizzas'; })
+        .reduce(function (a, x) { return a + x.p * x.qty; }, 0);
+      var ahorro = (subPizzas + cfg.PRECIO_PAN_AJO_REF + cfg.PRECIO_SODA_REF) - combo.p;
+      if (ahorro >= 1) {
+        // Los ids de estos botones ('si'/'no'/'2') los resuelve el handler de
+        // `agregar_mas`, así que el paso tiene que quedar ahí — si no, un upsell
+        // disparado desde `eligiendo`/`bienvenida` deja los botones muertos.
+        S.paso = 'agregar_mas';
+        enviarBotones('✅ Agregado: *' + agregado + '*\n\n' + resumenCarrito(S) + '\n\n' +
+          '💡 *Te conviene un combo:* con *' + combo.n + '* (' + money(combo.p) + ') te llevás ' + combo.d + '.\n' +
+          'Comparado con pedirlo suelto, *te ahorrás ~' + money(ahorro) + '*. ¿Te lo cambio?',
+          [{ id: 'si', t: '✅ Sí, ahorro ' + money(ahorro) }, { id: 'no', t: '➡️ No, seguir' }, { id: '2', t: '🛒 Mi pedido' }]);
+        return;
+      }
+      // Sin ahorro real → no insistimos.
+    }
+    menuAgregarMas(agregado);
+  }
+
+  function menuAgregarMas(agregado) {
+    S.paso = 'agregar_mas';
+    var botones = S.pedido.length
+      ? [{ id: '1', t: '➕ Agregar más' }, { id: 'mod', t: '✏️ Modificar' }, { id: '2', t: '✅ Confirmar' }]
+      : [{ id: '1', t: '➕ Agregar más' }, { id: '2', t: '✅ Confirmar' }, { id: '0', t: '🙋 Una persona' }];
+    enviarBotones((agregado ? '✅ Agregado: *' + agregado + '*\n\n' : '') +
+      resumenCarrito(S) + '\n\n¿Qué hacemos?', botones);
+  }
+
+  function pedirModificacion() {
+    if (!S.pedido.length) { menuAgregarMas(null); return; }
+    S.paso = 'modificando';
+    var last = S.pedido[S.pedido.length - 1];
+    enviarMensaje('✏️ Vas a modificar *' + last.n + '*.\n\n' +
+      'Escribí la indicación, por ejemplo:\n_sin cebolla_, _extra queso_, _doble pepperoni_, _mitad y mitad_.\n\n' +
+      'Escribí *"borrar"* para quitar la modificación o *"cancelar"* para volver.');
+  }
+
+  function revisarPedido() {
+    S.paso = 'revisar';
+    enviarBotones(resumenCarrito(S) + '\n\n¿Está todo bien?\n' +
+      '• *Confirmar* para continuar\n• *quitar 2* para eliminar el ítem #2\n• *Agregar* para seguir pidiendo',
+      [{ id: 'confirmar', t: '✅ Confirmar' }, { id: 'agregar', t: '➕ Agregar más' }, { id: '0', t: '🙋 Una persona' }]);
+  }
+
+  function pedirTipoEntrega() {
+    S.paso = 'tipo_entrega';
+    var etiqueta = cfg.ENVIO_VARIABLE ? ' (envío según tu zona, se coordina)'
+      : (cfg.COSTO_ENVIO > 0 ? ' (+' + money(cfg.COSTO_ENVIO) + ')' : ' (gratis)');
+    enviarBotones('¿Cómo lo querés recibir?\n\n1️⃣ 🛵 Delivery' + etiqueta + '\n2️⃣ 🏃 Paso a recoger (sin costo de envío)',
+      [{ id: '1', t: '🛵 Delivery' }, { id: '2', t: '🏃 Recoger' }]);
+  }
+
+  function pedirDireccion() {
+    var c = clientes[TEL];
+    if (c && c.direcciones && c.direcciones.length) {
+      S.paso = 'confirmando_direccion';
+      S._dirSugerida = c.direcciones[0];
+      enviarBotones('📍 ¿Te lo llevamos a la misma dirección de la última vez?\n\n*' + c.direcciones[0] + '*',
+        [{ id: 'misma', t: '✅ Sí, misma' }, { id: 'nueva', t: '✏️ Otra dirección' }]);
+      return;
+    }
+    S.paso = 'esperando_direccion';
+    enviarMensaje('📍 *¿A dónde te lo llevamos?*\n\nEscribí la dirección completa (colonia, calle, # de casa y una referencia).');
+  }
+
+  function pedirNombre() {
+    var c = clientes[TEL];
+    if (c && c.nombre) {
+      S.nombre = c.nombre;
+      S.paso = 'confirmando_nombre';
+      enviarBotones('👤 ¿Lo dejamos a nombre de *' + c.nombre + '*?',
+        [{ id: 'mismo', t: '✅ Sí, ese' }, { id: 'otro', t: '✏️ Otro nombre' }]);
+      return;
+    }
+    S.paso = 'esperando_nombre';
+    enviarMensaje('👤 *¿A nombre de quién?*');
+  }
+
+  function pedirTelefono() {
+    S.paso = 'esperando_telefono';
+    enviarMensaje('📞 ' + (S.nombre ? S.nombre.split(' ')[0] + ', ¿' : '¿') +
+      'un número alterno de contacto? _(si no tenés, escribí "ninguno")_');
+  }
+
+  function pedirPago() {
+    S.paso = 'esperando_pago';
+    enviarBotones('💳 *¿Cómo vas a pagar?*\n\n1️⃣ Efectivo\n2️⃣ Tarjeta (en puerta)\n3️⃣ Transferencia',
+      [{ id: '1', t: '💵 Efectivo' }, { id: '2', t: '💳 Tarjeta' }, { id: '3', t: '📲 Transferencia' }]);
+  }
+
+  function confirmarPedido() {
+    var METODOS = { '1': 'Efectivo', '2': 'Tarjeta en puerta', '3': 'Transferencia' };
+    var primer = (S.nombre || '').split(' ')[0];
+    var tipo = S.entrega === 'recoger'
+      ? '🏃 Pasás a recoger al local'
+      : '🛵 Te lo llevamos a:\n' + S.direccion +
+        (cfg.ENVIO_VARIABLE ? '\n_Una persona te confirma el costo de envío y coordina la entrega._' : '');
+    var tiempo = S.agendado
+      ? '🌅 Lo sacamos en cuanto abramos — tu pedido entra primero en la fila'
+      : S.entrega === 'recoger' ? '⏱ Listo en aprox. 20-30 min' : '⏱ Entrega estimada: 25-40 min';
+
+    enviarMensaje('🎉 *' + (S.agendado ? '¡Pedido agendado' : '¡Pedido confirmado') + (primer ? ', ' + primer : '') + '!*\n\n' +
+      resumenCarrito(S, true) + '\n\n' + tipo + '\n💳 Pago: ' + METODOS[S.pago] + '\n\n' + tiempo +
+      '\nTe avisamos si hay alguna novedad.\n\n¡Gracias por tu pedido! 🍕🔥');
+
+    notificarPedido(S);
+    // recordarCliente: la próxima vez el bot ya sabe nombre y dirección.
+    clientes[TEL] = clientes[TEL] || { direcciones: [] };
+    clientes[TEL].nombre = S.nombre;
+    if (S.direccion && clientes[TEL].direcciones.indexOf(S.direccion) < 0) {
+      clientes[TEL].direcciones.unshift(S.direccion);
+    }
+    UI.conocido = true;
+    S = nuevaSesion('finalizado');
+  }
+
+  function pedirPersona() {
+    enviarMensaje('Claro, te conecto con alguien del equipo ahora mismo. Un momento por favor 🙏\n\n' +
+      'Si preferís llamar directo: 📞 ' + cfg.TEL_LLAMADAS);
+    notificarPersona(S && S.nombre);
+    S = Object.assign({}, S, { paso: 'esperando_persona' });
+  }
+
+  function reanudarPaso() {
+    if (!S) { mostrarBienvenida(); return; }
+    switch (S.paso) {
+      case 'menu_principal': case 'agregar_mas': case 'upsell_bebida': menuAgregarMas(null); break;
+      case 'eligiendo': mostrarCategoria(S.categoriaActual || 'pizzas'); break;
+      case 'revisar': revisarPedido(); break;
+      case 'tipo_entrega': pedirTipoEntrega(); break;
+      case 'esperando_direccion': case 'confirmando_direccion': pedirDireccion(); break;
+      case 'esperando_nombre': case 'confirmando_nombre': pedirNombre(); break;
+      case 'esperando_telefono': pedirTelefono(); break;
+      case 'esperando_pago': pedirPago(); break;
+      case 'modificando': pedirModificacion(); break;
+      default: mostrarBienvenida();
+    }
+  }
+
+  var validarNombre = function (t) { return t.trim().length >= 3 && /[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(t); };
+  var validarDireccion = function (t) { return t.trim().length >= 10; };
+  var incluye = function (arr, v) { return arr.indexOf(v) >= 0; };
+
+  /* Procesador principal — puerto de _procesarMensaje */
+  function procesarMensaje(texto) {
+    var pasoAntes = S ? S.paso : 'nuevo';
+    _procesar(texto);
+    var pasoDespues = S ? S.paso : 'fin';
+    logTransicion(pasoAntes, pasoDespues);
+    if (S) UI.seen[S.paso] = true;
+    renderInspector();
+  }
+
+  function _procesar(texto) {
+    // 0. Rate limit
+    msgCount++;
+    rateWindow++;
+    if (rateWindow > cfg.RATE_LIMIT_MAX) {
+      enviarMensaje('Estás escribiendo muy rápido 🙏 Esperá un minutito y seguimos.');
+      return;
+    }
+    // 3. Modo humano: el bot calla y reenvía al dueño.
+    if (modoHumano[TEL]) {
+      ownerNote('msg', '💬 *Mensaje de cliente (+' + TEL + '):*\n"' + texto + '"\n\n' +
+        '_Estás en modo manual. Escribí BOT +' + TEL + ' para devolver al bot._');
+      return;
+    }
+
+    var msg = texto.trim().toLowerCase();
+
+    // 4. Palabras que reinician
+    var reiniciar = ['hola','hi','hello','buenas','buen dia','buenas tardes','buenas noches','empezar','inicio','start'];
+    if (!S || incluye(reiniciar, msg)) {
+      if (!estaAbierto()) { mostrarBienvenidaCerrado(); return; }
+      mostrarBienvenida();
+      return;
+    }
+
+    // 5. Fuera de horario a mitad de conversación (si no está agendando)
+    if (!estaAbierto() && S.paso !== 'finalizado' && !S.agendado && S.paso !== 'bienvenida_cerrado') {
+      enviarMensaje(mensajeCerrado());
+      S = nuevaSesion('finalizado');
+      return;
+    }
+
+    // 6. Atajos globales
+    if (msg === '0') { pedirPersona(); return; }
+    if (incluye(['ver','carrito','pedido','mi pedido','cuenta','total'], msg) && S.pedido.length) {
+      enviarMensaje(resumenCarrito(S, true));
+      return;
+    }
+    if (incluye(['reanudar','seguir','continuar'], msg)) { reanudarPaso(); return; }
+    if (incluye(['otro_dia','otro día','despues','después','luego'], msg)) {
+      enviarMensaje('Sin problema 🙏 Te guardo el pedido. Escribí *"seguir"* cuando quieras y lo terminamos.');
+      return;
+    }
+
+    // ── bienvenida_cerrado
+    if (S.paso === 'bienvenida_cerrado') {
+      if (msg === 'agendar' || incluye(['1','si','sí','s','ok','dale','va'], msg)) {
+        S.agendado = true;
+        enviarMensaje('🌅 Perfecto, te tomo el pedido y lo sacamos en cuanto abramos. Empezamos:');
+        mostrarMenuPrincipal();
+        return;
+      }
+      if (msg === 'no' || msg === '2' || incluye(['luego','despues','después'], msg)) {
+        S = nuevaSesion('finalizado');
+        enviarMensaje('¡Te esperamos en horario! 🍕📞 ' + cfg.TEL_LLAMADAS);
+        return;
+      }
+      enviarMensaje('Tocá *Agendar pedido* o escribí *agendar* para dejarlo listo, o *no* si preferís luego.');
+      return;
+    }
+
+    // ── bienvenida
+    if (S.paso === 'bienvenida') {
+      if (msg === '1') { mostrarMenuPrincipal(); return; }
+      if (msg === '2') { pedirPersona(); return; }
+      if (intentarProductos(texto)) return;
+      enviarMensaje('Escribí *1* para ver el menú o *2* para hablar con una persona.');
+      return;
+    }
+
+    // ── menu_principal
+    if (S.paso === 'menu_principal') {
+      var cats = { '1':'pizzas','2':'combos','3':'birria','4':'burgers','5':'platos','6':'entradas','7':'bebidas' };
+      if (cats[msg]) { mostrarCategoria(cats[msg]); return; }
+      if (msg === '8') {
+        if (!S.pedido.length) enviarMensaje('Aún no elegiste nada 🙂 Escribí del 1 al 7 para ver el menú.');
+        else revisarPedido();
+        return;
+      }
+      if (msg === '9') {
+        enviarMensaje('🕐 *Horarios*\n\nLun, Mié-Sáb: 11am - 9pm\nMartes: Cerrado\n\n' +
+          '📞 Llamadas: ' + cfg.TEL_LLAMADAS);
+        return;
+      }
+      if (intentarProductos(texto)) return;
+      enviarMensaje('Respondé con un número (1-9), escribí lo que querés (ej: _"hawaiana"_) o *0* para una persona.');
+      return;
+    }
+
+    // ── eligiendo
+    if (S.paso === 'eligiendo') {
+      if (msg === 'menu') { mostrarMenuPrincipal(); return; }
+      var items = MENU[S.categoriaActual];
+      var mm = msg.match(/^(\d+)\s+(\d+)$/);
+      var idx = NaN, qty = 1;
+      if (mm) { qty = parseInt(mm[1], 10); idx = parseInt(mm[2], 10) - 1; }
+      else if (/^\d+$/.test(msg)) { idx = parseInt(msg, 10) - 1; }
+      if (!isNaN(idx) && idx >= 0 && idx < items.length) {
+        agregarItem(S, S.categoriaActual, items[idx], qty);
+        trasAgregar((qty > 1 ? qty + '× ' : '') + items[idx].n);
+        return;
+      }
+      if (intentarProductos(texto)) return;
+      enviarMensaje('No te entendí 🤔 Escribí el *número* de la lista o el nombre del producto.\n' +
+        '*"menu"* para volver · *"0"* para una persona.');
+      return;
+    }
+
+    // ── upsell_bebida
+    if (S.paso === 'upsell_bebida') {
+      if (incluye(['si','sí','s','dale','ok','va','1','yes'], msg)) {
+        agregarItem(S, 'bebidas', MENU.bebidas[0], 1);
+        menuAgregarMas(MENU.bebidas[0].n);
+        return;
+      }
+      if (msg === 'ver') { mostrarCategoria('bebidas'); return; }
+      menuAgregarMas(null);
+      return;
+    }
+
+    // ── agregar_mas
+    if (S.paso === 'agregar_mas') {
+      if (msg === '1' || msg === 'agregar') { mostrarMenuPrincipal(); return; }
+      if (msg === '2' || msg === 'confirmar') { revisarPedido(); return; }
+      if (msg === 'mod' || msg === 'modificar') { pedirModificacion(); return; }
+      if (incluye(['si','sí','s','dale','ok','va'], msg)) {
+        var combo = cuentaPizzasSueltas(S) >= 3 ? MENU.combos[4] : MENU.combos[2];
+        agregarItem(S, 'combos', combo, 1);
+        menuAgregarMas(combo.n);
+        return;
+      }
+      if (incluye(['no','seguir'], msg)) { menuAgregarMas(null); return; }
+      if (intentarProductos(texto)) return;
+      enviarMensaje('Escribí *1* para agregar más o *2* para confirmar. *0* para una persona.');
+      return;
+    }
+
+    // ── revisar
+    if (S.paso === 'revisar') {
+      var q = msg.match(/^(?:quitar|eliminar|borrar|-)\s*(\d+)$/);
+      if (q) {
+        var i = parseInt(q[1], 10) - 1;
+        if (i >= 0 && i < S.pedido.length) {
+          var quitado = S.pedido.splice(i, 1)[0];
+          if (!S.pedido.length) {
+            enviarMensaje('Quité *' + quitado.n + '*. Tu pedido quedó vacío 🛒');
+            mostrarMenuPrincipal();
+          } else {
+            enviarMensaje('Listo, quité *' + quitado.n + '* ✅');
+            revisarPedido();
+          }
+        } else {
+          enviarMensaje('No encuentro ese número. Escribí, por ejemplo, *quitar 2*.');
+        }
+        return;
+      }
+      if (incluye(['confirmar','1','si','sí','ok','dale'], msg)) {
+        if (!S.pedido.length) { mostrarMenuPrincipal(); return; }
+        pedirTipoEntrega();
+        return;
+      }
+      if (incluye(['agregar','2','mas','más'], msg)) { mostrarMenuPrincipal(); return; }
+      var multi = buscarProductos(texto);
+      if (multi.length >= 2) {
+        agregarVarios(S, multi);
+        enviarMensaje('Agregué *' + etiquetaItems(multi) + '* ✅');
+        revisarPedido();
+        return;
+      }
+      var m = buscarProducto(texto, (UI.nlu = { input: texto }));
+      if (m) {
+        agregarItem(S, m.cat, m.item, m.qty, m.mod || '');
+        enviarMensaje('Agregué *' + ((m.qty > 1 ? m.qty + '× ' : '') + m.item.n) + '* ✅');
+        revisarPedido();
+        return;
+      }
+      enviarMensaje('Escribí *confirmar*, *agregar* o *quitar N* (ej: quitar 2).');
+      return;
+    }
+
+    // ── modificando
+    if (S.paso === 'modificando') {
+      var last = S.pedido[S.pedido.length - 1];
+      if (!last) { mostrarMenuPrincipal(); return; }
+      if (msg === 'cancelar' || msg === 'volver') { menuAgregarMas(null); return; }
+      if (msg === 'borrar' || msg === 'quitar') {
+        last.mod = '';
+        enviarMensaje('Listo, le quité la modificación a *' + last.n + '* ✅');
+        menuAgregarMas(null);
+        return;
+      }
+      last.mod = texto.trim();
+      enviarMensaje('✏️ Anotado en *' + last.n + '*: _' + last.mod + '_');
+      menuAgregarMas(null);
+      return;
+    }
+
+    // ── tipo_entrega
+    if (S.paso === 'tipo_entrega') {
+      if (msg === '1' || msg.indexOf('deliver') >= 0 || msg.indexOf('domicilio') >= 0) {
+        S.entrega = 'delivery';
+        pedirDireccion();
+        return;
+      }
+      if (msg === '2' || msg.indexOf('recog') >= 0 || msg.indexOf('pasar') >= 0) {
+        S.entrega = 'recoger';
+        pedirNombre();
+        return;
+      }
+      enviarMensaje('Escribí *1* para Delivery o *2* para pasar a Recoger.');
+      return;
+    }
+
+    // ── recolección de datos
+    if (S.paso === 'esperando_direccion') {
+      if (!validarDireccion(texto)) {
+        enviarMensaje('Necesito la dirección un poco más completa 🙏\nEj: _Col. Miralvalle, calle 3, casa 45, portón azul._');
+        return;
+      }
+      S.direccion = texto.trim();
+      pedirNombre();
+      return;
+    }
+
+    if (S.paso === 'confirmando_direccion') {
+      if (msg === 'misma' || incluye(['si','sí','s','ok','dale','va','1'], msg)) {
+        S.direccion = S._dirSugerida;
+        delete S._dirSugerida;
+        pedirNombre();
+        return;
+      }
+      if (msg === 'nueva' || incluye(['no','2'], msg)) {
+        delete S._dirSugerida;
+        S.paso = 'esperando_direccion';
+        enviarMensaje('📍 *¿A qué dirección entonces?*');
+        return;
+      }
+      if (validarDireccion(texto)) {
+        S.direccion = texto.trim();
+        delete S._dirSugerida;
+        pedirNombre();
+        return;
+      }
+      enviarMensaje('Tocá *Sí* para usar la dirección guardada o *Otra* para cambiarla.');
+      return;
+    }
+
+    if (S.paso === 'esperando_nombre') {
+      if (!validarNombre(texto)) {
+        enviarMensaje('¿Me decís tu nombre? Así sabemos a quién entregar 🙂');
+        return;
+      }
+      S.nombre = texto.trim();
+      pedirTelefono();
+      return;
+    }
+
+    if (S.paso === 'confirmando_nombre') {
+      if (msg === 'mismo' || incluye(['si','sí','s','ok','dale','va','1'], msg)) { pedirTelefono(); return; }
+      if (msg === 'otro' || incluye(['no','2'], msg)) {
+        S.nombre = null;
+        S.paso = 'esperando_nombre';
+        enviarMensaje('👤 *¿A nombre de quién entonces?*');
+        return;
+      }
+      if (validarNombre(texto)) {
+        S.nombre = texto.trim();
+        pedirTelefono();
+        return;
+      }
+      enviarMensaje('Tocá *Sí* para mantener "' + S.nombre + '" o *Otro* para cambiarlo.');
+      return;
+    }
+
+    if (S.paso === 'esperando_telefono') {
+      S.telefonoAlterno = texto.trim();
+      pedirPago();
+      return;
+    }
+
+    if (S.paso === 'esperando_pago') {
+      if (!incluye(['1','2','3'], msg)) {
+        enviarMensaje('Escribí *1* Efectivo, *2* Tarjeta o *3* Transferencia.');
+        return;
+      }
+      S.pago = msg;
+      confirmarPedido();
+      return;
+    }
+
+    if (S.paso === 'esperando_persona') {
+      enviarMensaje('Ya estamos contactando a alguien del equipo para atenderte 🙏\n\n' +
+        'O si preferís llamanos directo: 📞 ' + cfg.TEL_LLAMADAS);
+      return;
+    }
+
+    if (S.paso === 'finalizado') {
+      if (estaAbierto()) {
+        var multi2 = buscarProductos(texto);
+        if (multi2.length >= 2) {
+          S = nuevaSesion('menu_principal');
+          agregarVarios(S, multi2);
+          trasAgregar(etiquetaItems(multi2));
+          return;
+        }
+        var m2 = buscarProducto(texto, (UI.nlu = { input: texto }));
+        if (m2) {
+          S = nuevaSesion('menu_principal');
+          agregarItem(S, m2.cat, m2.item, m2.qty, m2.mod || '');
+          trasAgregar((m2.qty > 1 ? m2.qty + '× ' : '') + m2.item.n);
+          return;
+        }
+      }
+      enviarMensaje('¿Otro pedido? Escribí *"hola"* y empezamos 🍕');
+      return;
+    }
+
+    mostrarBienvenida();
+  }
+
+  // Intenta multi-producto y luego producto único; alimenta el inspector NLU.
+  function intentarProductos(texto) {
+    var multi = buscarProductos(texto);
+    if (multi.length >= 2) {
+      UI.nlu = { input: texto, multi: multi };
+      agregarVarios(S, multi);
+      trasAgregar(etiquetaItems(multi));
+      return true;
+    }
+    var trace = { input: texto };
+    var m = buscarProducto(texto, trace);
+    UI.nlu = trace;
+    if (m) {
+      agregarItem(S, m.cat, m.item, m.qty, m.mod || '');
+      trasAgregar((m.qty > 1 ? m.qty + '× ' : '') + m.item.n);
+      return true;
+    }
+    return false;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     RENDER
+     ═══════════════════════════════════════════════════════════════ */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  // Markdown del canal: *negrita* _cursiva_
+  function fmt(t) {
+    return esc(t)
+      .replace(/\*([^*\n]+)\*/g, '<b>$1</b>')
+      .replace(/_([^_\n]+)_/g, '<i>$1</i>');
+  }
+  function hhmm(d) {
+    return d.toLocaleTimeString('es-SV', { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+  function icon(n) { return '<svg class="ic" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+
+  function renderChat() {
+    var chat = $('chat');
+    var h = '<div class="day-sep">Hoy</div>';
+    // Los botones solo viven en la ÚLTIMA burbuja del bot: si el cliente ya
+    // respondió (o entró un aviso de sistema), las opciones viejas caducan.
+    var lastBot = -1;
+    UI.chat.forEach(function (m, i) { if (m.who === 'bot') lastBot = i; });
+    var meAfter = UI.chat.some(function (m, i) { return m.who === 'me' && i > lastBot; });
+    UI.chat.forEach(function (m, i) {
+      if (m.who === 'sys') {
+        h += '<div class="row sys"><div class="bubble">' + fmt(m.text) + '</div></div>';
+        return;
+      }
+      h += '<div class="row ' + m.who + '"><div class="bubble">' + fmt(m.text) + '</div>' +
+        '<div class="stamp">' + hhmm(m.at) +
+        (m.who === 'me' ? icon('check-check') : '') + '</div>';
+      if (m.qr && i === lastBot && !meAfter) {
+        h += '<div class="qr">' + m.qr.map(function (b) {
+          return '<button data-qr="' + esc(b.id) + '">' + esc(b.t) + '</button>';
+        }).join('') + '</div>';
+      }
+      h += '</div>';
+    });
+    chat.innerHTML = h;
+    // Repintar borra el nodo de "escribiendo…"; si el bot sigue componiendo,
+    // lo devolvemos al final en vez de dejarlo huérfano.
+    if (typingEl) chat.appendChild(typingEl);
+    chat.scrollTop = chat.scrollHeight;
+    $('phCount').textContent = msgCount + ' msg';
+
+    var st = $('phStatus'), stx = $('phStatusTxt');
+    st.className = 'ph-status' + (modoHumano[TEL] ? ' human' : (!UI.abierto ? ' closed' : ''));
+    stx.textContent = modoHumano[TEL] ? 'Atiende una persona' : (UI.abierto ? 'Asistente en línea' : 'Fuera de horario · agenda pedidos');
+  }
+
+  var CHIPS_ABIERTO = ['hola', '2 hawaianas y una soda', 'una margarita sin cebolla', 'quiero 3 pizzas pepperoni', 'menu', '0'];
+  var CHIPS_CERRADO = ['hola', 'agendar', 'una margarita extra queso'];
+  function renderChips() {
+    var list = UI.abierto ? CHIPS_ABIERTO : CHIPS_CERRADO;
+    $('chips').innerHTML = list.map(function (c) {
+      return '<button data-chip="' + esc(c) + '">' + esc(c) + '</button>';
+    }).join('');
+  }
+
+  /* Inspector */
+  var PASOS = [
+    ['bienvenida', 'saludo + memoria de cliente'],
+    ['bienvenida_cerrado', 'fuera de horario → agendar'],
+    ['menu_principal', '7 categorías o texto libre'],
+    ['eligiendo', 'número, "2 5" o nombre'],
+    ['upsell_bebida', 'una sola vez por sesión'],
+    ['agregar_mas', 'agregar / modificar / confirmar'],
+    ['modificando', '"sin cebolla", "extra queso"'],
+    ['revisar', '"quitar 2" sin perder el resto'],
+    ['tipo_entrega', 'delivery o recoger'],
+    ['esperando_direccion', 'valida ≥ 10 caracteres'],
+    ['esperando_nombre', 'valida nombre real'],
+    ['esperando_telefono', 'contacto alterno'],
+    ['esperando_pago', 'efectivo / tarjeta / transferencia'],
+    ['finalizado', 'notifica al dueño y persiste'],
+    ['esperando_persona', 'handoff a humano']
+  ];
+  var ALIAS = { confirmando_direccion: 'esperando_direccion', confirmando_nombre: 'esperando_nombre' };
+
+  function renderRail() {
+    var actual = S ? (ALIAS[S.paso] || S.paso) : null;
+    $('pasoTail').innerHTML = S
+      ? '<span style="color:var(--cyan);font-family:var(--mono)">' + esc(S.paso) + '</span>'
+      : '<span style="color:var(--tm);font-family:var(--mono)">sin sesión</span>';
+    $('rail').innerHTML = PASOS.map(function (p) {
+      var on = p[0] === actual;
+      var seen = !on && UI.seen[p[0]];
+      return '<div class="rail-row' + (on ? ' on' : seen ? ' seen' : '') + '">' +
+        '<span class="rdot"></span>' +
+        '<span class="rlbl">' + p[0] + '</span>' +
+        '<span class="rnote">' + esc(p[1]) + '</span></div>';
+    }).join('');
+  }
+
+  function renderPipe() {
+    var firmado = msgCount > 0;
+    $('rlTail').innerHTML = firmado
+      ? '<span style="color:var(--ts);font-family:var(--mono)">' + rateWindow + '/' + cfg.RATE_LIMIT_MAX + ' en ventana</span>'
+      : '';
+    var rows = [
+      ['shield', 'Firma X-Hub-Signature-256', firmado ? 'válida' : 'esperando', false],
+      ['check', 'Dedupe por message.id (TTL 5 min)', firmado ? msgCount + ' únicos' : '—', false],
+      ['activity', 'Rate limit por número', rateWindow + '/' + cfg.RATE_LIMIT_MAX, rateWindow > cfg.RATE_LIMIT_MAX],
+      ['clock', 'Responde 200 antes de procesar', 'ok', false],
+      [modoHumano[TEL] ? 'headset' : 'bot', modoHumano[TEL] ? 'Modo humano — bot pausado' : 'Bot activo', modoHumano[TEL] ? 'manual' : 'auto', !!modoHumano[TEL]]
+    ];
+    $('pipe').innerHTML = rows.map(function (r) {
+      return '<div class="pipe-row' + (r[3] ? ' warn' : '') + '">' + icon(r[0]) +
+        '<span class="lbl">' + esc(r[1]) + '</span><span class="val">' + esc(r[2]) + '</span></div>';
+    }).join('');
+  }
+
+  function renderNlu() {
+    var t = UI.nlu;
+    if (!t) {
+      $('nlu').innerHTML = '<p class="nlu-empty">Escribí texto libre (ej. <b>"2 hawaianas sin cebolla y una soda"</b>) y acá vas a ver cómo lo interpreta el parser: cantidad, modificaciones y el producto que matchea, con su score.</p>';
+      return;
+    }
+    var h = '<div class="nlu-in">"' + esc(t.input) + '"</div>';
+    if (t.multi) {
+      h += '<div class="nlu-steps"><div class="nlu-step"><span class="sl">split</span>' +
+        '<span class="sv">separado por <b>y</b> / <b>,</b> / <b>+</b> → ' + t.multi.length + ' partes</span></div></div>';
+      t.multi.forEach(function (m) {
+        h += '<div class="nlu-hit">' + icon('check') +
+          '<span class="hn">' + (m.qty > 1 ? m.qty + '× ' : '') + esc(m.item.n) +
+          (m.mod ? ' <span class="mod-chip">' + esc(m.mod) + '</span>' : '') +
+          '</span><span class="hs">' + esc(m.cat) + '</span></div>';
+      });
+      $('nlu').innerHTML = h;
+      return;
+    }
+    h += '<div class="nlu-steps">' +
+      '<div class="nlu-step"><span class="sl">norm()</span><span class="sv">' + esc(t.norm || '—') + '</span></div>' +
+      '<div class="nlu-step"><span class="sl">cantidad</span><span class="sv">' + (t.qty || 1) + '</span></div>' +
+      '<div class="nlu-step"><span class="sl">mods</span><span class="sv">' +
+      (t.mod ? t.mod.split(', ').map(function (m) { return '<span class="mod-chip">' + esc(m) + '</span>'; }).join('') : '<span style="color:var(--tm)">ninguna</span>') +
+      '</span></div>' +
+      '<div class="nlu-step"><span class="sl">query limpio</span><span class="sv">' + esc(t.limpio || '—') + '</span></div>' +
+      '</div>';
+    if (t.hit) {
+      h += '<div class="nlu-hit">' + icon('check') +
+        '<span class="hn">' + (t.hit.qty > 1 ? t.hit.qty + '× ' : '') + esc(t.hit.item.n) + ' · ' + money(t.hit.item.p) + '</span>' +
+        '<span class="hs">score ' + t.score + '</span></div>';
+    } else {
+      h += '<div class="nlu-hit miss">' + icon('x') +
+        '<span class="hn">Sin match — el bot repregunta</span>' +
+        '<span class="hs">score ' + (t.score || 0) + ' &lt; 2</span></div>';
+    }
+    $('nlu').innerHTML = h;
+  }
+
+  function renderCart() {
+    var pedido = S ? S.pedido : [];
+    $('cartTail').innerHTML = pedido.length
+      ? '<span style="color:var(--ember-h);font-weight:800">' + money(subtotal(S)) + '</span>' : '';
+    if (!pedido.length) {
+      $('cart').innerHTML = '<p class="cart-empty">Carrito vacío. Cada ítem agregado se persiste en SQLite en el mismo turno.</p>';
+      return;
+    }
+    var h = pedido.map(function (x) {
+      return '<div class="cart-row"><span class="cart-q">' + x.qty + '×</span>' +
+        '<span class="cart-n">' + esc(x.n) + (x.mod ? '<em>' + esc(x.mod) + '</em>' : '') + '</span>' +
+        '<span class="cart-p">' + money(x.p * x.qty) + '</span></div>';
+    }).join('');
+    h += '<div class="cart-total"><span>Subtotal' +
+      (S.entrega === 'delivery' ? ' · envío se coordina por zona' : '') +
+      '</span><b>' + money(subtotal(S)) + '</b></div>';
+    h += '<div class="upsell-flags">' +
+      '<span class="flag' + (S.upsell.bebida ? ' spent' : '') + '">upsell.bebida: ' + (S.upsell.bebida ? 'usado' : 'libre') + '</span>' +
+      '<span class="flag' + (S.upsell.combo ? ' spent' : '') + '">upsell.combo: ' + (S.upsell.combo ? 'usado' : 'libre') + '</span>' +
+      '</div>';
+    $('cart').innerHTML = h;
+  }
+
+  function renderJson() {
+    if (!S) { $('sessionJson').innerHTML = '<span class="nu">// sin sesión — el próximo mensaje la crea</span>'; return; }
+    var view = {
+      paso: S.paso,
+      pedido: S.pedido.map(function (x) {
+        return { n: x.n, qty: x.qty, p: x.p, mod: x.mod || null };
+      }),
+      upsell: S.upsell,
+      entrega: S.entrega,
+      nombre: S.nombre,
+      direccion: S.direccion,
+      pago: S.pago,
+      agendado: S.agendado
+    };
+    var json = JSON.stringify(view, null, 2);
+    var html = esc(json)
+      .replace(/"([^"]+)":/g, '<span class="k">"$1"</span>:')
+      .replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>')
+      .replace(/: (\d+\.?\d*)/g, ': <span class="n">$1</span>')
+      .replace(/: (true|false)/g, ': <span class="b">$1</span>')
+      .replace(/: (null)/g, ': <span class="nu">$1</span>');
+    $('sessionJson').innerHTML = html;
+  }
+
+  function renderOwner() {
+    var human = !!modoHumano[TEL];
+    var cmds = [
+      ['HORNO', false], ['CAMINO', false], ['LISTO', false],
+      [human ? 'BOT' : 'AGENTE', human], ['RESET', false]
+    ];
+    $('ownerCmds').innerHTML = cmds.map(function (c) {
+      return '<button data-cmd="' + c[0] + '"' + (c[1] ? ' class="hot"' : '') + '>' + c[0] + '</button>';
+    }).join('');
+    if (!UI.owner.length) {
+      $('ownerFeed').innerHTML = '<p class="owner-empty">Sin avisos todavía. Cuando el cliente confirme un pedido o pida una persona, el dueño recibe la notificación acá — y puede tomar el chat con <b>AGENTE</b>.</p>';
+      return;
+    }
+    $('ownerFeed').innerHTML = UI.owner.slice().reverse().map(function (o) {
+      return '<div class="onote ' + o.tipo + '"><span class="ot">' + hhmm(o.at) + '</span>' + fmt(o.text) + '</div>';
+    }).join('');
+  }
+
+  function renderLog() {
+    if (!UI.log.length) {
+      $('log').innerHTML = '<li style="color:var(--tm)">Cada mensaje registra su transición de paso — es la base del embudo.</li>';
+      return;
+    }
+    $('log').innerHTML = UI.log.slice().reverse().map(function (l) {
+      return '<li><time>' + hhmm(l.at) + '</time><span><span class="tr">' + esc(l.antes) + '</span>' +
+        '<span class="ar"> → </span><span class="tr">' + esc(l.despues) + '</span></span></li>';
+    }).join('');
+  }
+
+  function renderInspector() {
+    renderRail(); renderPipe(); renderNlu(); renderCart(); renderJson(); renderOwner(); renderLog();
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRADA DEL USUARIO
+     ═══════════════════════════════════════════════════════════════ */
+  function enviarDelCliente(texto) {
+    if (!texto.trim()) return;
+    UI.chat.push({ who: 'me', text: texto, at: new Date() });
+    renderChat();
+    procesarMensaje(texto);
+  }
+
+  $('chatForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var inp = $('chatInput');
+    enviarDelCliente(inp.value);
+    inp.value = '';
+    inp.focus();
+  });
+
+  $('chat').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-qr]');
+    if (b) enviarDelCliente(b.dataset.qr);
+  });
+  $('chips').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-chip]');
+    if (b) enviarDelCliente(b.dataset.chip);
+  });
+  $('ownerCmds').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-cmd]');
+    if (!b) return;
+    comandoDuenho(b.dataset.cmd);
+    // AGENTE/BOT cambian quién atiende: el encabezado del chat lo dice ya,
+    // sin esperar a que drene la cola de mensajes.
+    renderChat();
+    renderInspector();
+  });
+
+  $('tgHorario').addEventListener('click', function () {
+    UI.abierto = !UI.abierto;
+    this.classList.toggle('on', UI.abierto);
+    this.querySelector('.lbl').textContent = UI.abierto ? 'Local abierto' : 'Local cerrado';
+    renderChips();
+    renderChat();
+    renderInspector();
+  });
+  $('tgCliente').addEventListener('click', function () {
+    UI.conocido = !UI.conocido;
+    this.classList.toggle('on', UI.conocido);
+    if (UI.conocido) clientes[TEL] = { nombre: CLIENTE_CONOCIDO.nombre, direcciones: CLIENTE_CONOCIDO.direcciones.slice() };
+    else delete clientes[TEL];
+    avisoSistema(UI.conocido
+      ? 'Cliente reconocido: el bot ya sabe nombre y dirección de la última vez.'
+      : 'Cliente nuevo: el bot va a pedir nombre y dirección.');
+    renderInspector();
+  });
+  $('btnReset').addEventListener('click', function () {
+    queue = [];
+    draining = false;
+    showTyping(false);
+    initState(true);
+    boot();
+  });
+
+  document.querySelectorAll('.mtab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      UI.pane = t.dataset.pane;
+      document.querySelectorAll('.mtab').forEach(function (x) { x.classList.toggle('on', x === t); });
+      document.querySelectorAll('.pane').forEach(function (p) {
+        p.classList.toggle('active', p.dataset.pane === UI.pane);
+      });
+    });
+  });
+
+  // Ventana del rate limit: 30 mensajes por minuto, igual que en producción.
+  setInterval(function () {
+    if (rateWindow === 0) return;
+    rateWindow = 0;
+    renderPipe();
+  }, 60000);
+
+  /* ═══ Arranque ═══ */
+  function boot() {
+    renderChips();
+    renderChat();
+    renderInspector();
+    UI.chat.push({
+      who: 'sys',
+      text: 'Sos el cliente. Escribí como escribirías de verdad — el bot entiende texto libre, no solo botones.'
+    });
+    renderChat();
+  }
+
+  initState(false);
+  boot();
+})();
+</script>
+</body>
+</html>
