@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Oliver Ascencio — Ciberseguridad & Backend";
+export const alt = "Oliver Ascencio — Seguridad de aplicaciones & Backend";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default function OgImage() {
               fontWeight: 600,
             }}
           >
-            Disponible para roles Ciberseguridad · Backend
+            Disponible para AppSec · Backend seguro
           </div>
           <div
             style={{
@@ -78,7 +78,7 @@ export default function OgImage() {
               fontWeight: 500,
             }}
           >
-            Ciberseguridad & Backend · Santa Ana, El Salvador
+            Seguridad de aplicaciones · Santa Ana, El Salvador
           </div>
           <div
             style={{
@@ -89,8 +89,8 @@ export default function OgImage() {
               lineHeight: 1.5,
             }}
           >
-            Seguridad desde el diseño y backend sólido. Construyo software
-            que resuelve problemas reales en El Salvador.
+            Autenticación, autorización e integraciones verificadas desde
+            el diseño, con evidencia en productos reales.
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          {["OWASP Top 10", "RBAC", "TypeScript", "PostgreSQL", "Docker"].map((tag) => (
+          {["OWASP", "RBAC", "Webhooks", "Backend seguro", "Docker"].map((tag) => (
             <div
               key={tag}
               style={{

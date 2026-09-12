@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { SparklesIcon } from "@heroicons/react/24/solid";
+import { ShieldCheckIcon } from "@heroicons/react/24/solid";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import {
   slideInFromLeft,
@@ -31,7 +30,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative flex flex-col h-full w-full overflow-hidden">
+    <section
+      aria-labelledby="hero-title"
+      className="relative flex flex-col h-full w-full overflow-hidden"
+    >
       {/* Black hole video */}
       {showVideo && (
         <video
@@ -58,32 +60,33 @@ export default function Hero() {
             variants={slideInFromTop}
             className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]"
           >
-            <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
-            <h1 className="Welcome-text text-[13px]">
-              Ciberseguridad · Disponible para proyectos
-            </h1>
+            <ShieldCheckIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
+            <p className="Welcome-text text-[13px]">
+              Seguridad de aplicaciones · Disponible para proyectos
+            </p>
           </motion.div>
 
           <motion.div
             variants={slideInFromLeft(0.5)}
-            className="flex flex-col gap-6 mt-6 text-4xl sm:text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
+            className="mt-6 max-w-[650px] w-auto h-auto"
           >
-            <span>
-              Hola, soy{" "}
+            <h1
+              id="hero-title"
+              className="flex flex-col gap-2 text-4xl sm:text-6xl font-bold leading-tight text-white"
+            >
+              <span>Oliver Ascencio</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
-                Oliver Ascencio
+                Seguridad de aplicaciones y backend seguro.
               </span>
-              .
-            </span>
+            </h1>
           </motion.div>
 
           <motion.p
             variants={slideInFromLeft(0.8)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
-            Seguridad desde el diseño, no como parche. TSU en Ciberseguridad
-            y backend sólido — construyo y protejo software que resuelve
-            problemas reales en El Salvador.
+            Implemento autenticación, autorización y validación de
+            integraciones para construir APIs y productos web más seguros.
           </motion.p>
 
           <motion.div
@@ -91,16 +94,16 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-3"
           >
             <a
-              href="#proyectos"
-              className="py-2 px-6 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
+              href="#seguridad"
+              className="py-2 px-6 button-primary text-center text-white cursor-pointer rounded-lg max-w-[240px]"
             >
-              Ver proyectos
+              Ver seguridad aplicada
             </a>
             <a
-              href="#contacto"
+              href="#proyectos"
               className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[200px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
             >
-              Hablemos
+              Ver proyectos
             </a>
           </motion.div>
 
@@ -136,16 +139,27 @@ export default function Hero() {
           variants={slideInFromRight(0.8)}
           className="w-full h-full hidden lg:flex justify-center items-center"
         >
-          <Image
-            src="/hero-bg.svg"
-            alt="work icons"
-            height={650}
-            width={650}
-            draggable={false}
-            className="select-none"
-            loading="lazy"
-            sizes="650px"
-          />
+          <div
+            aria-hidden="true"
+            className="relative flex aspect-square w-full max-w-[520px] items-center justify-center overflow-hidden rounded-[2rem] border border-[#7042f8]/30 bg-[#0b0322]/60 shadow-[0_0_80px_rgba(112,66,248,0.16)]"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(112,66,248,0.32),transparent_58%)]" />
+            <div className="absolute inset-8 rounded-full border border-[#7042f8]/20" />
+            <div className="absolute inset-20 rounded-full border border-cyan-400/20" />
+            <div className="relative z-10 flex flex-col items-center gap-5 text-center">
+              <div className="rounded-3xl border border-[#b49bff]/40 bg-[#7042f8]/15 p-7 shadow-[0_0_45px_rgba(112,66,248,0.3)]">
+                <ShieldCheckIcon className="h-24 w-24 text-[#b49bff]" />
+              </div>
+              <div className="space-y-2">
+                <p className="font-mono text-xs tracking-[0.25em] text-cyan-200">
+                  CONTROLES APLICADOS
+                </p>
+                <p className="text-sm text-gray-300">
+                  Autenticación · autorización · APIs
+                </p>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     </section>

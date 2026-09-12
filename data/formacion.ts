@@ -20,14 +20,14 @@ export const formacion: FormacionCategory[] = [
     color: "#7042f8",
     items: [
       {
+        name: "TSU en Ciberseguridad",
+        institution: "ESIT / MINED · aval INFOTEC México",
+        date: "En proceso de graduación",
+      },
+      {
         name: "Ingeniería en Desarrollo de Software",
         institution: "UNICAES",
         date: "2.° año · en curso",
-      },
-      {
-        name: "TSU en Ciberseguridad",
-        institution: "ESIT / MINED · aval INFOTEC México",
-        date: "Graduando",
       },
       {
         name: "Bachiller Técnico Vocacional ITSI",
@@ -38,7 +38,7 @@ export const formacion: FormacionCategory[] = [
   },
   {
     id: "gubernamentales",
-    label: "Certificaciones gubernamentales",
+    label: "Formación complementaria en seguridad y TI",
     color: "#06b6d4",
     items: [
       {

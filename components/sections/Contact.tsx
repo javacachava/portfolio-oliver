@@ -34,7 +34,7 @@ export default function Contact() {
       >
         <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
         <span className="Welcome-text text-[13px]">
-          Disponible para roles de Ciberseguridad · Backend
+          Disponible para oportunidades junior de AppSec · Backend seguro
         </span>
       </motion.div>
 
@@ -55,7 +55,8 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.25 }}
         className="text-[var(--muted)] max-w-md mt-3 mb-10"
       >
-        ¿Un proyecto o una idea? Un correo y seguimos la conversación.
+        ¿Necesitás apoyo con seguridad de aplicaciones, controles web o un backend
+        más seguro? Conversemos sobre el problema y el alcance.
       </motion.p>
 
       {/* CTAs */}

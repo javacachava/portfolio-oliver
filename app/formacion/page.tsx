@@ -9,9 +9,9 @@ import Counter from "@/components/ui/Counter";
 import { formacionStats } from "@/data/formacion";
 
 export const metadata: Metadata = {
-  title: "Formación — Oliver Ascencio",
+  title: "Formación en seguridad de aplicaciones — Oliver Ascencio",
   description:
-    "Formación académica, certificaciones gubernamentales, bootcamps y reconocimientos de Oliver Ascencio. Más de 200 horas documentadas de formación complementaria.",
+    "Formación académica y complementaria de Oliver Ascencio, con foco en ciberseguridad, seguridad de aplicaciones, cloud y desarrollo de software.",
 };
 
 const stats = [
@@ -25,18 +25,18 @@ export default function FormacionPage() {
     <>
       <DeferredStarsCanvas />
       <Navbar />
-      <main className="relative z-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
+      <main id="contenido-principal" className="relative z-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-10 sm:mb-14 text-center">
           <SectionEyebrow className="mb-3 justify-center flex">
-            $ cat formacion --all
+            Formación verificable
           </SectionEyebrow>
           <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 w-fit mx-auto pb-2">
-            Mapa de formación
+            Formación para seguridad aplicada
           </h1>
           <p className="text-[var(--muted)] max-w-xl mx-auto mt-3">
-            Cada estrella es una certificación, curso o título. Agrupadas en
-            constelaciones por categoría — {formacionStats.yearRange}.
+            Formación académica y complementaria que sostiene mi práctica en
+            seguridad de aplicaciones, backend y cloud — {formacionStats.yearRange}.
           </p>
 
           {/* Stats */}

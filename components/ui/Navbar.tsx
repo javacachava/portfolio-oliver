@@ -6,6 +6,7 @@ import {
   Menu,
   X,
   Cpu,
+  ShieldCheck,
   Rocket,
   CircleUser,
   Users,
@@ -15,7 +16,12 @@ import {
 } from "lucide-react";
 
 const links: Array<{ label: string; href: string; Icon: LucideIcon }> = [
-  { label: "Skills", href: "/#skills", Icon: Cpu },
+  {
+    label: "Seguridad aplicada",
+    href: "/#seguridad",
+    Icon: ShieldCheck,
+  },
+  { label: "Capacidades", href: "/#skills", Icon: Cpu },
   { label: "Proyectos", href: "/#proyectos", Icon: Rocket },
   { label: "Sobre mí", href: "/#sobre-mi", Icon: CircleUser },
   { label: "Wuju", href: "/#wuju", Icon: Users },
@@ -48,19 +54,23 @@ export default function Navbar() {
 
   return (
     <header className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#03001427] backdrop-blur-md z-50 px-4 sm:px-10">
-      <nav className="relative w-full h-full flex items-center justify-between m-auto max-w-7xl">
+      <nav
+        aria-label="Navegación principal"
+        className="relative w-full h-full flex items-center justify-between m-auto max-w-7xl"
+      >
         {/* Logo */}
-        <a href="#" className="flex items-center gap-1.5 group">
-          <span className="font-mono text-sm font-bold text-[#b49bff] opacity-60 group-hover:opacity-100 transition-opacity">
-            ›_
-          </span>
+        <a
+          href="/"
+          aria-label="Ir al inicio de Oliver Ascencio"
+          className="flex items-center gap-1.5 group"
+        >
           <span className="text-sm font-semibold text-gray-300 tracking-tight">
-            Oliver<span className="text-[#b49bff]">.</span>dev
+            Oliver Ascencio<span className="text-[#b49bff]">.</span>
           </span>
         </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex h-full flex-row items-center absolute left-1/2 -translate-x-1/2">
+        <div className="hidden lg:flex h-full flex-row items-center absolute left-1/2 -translate-x-1/2">
           <ul className="flex items-center justify-between gap-1 h-auto border border-[rgba(112,66,248,0.38)] bg-[rgba(3,0,20,0.37)] px-[20px] py-[10px] rounded-full text-gray-200">
             {links.map((l) => {
               const isActive = isLinkActive(l.href);
@@ -68,6 +78,7 @@ export default function Navbar() {
                 <li key={l.href}>
                   <a
                     href={l.href}
+                    aria-current={isActive ? "location" : undefined}
                     className={`cursor-pointer px-2.5 text-sm transition inline-flex items-center gap-1.5 whitespace-nowrap ${
                       isActive
                         ? "text-[rgb(112,66,248)]"
@@ -88,9 +99,12 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-gray-300 hover:text-white"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          type="button"
+          className="lg:hidden text-gray-300 hover:text-white"
+          onClick={() => setOpen((current) => !current)}
+          aria-label={open ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+          aria-expanded={open}
+          aria-controls="menu-principal"
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -98,20 +112,31 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="absolute top-[65px] left-0 w-full bg-[#030014] border-b border-[#2A0E61] p-5 flex flex-col items-center text-gray-300 md:hidden">
+        <div
+          id="menu-principal"
+          className="absolute top-[65px] left-0 w-full bg-[#030014] border-b border-[#2A0E61] p-5 flex flex-col items-center text-gray-300 lg:hidden"
+        >
           <ul className="flex flex-col items-center gap-4">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="cursor-pointer hover:text-[rgb(112,66,248)] transition inline-flex items-center gap-2"
-                >
-                  <l.Icon size={15} className="opacity-60" />
-                  {l.label}
-                </a>
-              </li>
-            ))}
+            {links.map((l) => {
+              const isActive = isLinkActive(l.href);
+              return (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={isActive ? "location" : undefined}
+                    className={`cursor-pointer transition inline-flex items-center gap-2 ${
+                      isActive
+                        ? "text-[rgb(112,66,248)]"
+                        : "hover:text-[rgb(112,66,248)]"
+                    }`}
+                  >
+                    <l.Icon size={15} className={isActive ? "" : "opacity-60"} />
+                    {l.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

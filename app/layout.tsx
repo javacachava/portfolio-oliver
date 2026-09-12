@@ -32,9 +32,9 @@ const cedarvilleCursive = Cedarville_Cursive({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
-  title: "Oliver Ascencio — Ciberseguridad & Backend",
+  title: "Oliver Ascencio — Seguridad de aplicaciones & Backend",
   description:
-    "Portfolio de Oliver Ascencio. TSU en Ciberseguridad y desarrollador Backend. Seguridad desde el diseño (OWASP, RBAC, criptografía), TypeScript, Node.js y cloud. Santa Ana, El Salvador.",
+    "Portfolio de Oliver Ascencio. Seguridad de aplicaciones y backend seguro: autenticación, autorización, protección de integraciones y controles desde el diseño. Santa Ana, El Salvador.",
   authors: [
     {
       name: "Oliver Ascencio",
@@ -45,6 +45,7 @@ export const metadata: Metadata = {
     "ciberseguridad",
     "cybersecurity",
     "seguridad de aplicaciones",
+    "AppSec",
     "OWASP",
     "RBAC",
     "backend",
@@ -54,10 +55,13 @@ export const metadata: Metadata = {
     "El Salvador",
     "portafolio",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Oliver Ascencio — Ciberseguridad & Backend",
+    title: "Oliver Ascencio — Seguridad de aplicaciones & Backend",
     description:
-      "Seguridad desde el diseño y backend sólido. Construyo software que resuelve problemas reales en El Salvador.",
+      "Controles de seguridad aplicados a productos reales: autenticación, autorización e integraciones verificadas.",
     url: "https://oliver-ascencio.wuju.dev",
     siteName: "Oliver Ascencio Portfolio",
     locale: "es_SV",
@@ -65,9 +69,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Oliver Ascencio — Ciberseguridad & Backend",
+    title: "Oliver Ascencio — Seguridad de aplicaciones & Backend",
     description:
-      "Seguridad desde el diseño y backend sólido. Construyo software que resuelve problemas reales en El Salvador.",
+      "Seguridad de aplicaciones y backend seguro, con controles aplicados a productos reales.",
   },
   robots: {
     index: true,

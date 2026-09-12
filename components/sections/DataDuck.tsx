@@ -31,14 +31,14 @@ export default function Wuju() {
           transition={{ duration: 0.5 }}
           className="mb-8 sm:mb-12"
         >
-          <SectionEyebrow className="mb-3">Wuju</SectionEyebrow>
+          <SectionEyebrow className="mb-3">Experiencia de producto</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
-            Software hecho en El Salvador
-            <br className="hidden sm:block" /> para El Salvador.
+            Contexto real para aplicar controles.
           </h2>
           <p className="text-[var(--muted)] max-w-xl">
-            Un equipo de 7 jóvenes de Santa Ana que construye
-            infraestructura tecnológica para empresas locales.
+            En Wuju colaboro con un equipo que construye productos para empresas
+            locales. Ese contexto convierte autenticación, roles y validación de
+            integraciones en decisiones de producto, no solo conceptos.
           </p>
         </motion.div>
 
@@ -52,10 +52,10 @@ export default function Wuju() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-[var(--muted)] leading-relaxed mb-8">
-              Wuju nació en 2026 como asociación de desarrolladores con el objetivo
-              de crear soluciones tecnológicas accesibles para negocios salvadoreños.
-              No hacemos apps genéricas — construimos infraestructura: sistemas B2B,
-              plataformas con modelo de negocio, bots de producción y software de ingeniería.
+              Wuju nació en 2026 para crear soluciones tecnológicas accesibles para
+              negocios salvadoreños. Trabajar con sistemas B2B, bots de producción y
+              software operativo me permite practicar seguridad desde el diseño: definir
+              quién puede hacer qué, validar integraciones y sostener la operación real.
             </p>
 
             {/* Stat counters */}
@@ -118,7 +118,7 @@ export default function Wuju() {
                 ))}
               </div>
               <span className="font-mono text-[11px] text-[var(--muted)]">
-                ~/wuju <span className="text-[var(--accent)]">$</span> git log --oneline
+                wuju.dev <span className="text-[var(--accent)]">·</span> productos en contexto real
               </span>
             </div>
 

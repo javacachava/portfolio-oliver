@@ -16,6 +16,12 @@ export interface Project {
   accentColor: string;
   featured?: boolean;
   note?: string;
+  /** Evidencia de seguridad publicada: no se muestra si no hay un control concreto. */
+  securityCase?: {
+    risk: string;
+    control: string;
+    evidence: string;
+  };
 }
 
 export const projects: Project[] = [
@@ -38,6 +44,11 @@ export const projects: Project[] = [
     statusType: "functional",
     accentColor: "#06b6d4",   // cyan
     featured: true,
+    securityCase: {
+      risk: "Accesos no autorizados entre los distintos tipos de usuario de la plataforma.",
+      control: "Roles diferenciados y autenticación con JWT para separar las capacidades de cada perfil.",
+      evidence: "Perfiles admin, verifier, commerce y api_consumer definidos para la operación B2B.",
+    },
   },
   {
     id: "whatsapp-order-bot",
@@ -58,6 +69,11 @@ export const projects: Project[] = [
     accentColor: "#00ff9f",   // green — LIVE = operational
     featured: true,
     demo: "/demos/restaurante-chatbot/",
+    securityCase: {
+      risk: "Recepción de solicitudes falsificadas en una integración expuesta por webhook.",
+      control: "Validación de la firma enviada por Meta antes de procesar eventos del webhook.",
+      evidence: "Control documentado en la integración del bot de pedidos en producción.",
+    },
   },
   {
     id: "restaurant-pos",
@@ -80,6 +96,11 @@ export const projects: Project[] = [
     featured: true,
     demo: "/demos/pos/",
     note: "Iniciado como proyecto de servicio social ESIT · v1.0 en producción desde Jul 2026",
+    securityCase: {
+      risk: "Exposición de operaciones sensibles de caja, cocina o administración al rol equivocado.",
+      control: "Separación de acceso por rol entre mesero, cocina, caja y administración.",
+      evidence: "Cuatro módulos operativos aislados en un sistema que opera en producción.",
+    },
   },
   {
     id: "invitaciones",

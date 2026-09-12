@@ -11,20 +11,53 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import DeferredStarsCanvas from "@/components/ui/DeferredStarsCanvas";
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Oliver Ascencio",
+  url: "https://oliver-ascencio.wuju.dev",
+  jobTitle: "Seguridad de aplicaciones y backend seguro",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Santa Ana",
+    addressCountry: "SV",
+  },
+  sameAs: [
+    "https://github.com/javacachava",
+    "https://linkedin.com/in/oliver-ascencio",
+  ],
+  knowsAbout: [
+    "Seguridad de aplicaciones",
+    "OWASP",
+    "Control de acceso basado en roles",
+    "Seguridad de APIs",
+    "Backend",
+  ],
+};
+
 export default function Page() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <a href="#contenido-principal" className="skip-link">
+        Saltar al contenido principal
+      </a>
       <DeferredStarsCanvas />
       <Navbar />
-      <main className="relative z-10">
+      <main id="contenido-principal" className="relative z-10">
         <Hero />
         <Security />
         <Skills />
         <Projects />
-        <AITools />
         <About />
-        <DataDuck />
         <Awards />
+        <DataDuck />
+        <AITools />
         <Contact />
       </main>
       <Footer />
