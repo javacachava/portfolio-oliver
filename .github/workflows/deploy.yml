@@ -12,27 +12,17 @@ jobs:
         uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: root
+          username: ubuntu
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -eu
-            cd /var/www/team/oliver
+            cd /srv/team/oliver-portfolio
 
             # Pull latest changes
             git pull origin main
 
-            # Install dependencies (solo si cambió package.json)
-            npm ci --ignore-scripts
-
-            # Build
-            npm run build
-
-            # Reiniciar sin downtime
-            pm2 restart team-oliver
-
-            # Ocultar la versión exacta de Nginx en las respuestas públicas.
-            install -d -m 755 /etc/nginx/conf.d
-            printf 'server_tokens off;\n' > /etc/nginx/conf.d/00-server-tokens.conf
-            nginx -t && systemctl reload nginx
+            # Reconstruye la imagen y reinicia el contenedor (se conecta a
+            # la red externa de Caddy compartida; no toca otros proyectos)
+            docker compose up -d --build
 
             echo "Deploy completado: $(date)"

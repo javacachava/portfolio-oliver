@@ -1,0 +1,15 @@
+services:
+  oliver-portfolio:
+    build: .
+    container_name: oliver-portfolio
+    restart: unless-stopped
+    networks:
+      - cuencaos_default
+
+# Red externa del stack de CuencaOS: no la creamos ni gestionamos nosotros,
+# solo nos unimos para que el Caddy compartido (unico dueno de :80/:443 en
+# este VPS) pueda alcanzarnos como "oliver-portfolio:3000". No hay overlap
+# de archivos ni de compose con CuencaOS, solo esta red de borde.
+networks:
+  cuencaos_default:
+    external: true
