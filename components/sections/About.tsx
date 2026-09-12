@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Cloud,
   GraduationCap,
+  Languages,
   LockKeyhole,
 } from "lucide-react";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
@@ -48,6 +49,12 @@ const TRAINING = [
     icon: Cloud,
     color: VIOLET,
   },
+] as const;
+
+const IDIOMAS = [
+  { name: "Español", level: "Nativo" },
+  { name: "Inglés", level: "B1 — hacia B2" },
+  { name: "Francés", level: "Nivel inicial" },
 ] as const;
 
 function TrainingItem({ item }: { item: (typeof TRAINING)[number] }) {
@@ -257,6 +264,32 @@ export default function About() {
               <ul className="flex flex-col gap-2.5">
                 {TRAINING.map((item) => (
                   <TrainingItem key={item.title} item={item} />
+                ))}
+              </ul>
+            </motion.section>
+
+            <motion.section
+              initial={{ opacity: 0, x: -28 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.15 }}
+              aria-labelledby="idiomas-title"
+              className="rounded-xl border border-[#7042f8]/30 bg-[var(--card)] p-4"
+            >
+              <div className="mb-3 flex items-center gap-2">
+                <Languages size={15} className="text-[#b49bff]" aria-hidden="true" />
+                <h3 id="idiomas-title" className="font-mono text-[10px] tracking-widest text-[#b49bff]">
+                  IDIOMAS
+                </h3>
+              </div>
+              <ul className="flex flex-col gap-2">
+                {IDIOMAS.map((idioma) => (
+                  <li key={idioma.name} className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-semibold text-[var(--foreground)]">{idioma.name}</span>
+                    <span className="rounded-full border border-[var(--border)] px-2 py-0.5 font-mono text-[9px] text-[var(--muted)]">
+                      {idioma.level}
+                    </span>
+                  </li>
                 ))}
               </ul>
             </motion.section>

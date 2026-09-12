@@ -108,6 +108,18 @@ export const formacion: FormacionCategory[] = [
       },
     ],
   },
+  {
+    id: "datos",
+    label: "Datos y visualización",
+    color: "#f59e0b",
+    items: [
+      {
+        name: "Taller de Tableau",
+        institution: "Sivar Force · Fundación Caprile (UNICAES)",
+        detail: "Taller de un día",
+      },
+    ],
+  },
 ];
 
 export const formacionStats = {
