@@ -124,7 +124,7 @@ export default function Security() {
   const allowMotion = prefersReducedMotion === false;
   const [saveData, setSaveData] = useState(true);
   const { ref: sectionRef, inView } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
     rootMargin: "250px 0px",
   });
 

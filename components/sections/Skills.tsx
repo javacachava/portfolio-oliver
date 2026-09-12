@@ -156,7 +156,7 @@ function CategoryCard({
 
 export default function Skills() {
   const { ref: sectionRef, inView } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
     rootMargin: "180px 0px",
   });
   const prefersReducedMotion = useReducedMotion();

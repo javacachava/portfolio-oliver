@@ -47,7 +47,7 @@ export const StarBackground = (props: PointsInstancesProps) => {
 
 export const StarsCanvas = () => (
   <div className="w-full h-auto fixed inset-0 z-0 pointer-events-none">
-    <Canvas camera={{ position: [0, 0, 1] }}>
+    <Canvas camera={{ position: [0, 0, 1] }} dpr={[1, 1.25]}>
       <Suspense fallback={null}>
         <StarBackground />
       </Suspense>

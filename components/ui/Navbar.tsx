@@ -29,16 +29,52 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const sections = document.querySelectorAll("section[id]");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((e) => e.isIntersecting);
-        if (visible) setActiveSection(visible.target.id);
-      },
-      { rootMargin: "-40% 0px -55% 0px" }
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("section[id]"),
     );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    let animationFrameId: number | undefined;
+
+    const updateActiveSection = () => {
+      animationFrameId = undefined;
+      if (sections.length === 0) return;
+
+      const focusLine = window.innerHeight * 0.46;
+      const current =
+        sections.find((section) => {
+          const rect = section.getBoundingClientRect();
+          return rect.top <= focusLine && rect.bottom > focusLine;
+        }) ??
+        sections.reduce((closest, candidate) => {
+          const closestRect = closest.getBoundingClientRect();
+          const candidateRect = candidate.getBoundingClientRect();
+          const closestDistance = Math.abs(
+            closestRect.top + closestRect.height / 2 - focusLine,
+          );
+          const candidateDistance = Math.abs(
+            candidateRect.top + candidateRect.height / 2 - focusLine,
+          );
+          return candidateDistance < closestDistance ? candidate : closest;
+        });
+
+      setActiveSection(current.id);
+    };
+
+    const scheduleUpdate = () => {
+      if (animationFrameId !== undefined) return;
+      animationFrameId = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    updateActiveSection();
+
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (animationFrameId !== undefined) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, []);
 
   const isLinkActive = (href: string) =>

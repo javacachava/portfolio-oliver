@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { ShieldCheckIcon } from "@heroicons/react/24/solid";
 import {
   Cloud,
@@ -23,6 +24,10 @@ import {
 
 export default function Hero() {
   const [showVideo, setShowVideo] = useState(false);
+  const { ref: sectionRef, inView } = useInView({
+    triggerOnce: false,
+    rootMargin: "160px 0px",
+  });
 
   useEffect(() => {
     const connection = navigator as Navigator & {
@@ -42,11 +47,13 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
+      id="inicio"
       aria-labelledby="hero-title"
       className="relative flex flex-col h-full w-full overflow-hidden"
     >
       {/* Black hole video */}
-      {showVideo && (
+      {showVideo && inView && (
         <video
           autoPlay
           muted
@@ -54,7 +61,7 @@ export default function Hero() {
           playsInline
           preload="none"
           aria-hidden="true"
-          className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover z-0 opacity-90"
+          className="rotate-180 absolute top-[-340px] left-0 z-0 h-full w-full object-cover opacity-70 lg:opacity-35"
         >
           <source src="/videos/blackhole.webm" type="video/webm" />
         </video>
@@ -179,24 +186,22 @@ export default function Hero() {
         >
           <div
             aria-hidden="true"
-            className="relative flex aspect-square w-full max-w-[520px] items-center justify-center overflow-hidden rounded-[2rem] border border-[#7042f8]/30 bg-[#0b0322]/70 shadow-[0_0_80px_rgba(112,66,248,0.16)]"
+            className="relative flex aspect-square w-full max-w-[520px] items-center justify-center overflow-hidden rounded-[2rem] border border-[#7042f8]/30 bg-[#0b0322]/30 shadow-[0_0_80px_rgba(112,66,248,0.16)]"
           >
-            <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(112,66,248,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(112,66,248,0.12)_1px,transparent_1px)] [background-size:32px_32px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(112,66,248,0.32),transparent_58%)]" />
-            <div className="absolute inset-8 rounded-full border border-[#7042f8]/20 animate-[spin_24s_linear_infinite] motion-reduce:animate-none" />
-            <div className="absolute inset-20 rounded-full border border-cyan-400/20 animate-[spin_18s_linear_infinite_reverse] motion-reduce:animate-none" />
-            <div className="relative z-10 flex flex-col items-center gap-5 text-center">
-              <div className="rounded-3xl border border-[#b49bff]/40 bg-[#7042f8]/15 p-7 shadow-[0_0_45px_rgba(112,66,248,0.3)]">
-                <ShieldCheckIcon className="h-24 w-24 text-[#b49bff]" />
+            <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(112,66,248,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(112,66,248,0.12)_1px,transparent_1px)] [background-size:32px_32px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(112,66,248,0.18),transparent_60%)]" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-15 motion-reduce:opacity-100">
+              <div className="rounded-3xl border border-[#b49bff]/35 bg-[#7042f8]/10 p-7">
+                <ShieldCheckIcon className="h-20 w-20 text-[#b49bff]" />
               </div>
-              <div className="space-y-2">
-                <p className="font-mono text-xs tracking-[0.25em] text-cyan-200">
-                  PERFIL DE ENFOQUE
-                </p>
-                <p className="text-sm text-gray-300">
-                  Seguridad · cloud · Scrum
-                </p>
-              </div>
+            </div>
+            <div className="absolute bottom-20 left-1/2 z-10 -translate-x-1/2 space-y-2 text-center">
+              <p className="whitespace-nowrap font-mono text-xs tracking-[0.25em] text-cyan-200">
+                RECORRIDO INTERACTIVO
+              </p>
+              <p className="whitespace-nowrap text-sm text-gray-300">
+                Seguridad · cloud · Scrum
+              </p>
             </div>
             <div className="absolute left-7 top-9 flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-[#071327]/85 px-3 py-2 shadow-lg">
               <Cloud size={17} className="text-cyan-300" />
