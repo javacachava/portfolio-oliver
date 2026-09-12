@@ -76,6 +76,12 @@ export const formacion: FormacionCategory[] = [
         detail: "Equipo de 6 personas, requisitos y relación con clientes",
         date: "2025–actualidad",
       },
+      {
+        name: "Liderazgo de producto desde la idea al prototipo",
+        institution: "TuGuiaSV",
+        detail: "Equipo de 4 personas, de la idea al prototipo funcional",
+        date: "2024–actualidad",
+      },
     ],
   },
   {

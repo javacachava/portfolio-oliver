@@ -47,7 +47,7 @@ const FOCUS_AREAS: FocusArea[] = [
     title: "Cloud",
     description:
       "Fundamentos de infraestructura en la nube y despliegues reproducibles para servicios web.",
-    signals: ["AWS", "Google Cloud", "Contenedores"],
+    signals: ["AWS foundations", "Google Cloud", "DigitalOcean / Cloudflare"],
     Icon: CloudCog,
     accent: "#a78bfa",
   },
@@ -56,7 +56,7 @@ const FOCUS_AREAS: FocusArea[] = [
     title: "Scrum",
     description:
       "Trabajo iterativo para convertir prioridades en entregas claras y revisables.",
-    signals: ["Sprints", "Backlog", "Retrospectivas"],
+    signals: ["Equipos de 4-6 personas", "Requisitos con cliente", "Entregas incrementales"],
     Icon: ListChecks,
     accent: "#34d399",
   },

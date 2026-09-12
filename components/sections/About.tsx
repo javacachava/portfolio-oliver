@@ -65,8 +65,8 @@ const TRAINING = [
   {
     title: "TSU en Ciberseguridad",
     institution: "ESIT / MINED · aval INFOTEC México",
-    detail: "En proceso de graduación · servicio social completado",
-    badge: "CUM 8.92",
+    detail: "31/31 materias aprobadas · servicio social completado",
+    badge: "EN CURSO",
     icon: GraduationCap,
     color: CYAN,
   },
