@@ -5,8 +5,12 @@ import { useEffect, useState } from "react";
 import { ShieldCheckIcon } from "@heroicons/react/24/solid";
 import {
   Cloud,
+  Database,
+  Download,
+  GitBranch,
   KeyRound,
   LockKeyhole,
+  Server,
   Terminal,
   Workflow,
 } from "lucide-react";
@@ -69,7 +73,7 @@ export default function Hero() {
           >
             <ShieldCheckIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
             <p className="Welcome-text text-[13px]">
-              Ciberseguridad · Cloud · trabajo ágil
+              Application &amp; Cloud Security Junior
             </p>
           </motion.div>
 
@@ -83,7 +87,7 @@ export default function Hero() {
             >
               <span>Oliver Ascencio</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
-                Ciberseguridad con visión cloud.
+                Cybersecurity · Application Security · Cloud
               </span>
             </h1>
           </motion.div>
@@ -92,20 +96,23 @@ export default function Hero() {
             variants={slideInFromLeft(0.8)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
-            TSU en Ciberseguridad. Me enfoco en controles de acceso,
-            fundamentos cloud y colaboración ágil para que los sistemas sean
-            más confiables desde el inicio.
+            Combino desarrollo de software y ciberseguridad para construir
+            aplicaciones, APIs y sistemas con controles de acceso, seguridad
+            de datos y buenas prácticas cloud desde el diseño.
           </motion.p>
 
           <motion.div
             variants={slideInFromLeft(0.9)}
-            aria-label="Áreas de enfoque"
+            aria-label="Tecnologías principales"
             className="flex flex-wrap gap-2 -mt-1"
           >
             {[
-              { label: "Cloud fundamentals", Icon: Cloud },
-              { label: "OWASP · RBAC", Icon: LockKeyhole },
-              { label: "Equipos ágiles", Icon: Workflow },
+              { label: "OWASP", Icon: LockKeyhole },
+              { label: "RBAC", Icon: KeyRound },
+              { label: "PostgreSQL", Icon: Database },
+              { label: "Node.js", Icon: Server },
+              { label: "Cloud Security", Icon: Cloud },
+              { label: "Git / GitHub", Icon: GitBranch },
             ].map(({ label, Icon }) => (
               <span
                 key={label}
@@ -122,16 +129,19 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-3"
           >
             <a
-              href="#seguridad"
+              href="#proyectos"
               className="py-2 px-6 button-primary text-center text-white cursor-pointer rounded-lg max-w-[240px]"
             >
-              Ver seguridad aplicada
+              Ver proyectos
             </a>
             <a
-              href="#skills"
-              className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[240px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
+              href="/cv/CV_Oliver_Ascencio.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[240px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
             >
-              Explorar habilidades
+              <Download size={15} aria-hidden="true" />
+              Descargar CV
             </a>
           </motion.div>
 

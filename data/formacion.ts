@@ -86,13 +86,19 @@ export const formacion: FormacionCategory[] = [
   },
   {
     id: "java",
-    label: "Java",
+    label: "Java y Full Stack",
     color: "#ff9d4d",
     items: [
       {
         name: "Java Developer",
         institution: "Kodigo / BID Lab / Simplon",
         date: "mar 2025",
+      },
+      {
+        name: "Bootcamp Full Stack Junior",
+        institution: "Kodigo",
+        detail: "en curso",
+        date: "2026",
       },
       {
         name: "Curso de Java — Nivel Básico",

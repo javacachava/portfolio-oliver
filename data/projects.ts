@@ -29,26 +29,20 @@ export const projects: Project[] = [
     id: "tuguiasv",
     iconName: "Globe",
     title: "TuGuiaSV",
-    tagline: "Infraestructura nacional de datos geoespaciales verificados de El Salvador",
+    tagline: "Plataforma geolocalizada para turismo y negocios locales en El Salvador",
     description:
-      "Plataforma B2B que provee datos de Puntos de Interés (POIs) verificados en El Salvador. No es un directorio — es infraestructura. Las empresas consumen la API para integrar datos locales confiables sin depender de Google Maps.",
-    stack: ["NestJS", "TypeScript", "PostgreSQL", "PostGIS", "Redis", "MinIO", "Docker", "JWT", "Swagger"],
+      "Cofundé y lidero esta plataforma que conecta turismo y negocios locales en El Salvador: reseñas verificadas y mapa interactivo para descubrir lugares. Dirijo un equipo de 4 personas desde la idea hasta el prototipo funcional.",
+    stack: ["DigitalOcean", "Cloudflare CDN", "SendGrid"],
     highlights: [
-      "Sistema de roles: admin / verifier / commerce / api_consumer",
-      "Score de confianza con degradación automática (algoritmo propio)",
-      "Consultas geoespaciales PostGIS — búsqueda por proximidad en km",
-      "Planes B2B con precios reales: Free($0) / Basic($29.99) / Pro($99.99) / Enterprise",
-      "Offline-first con OpenStreetMap",
+      "Sistema de reseñas y mapa interactivo",
+      "Equipo de 4 personas, de la idea al prototipo funcional",
+      "Infraestructura propia: DigitalOcean, Cloudflare CDN y SendGrid",
+      "Presentado en Feria Eureka 2024 (CONACYT El Salvador) e InspiraSTEM 2025",
     ],
-    status: "Backend funcional · Demo disponible",
+    status: "Prototipo funcional · Jun 2024 – presente",
     statusType: "functional",
     accentColor: "#06b6d4",   // cyan
     featured: true,
-    securityCase: {
-      risk: "Accesos no autorizados entre los distintos tipos de usuario de la plataforma.",
-      control: "Roles diferenciados y autenticación con JWT para separar las capacidades de cada perfil.",
-      evidence: "Perfiles admin, verifier, commerce y api_consumer definidos para la operación B2B.",
-    },
   },
   {
     id: "whatsapp-order-bot",
@@ -82,12 +76,12 @@ export const projects: Project[] = [
     tagline: "Sistema de punto de venta completo — v1.0 en producción",
     description:
       "Sistema de punto de venta con 4 dominios operativos aislados: mesero, cocina (KDS), caja y administración. Tiempo real con WebSockets (Laravel Reverb), PWA offline-first con sincronización y impresión térmica de tickets.",
-    stack: ["Laravel PHP 8.4", "Vue 3", "TypeScript", "Pinia", "PostgreSQL 16", "Redis", "Laravel Reverb", "Docker"],
+    stack: ["Laravel 13 (PHP 8.4)", "Vue 3", "TypeScript", "Pinia", "PostgreSQL 16", "Redis", "Laravel Reverb", "Docker"],
     highlights: [
       "v1.0 lanzado y operando en producción",
-      "4 módulos por rol con acceso estrictamente separado",
-      "KDS (Kitchen Display System) en tiempo real vía WebSockets",
-      "1,400+ tests: 550 PHPUnit + 899 Vitest + 26 E2E Playwright",
+      "RBAC real con spatie/laravel-permission: mesero, cocina, caja y administración estrictamente separados",
+      "KDS (Kitchen Display System) en tiempo real vía WebSockets (Laravel Reverb)",
+      "1,600+ tests: 567 PHPUnit + 936 Vitest + 109 E2E Playwright",
       "PWA offline-first: la operación sigue sin internet y sincroniza al volver",
     ],
     status: "En producción ✓ · v1.0",
@@ -95,11 +89,11 @@ export const projects: Project[] = [
     accentColor: "#00ff9f",   // green — LIVE = operational
     featured: true,
     demo: "/demos/pos/",
-    note: "Iniciado como proyecto de servicio social ESIT · v1.0 en producción desde Jul 2026",
+    note: "Iniciado como proyecto de servicio social ESIT · v1.0 en producción",
     securityCase: {
       risk: "Exposición de operaciones sensibles de caja, cocina o administración al rol equivocado.",
-      control: "Separación de acceso por rol entre mesero, cocina, caja y administración.",
-      evidence: "Cuatro módulos operativos aislados en un sistema que opera en producción.",
+      control: "RBAC con spatie/laravel-permission: roles y permisos separan mesero, cocina, caja y administración a nivel de API, no solo de interfaz.",
+      evidence: "Cuatro módulos operativos aislados y 109 pruebas E2E de Playwright que verifican el control de acceso, en un sistema con tag v1.0.0 en producción.",
     },
   },
   {
@@ -119,6 +113,7 @@ export const projects: Project[] = [
     status: "Funcional · Deploy en Vercel",
     statusType: "functional",
     accentColor: "#06b6d4",   // cyan
+    github: "https://github.com/javacachava/invitacion-baby-shower",
   },
   {
     id: "flowcore",

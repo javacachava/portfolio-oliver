@@ -10,12 +10,7 @@ import {
   Cloud,
   GraduationCap,
   LockKeyhole,
-  ShieldCheck,
-  Terminal,
-  Workflow,
 } from "lucide-react";
-import { FaJava } from "react-icons/fa";
-import { SiGnubash, SiJavascript, SiPython } from "react-icons/si";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 const PORTRAITS = [
@@ -27,39 +22,6 @@ const PURPLE = "#7042f8";
 const CYAN = "#06b6d4";
 const GREEN = "#00ff9f";
 const VIOLET = "#a78bfa";
-
-const FOCUS_AREAS = [
-  {
-    number: "01",
-    eyebrow: "CIBERSEGURIDAD",
-    title: "Seguridad aplicada",
-    description:
-      "Me interesa entender el riesgo y traducirlo en controles claros para accesos, APIs, datos y flujos de usuario.",
-    signals: ["OWASP Top 10", "RBAC / JWT", "RLS / HMAC"],
-    icon: ShieldCheck,
-    color: CYAN,
-  },
-  {
-    number: "02",
-    eyebrow: "CLOUD",
-    title: "Servicios y despliegues",
-    description:
-      "Combino formación en AWS y Google Cloud con práctica de entornos y configuración explícita de servicios.",
-    signals: ["AWS foundations", "Google Cloud", "DigitalOcean / Cloudflare"],
-    icon: Cloud,
-    color: VIOLET,
-  },
-  {
-    number: "03",
-    eyebrow: "SCRUM / ÁGIL",
-    title: "Trabajo visible",
-    description:
-      "Fortalezco una forma de trabajo ágil: dividir objetivos, priorizar tareas y documentar decisiones para entregar por incrementos.",
-    signals: ["Backlog", "Sprints", "Documentación"],
-    icon: Workflow,
-    color: GREEN,
-  },
-] as const;
 
 const TRAINING = [
   {
@@ -87,112 +49,6 @@ const TRAINING = [
     color: VIOLET,
   },
 ] as const;
-
-const LANGUAGE_TOOLS = [
-  {
-    name: "JavaScript",
-    detail: "Integraciones web y automatización",
-    code: "const secure = true;",
-    icon: SiJavascript,
-    color: "#f7df1e",
-  },
-  {
-    name: "Python",
-    detail: "Scripts, análisis y automatización",
-    code: "def review():",
-    icon: SiPython,
-    color: "#5ba4d8",
-  },
-  {
-    name: "Java",
-    detail: "Fundamentos de programación orientada a objetos",
-    code: "class AccessPolicy {}",
-    icon: FaJava,
-    color: "#f89820",
-  },
-  {
-    name: "Shell",
-    detail: "Terminal, Linux y tareas de entorno",
-    code: "#!/usr/bin/env bash",
-    icon: SiGnubash,
-    color: "#4eaa25",
-  },
-] as const;
-
-function SignalCard({
-  area,
-  index,
-}: {
-  area: (typeof FOCUS_AREAS)[number];
-  index: number;
-}) {
-  const Icon = area.icon;
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.45, delay: index * 0.1 }}
-      className="group relative min-h-68 overflow-hidden rounded-xl border p-5 sm:p-6"
-      style={{
-        borderColor: `${area.color}50`,
-        background: `linear-gradient(145deg, ${area.color}16 0%, var(--card) 54%, ${area.color}08 100%)`,
-        boxShadow: `0 18px 46px ${area.color}0d`,
-      }}
-    >
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-50"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-          maskImage: "linear-gradient(to bottom, black, transparent 78%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -right-8 -top-8 h-32 w-32 rounded-full blur-2xl transition-transform duration-500 group-hover:scale-125"
-        style={{ background: `${area.color}25` }}
-      />
-
-      <div className="relative flex items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] font-bold tracking-[0.18em]" style={{ color: area.color }}>
-            {area.number} / {area.eyebrow}
-          </p>
-          <h3 className="mt-3 text-xl font-bold text-[var(--foreground)]">{area.title}</h3>
-        </div>
-        <span
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border"
-          style={{
-            color: area.color,
-            borderColor: `${area.color}65`,
-            background: `${area.color}16`,
-            boxShadow: `0 0 24px ${area.color}25`,
-          }}
-        >
-          <Icon size={24} aria-hidden="true" strokeWidth={1.75} />
-        </span>
-      </div>
-
-      <p className="relative mt-4 text-sm leading-relaxed text-[var(--muted)]">{area.description}</p>
-
-      <div className="relative mt-5 flex flex-wrap gap-1.5 border-t pt-4" style={{ borderColor: `${area.color}30` }}>
-        {area.signals.map((signal) => (
-          <span
-            key={signal}
-            className="rounded-full border px-2.5 py-1 font-mono text-[9px] font-semibold tracking-wide"
-            style={{ color: area.color, borderColor: `${area.color}45`, background: `${area.color}10` }}
-          >
-            {signal}
-          </span>
-        ))}
-      </div>
-    </motion.article>
-  );
-}
 
 function TrainingItem({ item }: { item: (typeof TRAINING)[number] }) {
   const Icon = item.icon;
@@ -229,43 +85,6 @@ function TrainingItem({ item }: { item: (typeof TRAINING)[number] }) {
   );
 }
 
-function LanguageTool({ tool, index }: { tool: (typeof LANGUAGE_TOOLS)[number]; index: number }) {
-  const Icon = tool.icon;
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, scale: 0.96, y: 12 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.35, delay: index * 0.07 }}
-      className="group relative overflow-hidden rounded-xl border p-4"
-      style={{ borderColor: `${tool.color}45`, background: `linear-gradient(135deg, ${tool.color}12, var(--card) 66%)` }}
-    >
-      <div
-        aria-hidden="true"
-        className="absolute -right-5 -top-5 h-20 w-20 rounded-full blur-xl transition-transform duration-500 group-hover:scale-125"
-        style={{ background: `${tool.color}20` }}
-      />
-      <div className="relative flex items-start justify-between gap-3">
-        <div>
-          <p className="font-mono text-[10px] font-bold tracking-[0.14em]" style={{ color: tool.color }}>
-            LENGUAJE
-          </p>
-          <h4 className="mt-1 text-base font-bold text-[var(--foreground)]">{tool.name}</h4>
-        </div>
-        <Icon size={28} aria-hidden="true" style={{ color: tool.color }} />
-      </div>
-      <p className="relative mt-3 min-h-10 text-xs leading-relaxed text-[var(--muted)]">{tool.detail}</p>
-      <code
-        className="relative mt-3 block overflow-hidden text-ellipsis whitespace-nowrap rounded-md border px-2.5 py-2 font-mono text-[9px]"
-        style={{ color: `${tool.color}e8`, borderColor: `${tool.color}30`, background: `${tool.color}0d` }}
-      >
-        {tool.code}
-      </code>
-    </motion.article>
-  );
-}
-
 export default function About() {
   const [portrait, setPortrait] = useState(1);
   const currentPortrait = PORTRAITS[portrait];
@@ -299,10 +118,12 @@ export default function About() {
         >
           <SectionEyebrow className="mb-3">Perfil</SectionEyebrow>
           <h2 id="about-title" className="text-3xl font-bold text-[var(--foreground)] sm:text-4xl">
-            Ciberseguridad, cloud y trabajo ágil.
+            Software y seguridad, la misma disciplina.
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-            Me formo para aportar seguridad práctica, operar mejor en la nube y colaborar con objetivos claros. Los lenguajes son herramientas para construir, automatizar y revisar con intención.
+            Soy estudiante de Ingeniería en Desarrollo de Software y próximo egresado como TSU en
+            Ciberseguridad. Mi interés está en la intersección entre desarrollo, datos y seguridad:
+            construir sistemas y entender cómo protegerlos desde su arquitectura.
           </p>
         </motion.header>
 
@@ -406,9 +227,10 @@ export default function About() {
 
               <div className="px-5 pb-4 pt-2">
                 <h3 className="text-lg font-bold leading-5 text-[var(--foreground)]">Oliver Ascencio</h3>
-                <p className="mb-3 mt-1 font-mono text-xs text-[var(--accent)]">Ciberseguridad · Cloud · Scrum</p>
+                <p className="mb-3 mt-1 font-mono text-xs text-[var(--accent)]">Application &amp; Cloud Security</p>
                 <p className="text-xs leading-relaxed text-[var(--muted)]">
-                  TSU en Ciberseguridad en proceso de graduación. Interesado en controles útiles, infraestructura cloud y colaboración con ritmo.
+                  TSU en Ciberseguridad en proceso de graduación. Desarrollo software con controles
+                  de acceso y buenas prácticas cloud desde el diseño.
                 </p>
               </div>
 
@@ -440,55 +262,33 @@ export default function About() {
             </motion.section>
           </aside>
 
-          <div className="flex flex-col gap-9 sm:gap-11">
-            <motion.section
-              initial={{ opacity: 0, x: 28 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-              aria-labelledby="focus-title"
-            >
-              <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="font-mono text-xs tracking-[0.14em] text-[#06b6d4]">ÁREAS DE ENFOQUE</p>
-                  <h3 id="focus-title" className="mt-2 text-2xl font-semibold text-[var(--foreground)]">
-                    Una ruta técnica con propósito.
-                  </h3>
-                </div>
-                <p className="max-w-xs font-mono text-[10px] leading-relaxed text-[var(--muted)] sm:text-right">
-                  Ciberseguridad y cloud son el centro; Scrum organiza cómo colaboro y entrego.
-                </p>
-              </div>
-              <div className="grid gap-4 md:grid-cols-3">
-                {FOCUS_AREAS.map((area, index) => (
-                  <SignalCard key={area.title} area={area} index={index} />
-                ))}
-              </div>
-            </motion.section>
-
-            <section aria-labelledby="languages-tools-title">
-              <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                <div className="flex items-center gap-2">
-                  <Terminal size={17} className="text-[#00ff9f]" aria-hidden="true" />
-                  <div>
-                    <p className="font-mono text-xs tracking-[0.14em] text-[#00ff9f]">HERRAMIENTAS DE APOYO</p>
-                    <h3 id="languages-tools-title" className="mt-1 text-2xl font-semibold text-[var(--foreground)]">
-                      Lenguajes para automatizar y construir.
-                    </h3>
-                  </div>
-                </div>
-                <p className="max-w-xs font-mono text-[10px] leading-relaxed text-[var(--muted)] sm:text-right">
-                  No son el titular del perfil: respaldan el trabajo técnico.
-                </p>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                {LANGUAGE_TOOLS.map((tool, index) => (
-                  <LanguageTool key={tool.name} tool={tool} index={index} />
-                ))}
-              </div>
-            </section>
-
-          </div>
+          <motion.div
+            initial={{ opacity: 0, x: 28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="flex flex-col gap-6"
+          >
+            <p className="text-base leading-relaxed text-[var(--muted)] sm:text-lg">
+              Como Cofundador y Líder Técnico en Wuju defino arquitectura y stack para proyectos de
+              cliente, pero sigo siendo quien diseña el control de acceso y escribe el código: en el
+              POS de Pizza Brava fue RBAC real, en este portfolio son las cabeceras de seguridad que
+              puedes revisar en <code className="rounded bg-black/20 px-1.5 py-0.5 font-mono text-sm">next.config.ts</code>.
+            </p>
+            <p className="text-base leading-relaxed text-[var(--muted)] sm:text-lg">
+              Trabajo con equipos de 4 a 6 personas bajo un enfoque ágil: dividir objetivos,
+              priorizar y entregar por incrementos. El detalle técnico completo — por categoría,
+              con evidencia — está en{" "}
+              <a href="#skills" className="text-[var(--accent)] underline underline-offset-4 hover:text-[var(--accent-hover)]">
+                Habilidades
+              </a>{" "}
+              y{" "}
+              <a href="#proyectos" className="text-[var(--accent)] underline underline-offset-4 hover:text-[var(--accent-hover)]">
+                Proyectos
+              </a>
+              .
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -7,20 +7,18 @@ import {
   X,
   Cloud,
   ShieldCheck,
-  CircleUser,
   GraduationCap,
   Mail,
+  FolderGit2,
+  Briefcase,
   type LucideIcon,
 } from "lucide-react";
 
 const links: Array<{ label: string; href: string; Icon: LucideIcon }> = [
-  {
-    label: "Seguridad aplicada",
-    href: "/#seguridad",
-    Icon: ShieldCheck,
-  },
-  { label: "Cloud & habilidades", href: "/#skills", Icon: Cloud },
-  { label: "Perfil", href: "/#sobre-mi", Icon: CircleUser },
+  { label: "Proyectos", href: "/#proyectos", Icon: FolderGit2 },
+  { label: "Seguridad", href: "/#seguridad", Icon: ShieldCheck },
+  { label: "Experiencia", href: "/#experiencia", Icon: Briefcase },
+  { label: "Habilidades", href: "/#skills", Icon: Cloud },
   { label: "Formación", href: "/formacion", Icon: GraduationCap },
   { label: "Contacto", href: "/#contacto", Icon: Mail },
 ];

@@ -4,105 +4,84 @@ import { SparklesIcon } from "@heroicons/react/24/solid";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   CloudCog,
-  KeyRound,
-  ListChecks,
+  Database,
+  LayoutTemplate,
+  ServerCog,
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { FaAws, FaJava, FaTerminal } from "react-icons/fa";
-import type { IconType } from "react-icons";
-import { SiGooglecloud, SiJavascript, SiPython } from "react-icons/si";
 import { useInView } from "react-intersection-observer";
 
-type FocusArea = {
+type SkillCategory = {
   eyebrow: string;
   title: string;
   description: string;
-  signals: string[];
+  skills: string[];
   Icon: LucideIcon;
   accent: string;
 };
 
-type LanguageSkill = {
-  name: string;
-  description: string;
-  Icon: IconType;
-  accent: string;
-  glow: string;
-};
-
-const FOCUS_AREAS: FocusArea[] = [
+/**
+ * Solo tecnologías con evidencia real: CV de Oliver Ascencio o inspección
+ * directa de sus repositorios (FlowCore = Python/FastAPI, POS = Laravel/Vue,
+ * invitacion-baby-shower = Supabase, este mismo portfolio = TypeScript/Next.js).
+ * Nada de Docker/Terraform/Kubernetes/Burp Suite aunque aparezcan en algún
+ * repo — no se listan como dominadas sin confirmación explícita.
+ */
+const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    eyebrow: "01 / PROTECCIÓN",
-    title: "Ciberseguridad",
-    description:
-      "Seguridad de aplicaciones con controles pensados desde el acceso hasta las integraciones.",
-    signals: ["OWASP Top 10", "Autenticación y permisos", "APIs y webhooks"],
+    eyebrow: "01 / SEGURIDAD",
+    title: "Security",
+    description: "Controles de acceso y fundamentos de seguridad aplicados a productos reales.",
+    skills: ["OWASP Top 10", "RBAC", "Ethical Hacking", "Criptografía", "Redes", "Respuesta a incidentes"],
     Icon: ShieldCheck,
     accent: "#22d3ee",
   },
   {
-    eyebrow: "02 / INFRAESTRUCTURA",
-    title: "Cloud",
-    description:
-      "Fundamentos de infraestructura en la nube y despliegues reproducibles para servicios web.",
-    signals: ["AWS foundations", "Google Cloud", "DigitalOcean / Cloudflare"],
-    Icon: CloudCog,
+    eyebrow: "02 / DATOS",
+    title: "Database",
+    description: "Modelado relacional y no relacional, en producción y en formación.",
+    skills: ["PostgreSQL", "MySQL", "SQLite", "Firebase Firestore", "Supabase", "Modelado ER"],
+    Icon: Database,
     accent: "#a78bfa",
   },
   {
-    eyebrow: "03 / FORMA DE TRABAJO",
-    title: "Scrum",
-    description:
-      "Trabajo iterativo para convertir prioridades en entregas claras y revisables.",
-    signals: ["Equipos de 4-6 personas", "Requisitos con cliente", "Entregas incrementales"],
-    Icon: ListChecks,
+    eyebrow: "03 / SERVIDOR",
+    title: "Backend",
+    description: "Lenguajes y frameworks de servidor usados en proyectos reales, no solo en cursos.",
+    skills: ["Node.js", "JavaScript", "TypeScript", "Java", "Spring Boot", "Python", "C#", "PHP", "Bash / Shell"],
+    Icon: ServerCog,
     accent: "#34d399",
   },
-];
-
-const LANGUAGE_SKILLS: LanguageSkill[] = [
   {
-    name: "Java",
-    description: "Lógica y orientación a objetos",
-    Icon: FaJava,
-    accent: "#f89820",
-    glow: "rgba(248, 152, 32, 0.24)",
+    eyebrow: "04 / INTERFAZ",
+    title: "Frontend",
+    description: "Interfaces con foco en accesibilidad y consistencia visual.",
+    skills: ["React", "Vite", "Tailwind CSS", "HTML5", "CSS3"],
+    Icon: LayoutTemplate,
+    accent: "#f59e0b",
   },
   {
-    name: "JavaScript",
-    description: "Automatización e integraciones web",
-    Icon: SiJavascript,
-    accent: "#f7df1e",
-    glow: "rgba(247, 223, 30, 0.2)",
-  },
-  {
-    name: "Python",
-    description: "Scripting y análisis",
-    Icon: SiPython,
-    accent: "#60a5fa",
-    glow: "rgba(96, 165, 250, 0.24)",
-  },
-  {
-    name: "Shell",
-    description: "Automatización de tareas",
-    Icon: FaTerminal,
-    accent: "#4ade80",
-    glow: "rgba(74, 222, 128, 0.22)",
+    eyebrow: "05 / INFRAESTRUCTURA",
+    title: "Cloud",
+    description: "Fundamentos de infraestructura en la nube y control de versiones.",
+    skills: ["AWS foundations", "Google Cloud", "DigitalOcean", "Cloudflare", "Git", "GitHub"],
+    Icon: CloudCog,
+    accent: "#06b6d4",
   },
 ];
 
-function FocusCard({
-  area,
+function CategoryCard({
+  category,
   index,
   reducedMotion,
 }: {
-  area: FocusArea;
+  category: SkillCategory;
   index: number;
   reducedMotion: boolean | null;
 }) {
-  const { Icon } = area;
+  const { Icon } = category;
 
   return (
     <motion.article
@@ -112,67 +91,62 @@ function FocusCard({
       viewport={{ once: true, amount: 0.2 }}
       transition={{
         duration: reducedMotion ? 0 : 0.45,
-        delay: reducedMotion ? 0 : index * 0.1,
+        delay: reducedMotion ? 0 : index * 0.08,
       }}
       className="group relative overflow-hidden rounded-2xl border bg-[#08031d]/80 p-5 backdrop-blur-sm sm:p-6"
       style={{
-        borderColor: `${area.accent}52`,
-        boxShadow: `0 16px 42px -30px ${area.accent}`,
+        borderColor: `${category.accent}52`,
+        boxShadow: `0 16px 42px -30px ${category.accent}`,
       }}
     >
       <div
         aria-hidden="true"
         className="absolute -right-8 -top-8 h-28 w-28 rounded-full blur-2xl transition-opacity duration-500 group-hover:opacity-100"
-        style={{ backgroundColor: `${area.accent}2b` }}
+        style={{ backgroundColor: `${category.accent}2b` }}
       />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-px"
         style={{
-          background: `linear-gradient(90deg, transparent, ${area.accent}, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${category.accent}, transparent)`,
         }}
       />
 
       <div className="relative flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[var(--muted)]">
-            {area.eyebrow}
+            {category.eyebrow}
           </p>
-          <h3 className="mt-3 text-xl font-semibold text-white">{area.title}</h3>
+          <h3 className="mt-3 text-xl font-semibold text-white">{category.title}</h3>
         </div>
         <span
           aria-hidden="true"
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border"
           style={{
-            color: area.accent,
-            borderColor: `${area.accent}65`,
-            backgroundColor: `${area.accent}15`,
-            boxShadow: `0 0 28px -8px ${area.accent}`,
+            color: category.accent,
+            borderColor: `${category.accent}65`,
+            backgroundColor: `${category.accent}15`,
+            boxShadow: `0 0 28px -8px ${category.accent}`,
           }}
         >
           <Icon size={24} strokeWidth={1.75} />
         </span>
       </div>
 
-      <p className="relative mt-4 text-sm leading-6 text-gray-300">
-        {area.description}
-      </p>
+      <p className="relative mt-4 text-sm leading-6 text-gray-300">{category.description}</p>
 
-      <ul
-        className="relative mt-5 flex flex-wrap gap-2"
-        aria-label={`Enfoques de ${area.title}`}
-      >
-        {area.signals.map((signal) => (
+      <ul className="relative mt-5 flex flex-wrap gap-2" aria-label={`Tecnologías de ${category.title}`}>
+        {category.skills.map((skill) => (
           <li
-            key={signal}
+            key={skill}
             className="rounded-full border px-2.5 py-1 font-mono text-[10px] leading-none"
             style={{
-              borderColor: `${area.accent}3f`,
-              backgroundColor: `${area.accent}10`,
-              color: area.accent,
+              borderColor: `${category.accent}3f`,
+              backgroundColor: `${category.accent}10`,
+              color: category.accent,
             }}
           >
-            {signal}
+            {skill}
           </li>
         ))}
       </ul>
@@ -274,119 +248,30 @@ export default function Skills() {
         >
           <div className="Welcome-box mx-auto border border-[#7042f88b] px-[9px] py-[8px] opacity-95">
             <SparklesIcon className="mr-[10px] h-5 w-5 text-[#b49bff]" />
-            <span className="Welcome-text text-[13px]">
-              Ciberseguridad · Cloud · Scrum
-            </span>
+            <span className="Welcome-text text-[13px]">Habilidades técnicas</span>
           </div>
           <h2
             id="skills-title"
             className="mt-5 text-3xl font-semibold leading-tight text-white sm:text-4xl"
           >
-            Herramientas para proteger, desplegar y avanzar.
+            Sin porcentajes inventados — evidencia por categoría.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300 sm:text-lg">
-            Un stack intencional: seguridad de aplicaciones, fundamentos cloud,
-            trabajo ágil y lenguajes para automatizar tareas técnicas.
+            Cinco áreas: seguridad, datos, backend, frontend y cloud. Cada una respaldada por
+            formación real o por un proyecto que la usa en producción.
           </p>
         </motion.header>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3 sm:mt-12 sm:gap-5">
-          {FOCUS_AREAS.map((area, index) => (
-            <FocusCard
-              key={area.title}
-              area={area}
+        <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {SKILL_CATEGORIES.map((category, index) => (
+            <CategoryCard
+              key={category.title}
+              category={category}
               index={index}
               reducedMotion={prefersReducedMotion}
             />
           ))}
         </div>
-
-        <motion.section
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 22 }}
-          whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{
-            duration: prefersReducedMotion ? 0 : 0.5,
-            delay: prefersReducedMotion ? 0 : 0.16,
-          }}
-          aria-labelledby="languages-title"
-          className="relative mt-8 overflow-hidden rounded-2xl border border-[#7042f8]/35 bg-[#08031d]/75 p-5 shadow-[0_18px_52px_-36px_rgba(112,66,248,0.72)] backdrop-blur-sm sm:mt-10 sm:p-7"
-        >
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b49bff] to-transparent"
-          />
-          <div className="relative flex flex-col gap-3 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
-            <div>
-              <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[#b49bff]">
-                LENGUAJES
-              </p>
-              <h3 id="languages-title" className="mt-2 text-2xl font-semibold text-white">
-                Base técnica para automatizar y analizar.
-              </h3>
-            </div>
-            <div className="flex items-center justify-center gap-2 font-mono text-[10px] text-gray-400 sm:justify-end">
-              <KeyRound aria-hidden="true" size={14} className="text-cyan-300" />
-              <span>scripts · integraciones · utilidades</span>
-            </div>
-          </div>
-
-          <ul className="relative mt-6 grid grid-cols-2 gap-3 sm:mt-7 sm:gap-4 lg:grid-cols-4">
-            {LANGUAGE_SKILLS.map((skill, index) => {
-              const { Icon } = skill;
-
-              return (
-                <motion.li
-                  key={skill.name}
-                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94 }}
-                  whileInView={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
-                  whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.015 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{
-                    duration: prefersReducedMotion ? 0 : 0.35,
-                    delay: prefersReducedMotion ? 0 : 0.24 + index * 0.08,
-                  }}
-                  className="group relative min-h-44 overflow-hidden rounded-xl border bg-[#050114]/80 p-4 text-center sm:min-h-48 sm:p-5"
-                  style={{
-                    borderColor: `${skill.accent}48`,
-                    boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 16px 35px -29px ${skill.glow}`,
-                  }}
-                >
-                  <div
-                    aria-hidden="true"
-                    className="absolute left-1/2 top-8 h-20 w-20 -translate-x-1/2 rounded-full blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-                    style={{ background: skill.glow }}
-                  />
-                  <Icon
-                    aria-hidden="true"
-                    className="relative mx-auto h-16 w-16 transition-transform duration-300 group-hover:scale-110 sm:h-[4.5rem] sm:w-[4.5rem]"
-                    style={{
-                      color: skill.accent,
-                      filter: `drop-shadow(0 0 12px ${skill.glow})`,
-                    }}
-                  />
-                  <p className="relative mt-4 font-mono text-sm font-semibold text-white">
-                    {skill.name}
-                  </p>
-                  <p className="relative mx-auto mt-1 max-w-[10rem] text-xs leading-5 text-gray-400">
-                    {skill.description}
-                  </p>
-                </motion.li>
-              );
-            })}
-          </ul>
-
-          <div className="relative mt-6 flex flex-wrap justify-center gap-2 border-t border-white/5 pt-5 sm:justify-between">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-300/25 bg-orange-300/10 px-3 py-1.5 font-mono text-[10px] text-orange-100">
-              <FaAws aria-hidden="true" className="text-orange-300" />
-              AWS · fundamentos cloud
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-300/25 bg-blue-300/10 px-3 py-1.5 font-mono text-[10px] text-blue-100">
-              <SiGooglecloud aria-hidden="true" className="text-blue-300" />
-              Google Cloud · formación complementaria
-            </span>
-          </div>
-        </motion.section>
       </div>
     </section>
   );

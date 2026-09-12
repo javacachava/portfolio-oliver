@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Oliver Ascencio — Ciberseguridad, Cloud y Scrum";
+export const alt = "Oliver Ascencio — Application & Cloud Security";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default function OgImage() {
               fontWeight: 600,
             }}
           >
-            Ciberseguridad · Cloud · trabajo ágil
+            Application & Cloud Security Junior
           </div>
           <div
             style={{
@@ -78,7 +78,7 @@ export default function OgImage() {
               fontWeight: 500,
             }}
           >
-            Ciberseguridad & Cloud · Santa Ana, El Salvador
+            Cybersecurity · Application Security · Cloud · Santa Ana, El Salvador
           </div>
           <div
             style={{
@@ -89,8 +89,8 @@ export default function OgImage() {
               lineHeight: 1.5,
             }}
           >
-            Controles de acceso, fundamentos cloud y colaboración ágil,
-            con evidencia en productos reales.
+            Controles de acceso, seguridad de datos y buenas prácticas cloud
+            desde el diseño, con evidencia en productos reales.
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          {["OWASP", "RBAC", "AWS Cloud", "Scrum", "Java · JS · Python · Shell"].map((tag) => (
+          {["OWASP", "RBAC", "PostgreSQL", "Node.js", "AWS · Google Cloud"].map((tag) => (
             <div
               key={tag}
               style={{

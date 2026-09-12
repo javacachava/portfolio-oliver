@@ -32,9 +32,9 @@ const cedarvilleCursive = Cedarville_Cursive({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
-  title: "Oliver Ascencio — Ciberseguridad, Cloud & Scrum",
+  title: "Oliver Ascencio | Application & Cloud Security",
   description:
-    "Portfolio de Oliver Ascencio. Ciberseguridad, fundamentos cloud y trabajo ágil: controles de acceso, OWASP, RBAC y automatización. Santa Ana, El Salvador.",
+    "Portfolio de Oliver Ascencio, estudiante de Ingeniería de Software y próximo egresado en Ciberseguridad, enfocado en Application Security, Cloud Security y desarrollo seguro.",
   authors: [
     {
       name: "Oliver Ascencio",
@@ -42,16 +42,20 @@ export const metadata: Metadata = {
     },
   ],
   keywords: [
+    "application security",
+    "cloud security",
+    "devsecops",
     "ciberseguridad",
     "cybersecurity",
     "cloud",
-    "Scrum",
     "OWASP",
     "RBAC",
+    "PostgreSQL",
+    "Node.js",
     "Java",
     "JavaScript",
+    "TypeScript",
     "Python",
-    "Shell",
     "El Salvador",
     "portafolio",
   ],
@@ -59,9 +63,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Oliver Ascencio — Ciberseguridad, Cloud & Scrum",
+    title: "Oliver Ascencio | Application & Cloud Security",
     description:
-      "Ciberseguridad, fundamentos cloud y trabajo ágil con evidencia en controles de acceso e integraciones.",
+      "Application Security, Cloud Security y desarrollo seguro, con evidencia en controles de acceso, bases de datos e integraciones reales.",
     url: "https://oliver-ascencio.wuju.dev",
     siteName: "Oliver Ascencio Portfolio",
     locale: "es_SV",
@@ -69,9 +73,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Oliver Ascencio — Ciberseguridad, Cloud & Scrum",
+    title: "Oliver Ascencio | Application & Cloud Security",
     description:
-      "Ciberseguridad, cloud y práctica ágil con controles aplicados a productos reales.",
+      "Application Security, Cloud Security y desarrollo backend con controles aplicados a productos reales.",
   },
   robots: {
     index: true,
