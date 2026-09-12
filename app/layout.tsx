@@ -31,7 +31,7 @@ const cedarvilleCursive = Cedarville_Cursive({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://oliver.wuju.dev"),
+  metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
   title: "Oliver Ascencio — Ciberseguridad & Backend",
   description:
     "Portfolio de Oliver Ascencio. TSU en Ciberseguridad y desarrollador Backend. Seguridad desde el diseño (OWASP, RBAC, criptografía), TypeScript, Node.js y cloud. Santa Ana, El Salvador.",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Oliver Ascencio — Ciberseguridad & Backend",
     description:
       "Seguridad desde el diseño y backend sólido. Construyo software que resuelve problemas reales en El Salvador.",
-    url: "https://oliver.wuju.dev",
+    url: "https://oliver-ascencio.wuju.dev",
     siteName: "Oliver Ascencio Portfolio",
     locale: "es_SV",
     type: "website",
