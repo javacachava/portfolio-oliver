@@ -14,6 +14,7 @@ const CLUSTER_CENTERS: Record<string, { cx: number; cy: number }> = {
   cloud: { cx: 745, cy: 160 },
   agilidad: { cx: 425, cy: 465 },
   java: { cx: 870, cy: 445 },
+  datos: { cx: 1080, cy: 260 },
 };
 
 // Offsets deterministas por cantidad de ítems (forma de la constelación)
