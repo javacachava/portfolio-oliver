@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Oliver Ascencio — Desarrollador Full-Stack";
+export const alt = "Oliver Ascencio — Ciberseguridad & Backend";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default function OgImage() {
               fontWeight: 600,
             }}
           >
-            Disponible para roles Full-Stack
+            Disponible para roles Ciberseguridad · Backend
           </div>
           <div
             style={{
@@ -78,7 +78,7 @@ export default function OgImage() {
               fontWeight: 500,
             }}
           >
-            Desarrollador Full-Stack · Santa Ana, El Salvador
+            Ciberseguridad & Backend · Santa Ana, El Salvador
           </div>
           <div
             style={{
@@ -89,8 +89,8 @@ export default function OgImage() {
               lineHeight: 1.5,
             }}
           >
-            Construyo software que resuelve problemas reales en El Salvador.
-            Backend sólido, producto con propósito.
+            Seguridad desde el diseño y backend sólido. Construyo software
+            que resuelve problemas reales en El Salvador.
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          {["TypeScript", "Node.js", "React", "PostgreSQL", "Docker"].map((tag) => (
+          {["OWASP Top 10", "RBAC", "TypeScript", "PostgreSQL", "Docker"].map((tag) => (
             <div
               key={tag}
               style={{

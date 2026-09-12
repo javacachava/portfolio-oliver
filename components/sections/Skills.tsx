@@ -65,6 +65,10 @@ const EXTRA_STACK = [
   "Git · GitHub",
   "OWASP Top 10",
   "Swagger/OpenAPI",
+  "RBAC",
+  "Ethical Hacking",
+  "Criptografía",
+  "Respuesta a Incidentes",
 ];
 
 export default function Skills() {
@@ -107,7 +111,7 @@ export default function Skills() {
           variants={slideInFromRight(0.5)}
           className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
         >
-          Del backend a la nube, sin humo.
+          Del backend a la seguridad, sin humo.
         </motion.div>
       </motion.div>
 

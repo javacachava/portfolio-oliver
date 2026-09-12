@@ -18,8 +18,8 @@ export default function Page() {
       <Navbar />
       <main className="relative z-10">
         <Hero />
-        <Skills />
         <Security />
+        <Skills />
         <Projects />
         <AITools />
         <About />

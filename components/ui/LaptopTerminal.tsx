@@ -207,7 +207,7 @@ export default function LaptopTerminal({
           { t: "out", s: "                  OS: oliver-os v2.0" },
           { t: "out", s: "                  Host: Santa Ana, El Salvador" },
           { t: "out", s: "                  Uptime: 20 años" },
-          { t: "out", s: "                  Shell: full-stack" },
+          { t: "out", s: "                  Shell: security+backend" },
           { t: "out", s: "                  Stack: TS · PHP · Python · Vue" },
           { t: "out", s: "                  Tests: 1,400+ en producción" },
           { t: "out", s: "                  Contact: oliver.a.ascencio@gmail.com" },

@@ -34,7 +34,7 @@ export default function Contact() {
       >
         <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
         <span className="Welcome-text text-[13px]">
-          Disponible para proyectos remotos o en El Salvador
+          Disponible para roles de Ciberseguridad · Backend
         </span>
       </motion.div>
 

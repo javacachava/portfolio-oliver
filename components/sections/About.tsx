@@ -14,6 +14,10 @@ const SKINS = [
 
 const SPECIAL_MOVES = [
   {
+    name: "Seguridad desde el diseño",
+    desc: "RBAC, OWASP Top 10, threat modeling en proyectos reales",
+  },
+  {
     name: "Arquitectura backend",
     desc: "Modelado ER · esquemas relacionales y geoespaciales",
   },
@@ -54,7 +58,7 @@ const dominios = [
 ];
 
 const transversales = [
-  { name: "Seguridad",       value: 58, desc: "RLS · HMAC · CSRF · auditorías propias" },
+  { name: "Seguridad",       value: 58, desc: "RBAC · OWASP · RLS · HMAC · CSRF · auditorías propias" },
   { name: "Testing",         value: 60, desc: "1400+ tests donde se aplica" },
   { name: "Higiene de repo", value: 55, desc: "limpieza en curso" },
   { name: "Documentación",   value: 40, desc: "en mejora activa" },
@@ -312,13 +316,13 @@ export default function About() {
                 Oliver Ascencio
               </h3>
               <p className="font-mono text-xs text-[var(--accent)] mb-4">
-                Full-Stack · 20 años
+                Ciberseguridad & Backend · 20 años
               </p>
 
               {/* Short bio */}
               <p className="text-xs text-[var(--muted)] leading-relaxed">
-                Líder técnico full-stack. Backend TypeScript/Node.js,
-                cloud AWS/GCP y sistemas en tiempo real.
+                TSU en Ciberseguridad. Backend sólido con seguridad desde
+                el diseño — RBAC, OWASP, cloud AWS/GCP.
               </p>
             </div>
 

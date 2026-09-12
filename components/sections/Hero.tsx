@@ -60,7 +60,7 @@ export default function Hero() {
           >
             <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
             <h1 className="Welcome-text text-[13px]">
-              Full-Stack · Disponible para proyectos
+              Ciberseguridad · Disponible para proyectos
             </h1>
           </motion.div>
 
@@ -81,8 +81,9 @@ export default function Hero() {
             variants={slideInFromLeft(0.8)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
-            Construyo software que resuelve problemas reales en El Salvador.
-            Backend sólido, producto con propósito.
+            Seguridad desde el diseño, no como parche. TSU en Ciberseguridad
+            y backend sólido — construyo y protejo software que resuelve
+            problemas reales en El Salvador.
           </motion.p>
 
           <motion.div
