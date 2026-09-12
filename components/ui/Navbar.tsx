@@ -5,11 +5,9 @@ import { usePathname } from "next/navigation";
 import {
   Menu,
   X,
-  Cpu,
+  Cloud,
   ShieldCheck,
-  Rocket,
   CircleUser,
-  Users,
   GraduationCap,
   Mail,
   type LucideIcon,
@@ -21,10 +19,8 @@ const links: Array<{ label: string; href: string; Icon: LucideIcon }> = [
     href: "/#seguridad",
     Icon: ShieldCheck,
   },
-  { label: "Capacidades", href: "/#skills", Icon: Cpu },
-  { label: "Proyectos", href: "/#proyectos", Icon: Rocket },
-  { label: "Sobre mí", href: "/#sobre-mi", Icon: CircleUser },
-  { label: "Wuju", href: "/#wuju", Icon: Users },
+  { label: "Cloud & habilidades", href: "/#skills", Icon: Cloud },
+  { label: "Perfil", href: "/#sobre-mi", Icon: CircleUser },
   { label: "Formación", href: "/formacion", Icon: GraduationCap },
   { label: "Contacto", href: "/#contacto", Icon: Mail },
 ];
@@ -64,8 +60,11 @@ export default function Navbar() {
           aria-label="Ir al inicio de Oliver Ascencio"
           className="flex items-center gap-1.5 group"
         >
+          <span className="font-mono text-sm font-bold text-[#b49bff] opacity-65 transition-opacity group-hover:opacity-100">
+            ›_
+          </span>
           <span className="text-sm font-semibold text-gray-300 tracking-tight">
-            Oliver Ascencio<span className="text-[#b49bff]">.</span>
+            Oliver<span className="text-[#b49bff]">.sec</span>
           </span>
         </a>
 

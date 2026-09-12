@@ -9,9 +9,9 @@ import Counter from "@/components/ui/Counter";
 import { formacionStats } from "@/data/formacion";
 
 export const metadata: Metadata = {
-  title: "Formación en seguridad de aplicaciones — Oliver Ascencio",
+  title: "Formación en ciberseguridad, cloud y Java — Oliver Ascencio",
   description:
-    "Formación académica y complementaria de Oliver Ascencio, con foco en ciberseguridad, seguridad de aplicaciones, cloud y desarrollo de software.",
+    "Formación y práctica verificable de Oliver Ascencio en ciberseguridad, cloud, Java y trabajo ágil.",
 };
 
 const stats = [
@@ -32,11 +32,12 @@ export default function FormacionPage() {
             Formación verificable
           </SectionEyebrow>
           <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 w-fit mx-auto pb-2">
-            Formación para seguridad aplicada
+            Ciberseguridad, cloud y práctica ágil
           </h1>
           <p className="text-[var(--muted)] max-w-xl mx-auto mt-3">
-            Formación académica y complementaria que sostiene mi práctica en
-            seguridad de aplicaciones, backend y cloud — {formacionStats.yearRange}.
+            Evidencia seleccionada de ciberseguridad, cloud, Java y trabajo
+            ágil — {formacionStats.yearRange}. Scrum se presenta como práctica
+            de equipo, no como certificación.
           </p>
 
           {/* Stats */}

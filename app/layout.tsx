@@ -32,9 +32,9 @@ const cedarvilleCursive = Cedarville_Cursive({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
-  title: "Oliver Ascencio — Seguridad de aplicaciones & Backend",
+  title: "Oliver Ascencio — Ciberseguridad, Cloud & Scrum",
   description:
-    "Portfolio de Oliver Ascencio. Seguridad de aplicaciones y backend seguro: autenticación, autorización, protección de integraciones y controles desde el diseño. Santa Ana, El Salvador.",
+    "Portfolio de Oliver Ascencio. Ciberseguridad, fundamentos cloud y trabajo ágil: controles de acceso, OWASP, RBAC y automatización. Santa Ana, El Salvador.",
   authors: [
     {
       name: "Oliver Ascencio",
@@ -44,14 +44,14 @@ export const metadata: Metadata = {
   keywords: [
     "ciberseguridad",
     "cybersecurity",
-    "seguridad de aplicaciones",
-    "AppSec",
+    "cloud",
+    "Scrum",
     "OWASP",
     "RBAC",
-    "backend",
-    "desarrollador",
-    "TypeScript",
-    "Node.js",
+    "Java",
+    "JavaScript",
+    "Python",
+    "Shell",
     "El Salvador",
     "portafolio",
   ],
@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Oliver Ascencio — Seguridad de aplicaciones & Backend",
+    title: "Oliver Ascencio — Ciberseguridad, Cloud & Scrum",
     description:
-      "Controles de seguridad aplicados a productos reales: autenticación, autorización e integraciones verificadas.",
+      "Ciberseguridad, fundamentos cloud y trabajo ágil con evidencia en controles de acceso e integraciones.",
     url: "https://oliver-ascencio.wuju.dev",
     siteName: "Oliver Ascencio Portfolio",
     locale: "es_SV",
@@ -69,9 +69,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Oliver Ascencio — Seguridad de aplicaciones & Backend",
+    title: "Oliver Ascencio — Ciberseguridad, Cloud & Scrum",
     description:
-      "Seguridad de aplicaciones y backend seguro, con controles aplicados a productos reales.",
+      "Ciberseguridad, cloud y práctica ágil con controles aplicados a productos reales.",
   },
   robots: {
     index: true,

@@ -3,10 +3,6 @@ import Hero from "@/components/sections/Hero";
 import Skills from "@/components/sections/Skills";
 import Security from "@/components/sections/Security";
 import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-import AITools from "@/components/sections/AITools";
-import DataDuck from "@/components/sections/DataDuck";
-import Awards from "@/components/sections/Awards";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import DeferredStarsCanvas from "@/components/ui/DeferredStarsCanvas";
@@ -16,7 +12,7 @@ const personJsonLd = {
   "@type": "Person",
   name: "Oliver Ascencio",
   url: "https://oliver-ascencio.wuju.dev",
-  jobTitle: "Seguridad de aplicaciones y backend seguro",
+  jobTitle: "Ciberseguridad y Cloud",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Santa Ana",
@@ -27,11 +23,15 @@ const personJsonLd = {
     "https://linkedin.com/in/oliver-ascencio",
   ],
   knowsAbout: [
-    "Seguridad de aplicaciones",
+    "Ciberseguridad",
     "OWASP",
     "Control de acceso basado en roles",
-    "Seguridad de APIs",
-    "Backend",
+    "Cloud fundamentals",
+    "Trabajo ágil",
+    "Java",
+    "JavaScript",
+    "Python",
+    "Shell",
   ],
 };
 
@@ -53,11 +53,7 @@ export default function Page() {
         <Hero />
         <Security />
         <Skills />
-        <Projects />
         <About />
-        <Awards />
-        <DataDuck />
-        <AITools />
         <Contact />
       </main>
       <Footer />

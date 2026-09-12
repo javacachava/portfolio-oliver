@@ -1,136 +1,178 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { SparklesIcon } from "@heroicons/react/24/solid";
-import SkillIcon from "@/components/ui/SkillIcon";
+import { motion, useReducedMotion } from "framer-motion";
 import {
-  slideInFromLeft,
-  slideInFromRight,
-  slideInFromTop,
-} from "@/lib/motion";
+  CloudCog,
+  KeyRound,
+  ListChecks,
+  ShieldCheck,
+  type LucideIcon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { FaAws, FaJava, FaTerminal } from "react-icons/fa";
+import type { IconType } from "react-icons";
+import { SiGooglecloud, SiJavascript, SiPython } from "react-icons/si";
+import { useInView } from "react-intersection-observer";
 
-interface IconSkill {
-  name: string;
-  image: string;
-  width: number;
-  height: number;
-}
-
-type Capability = {
-  name: string;
-  detail: string;
-};
-
-const SECURITY_CAPABILITIES: Capability[] = [
-  {
-    name: "Autenticación y autorización",
-    detail: "JWT, RBAC y principio de mínimo privilegio.",
-  },
-  {
-    name: "APIs e integraciones",
-    detail: "Validación de entradas, firmas HMAC y controles para webhooks.",
-  },
-  {
-    name: "Acceso a datos",
-    detail: "RLS y diseño de permisos alineados al rol de cada usuario.",
-  },
-  {
-    name: "Revisión de riesgos",
-    detail: "OWASP Top 10 y threat modeling como guía de implementación.",
-  },
-];
-
-const ENGINEERING_CAPABILITIES: Capability[] = [
-  {
-    name: "Pruebas automatizadas",
-    detail: "Vitest y pytest para comprobar flujos críticos.",
-  },
-  {
-    name: "Análisis y estándares",
-    detail: "PHPStan, Pint y revisión continua de calidad.",
-  },
-  {
-    name: "Documentación de APIs",
-    detail: "Especificaciones y contratos con Swagger/OpenAPI.",
-  },
-  {
-    name: "Despliegue reproducible",
-    detail: "Docker y configuración explícita por entorno.",
-  },
-];
-
-const BACKEND_FOUNDATIONS: IconSkill[] = [
-  { name: "Laravel", image: "laravel.svg", width: 65, height: 65 },
-  { name: "FastAPI", image: "fastapi.svg", width: 70, height: 70 },
-  { name: "Node.js", image: "node.png", width: 80, height: 80 },
-  { name: "PostgreSQL", image: "postgresql.png", width: 70, height: 70 },
-  { name: "Supabase", image: "supabase.svg", width: 62, height: 62 },
-  { name: "Docker", image: "docker.png", width: 70, height: 70 },
-];
-
-const COMPLEMENTARY_TECHNOLOGIES = [
-  "TypeScript",
-  "JavaScript",
-  "PHP",
-  "Python",
-  "Vue 3",
-  "React",
-  "Next.js",
-  "Django",
-  "NestJS",
-  "Express",
-  "Firebase",
-  "Redis",
-  "PostGIS",
-  "AWS Cloud",
-  "Google Cloud",
-  "Git · GitHub",
-];
-
-function CapabilityCard({
-  title,
-  description,
-  capabilities,
-  color,
-  index,
-}: {
+type FocusArea = {
+  eyebrow: string;
   title: string;
   description: string;
-  capabilities: Capability[];
-  color: string;
+  signals: string[];
+  Icon: LucideIcon;
+  accent: string;
+};
+
+type LanguageSkill = {
+  name: string;
+  description: string;
+  Icon: IconType;
+  accent: string;
+  glow: string;
+};
+
+const FOCUS_AREAS: FocusArea[] = [
+  {
+    eyebrow: "01 / PROTECCIÓN",
+    title: "Ciberseguridad",
+    description:
+      "Seguridad de aplicaciones con controles pensados desde el acceso hasta las integraciones.",
+    signals: ["OWASP Top 10", "Autenticación y permisos", "APIs y webhooks"],
+    Icon: ShieldCheck,
+    accent: "#22d3ee",
+  },
+  {
+    eyebrow: "02 / INFRAESTRUCTURA",
+    title: "Cloud",
+    description:
+      "Fundamentos de infraestructura en la nube y despliegues reproducibles para servicios web.",
+    signals: ["AWS", "Google Cloud", "Contenedores"],
+    Icon: CloudCog,
+    accent: "#a78bfa",
+  },
+  {
+    eyebrow: "03 / FORMA DE TRABAJO",
+    title: "Scrum",
+    description:
+      "Trabajo iterativo para convertir prioridades en entregas claras y revisables.",
+    signals: ["Sprints", "Backlog", "Retrospectivas"],
+    Icon: ListChecks,
+    accent: "#34d399",
+  },
+];
+
+const LANGUAGE_SKILLS: LanguageSkill[] = [
+  {
+    name: "Java",
+    description: "Lógica y orientación a objetos",
+    Icon: FaJava,
+    accent: "#f89820",
+    glow: "rgba(248, 152, 32, 0.24)",
+  },
+  {
+    name: "JavaScript",
+    description: "Automatización e integraciones web",
+    Icon: SiJavascript,
+    accent: "#f7df1e",
+    glow: "rgba(247, 223, 30, 0.2)",
+  },
+  {
+    name: "Python",
+    description: "Scripting y análisis",
+    Icon: SiPython,
+    accent: "#60a5fa",
+    glow: "rgba(96, 165, 250, 0.24)",
+  },
+  {
+    name: "Shell",
+    description: "Automatización de tareas",
+    Icon: FaTerminal,
+    accent: "#4ade80",
+    glow: "rgba(74, 222, 128, 0.22)",
+  },
+];
+
+function FocusCard({
+  area,
+  index,
+  reducedMotion,
+}: {
+  area: FocusArea;
   index: number;
+  reducedMotion: boolean | null;
 }) {
+  const { Icon } = area;
+
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 26 }}
+      whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+      whileHover={reducedMotion ? undefined : { y: -6 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.45, delay: index * 0.12 }}
-      className="rounded-xl border p-5 sm:p-6"
-      style={{ borderColor: `${color}45`, background: `${color}08` }}
+      transition={{
+        duration: reducedMotion ? 0 : 0.45,
+        delay: reducedMotion ? 0 : index * 0.1,
+      }}
+      className="group relative overflow-hidden rounded-2xl border bg-[#08031d]/80 p-5 backdrop-blur-sm sm:p-6"
+      style={{
+        borderColor: `${area.accent}52`,
+        boxShadow: `0 16px 42px -30px ${area.accent}`,
+      }}
     >
-      <p
-        className="font-mono text-[10px] uppercase tracking-[0.16em] mb-2"
-        style={{ color }}
+      <div
+        aria-hidden="true"
+        className="absolute -right-8 -top-8 h-28 w-28 rounded-full blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+        style={{ backgroundColor: `${area.accent}2b` }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${area.accent}, transparent)`,
+        }}
+      />
+
+      <div className="relative flex items-start justify-between gap-4">
+        <div>
+          <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[var(--muted)]">
+            {area.eyebrow}
+          </p>
+          <h3 className="mt-3 text-xl font-semibold text-white">{area.title}</h3>
+        </div>
+        <span
+          aria-hidden="true"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border"
+          style={{
+            color: area.accent,
+            borderColor: `${area.accent}65`,
+            backgroundColor: `${area.accent}15`,
+            boxShadow: `0 0 28px -8px ${area.accent}`,
+          }}
+        >
+          <Icon size={24} strokeWidth={1.75} />
+        </span>
+      </div>
+
+      <p className="relative mt-4 text-sm leading-6 text-gray-300">
+        {area.description}
+      </p>
+
+      <ul
+        className="relative mt-5 flex flex-wrap gap-2"
+        aria-label={`Enfoques de ${area.title}`}
       >
-        {title}
-      </p>
-      <p className="text-sm text-[var(--muted)] leading-relaxed mb-5">
-        {description}
-      </p>
-      <ul className="space-y-3">
-        {capabilities.map((capability) => (
+        {area.signals.map((signal) => (
           <li
-            key={capability.name}
-            className="border-l-2 pl-3"
-            style={{ borderColor: color }}
+            key={signal}
+            className="rounded-full border px-2.5 py-1 font-mono text-[10px] leading-none"
+            style={{
+              borderColor: `${area.accent}3f`,
+              backgroundColor: `${area.accent}10`,
+              color: area.accent,
+            }}
           >
-            <p className="text-sm font-semibold text-[var(--foreground)]">
-              {capability.name}
-            </p>
-            <p className="font-mono text-[11px] leading-relaxed text-[var(--muted)] mt-0.5">
-              {capability.detail}
-            </p>
+            {signal}
           </li>
         ))}
       </ul>
@@ -139,131 +181,210 @@ function CapabilityCard({
 }
 
 export default function Skills() {
+  const { ref: sectionRef, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "180px 0px",
+  });
+  const prefersReducedMotion = useReducedMotion();
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    if (!inView || prefersReducedMotion) {
+      setShowVideo(false);
+      return;
+    }
+
+    const connection = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+
+    if (connection.connection?.saveData) {
+      setShowVideo(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => setShowVideo(true), 180);
+    return () => window.clearTimeout(timeoutId);
+  }, [inView, prefersReducedMotion]);
+
   return (
     <section
+      ref={sectionRef}
       id="skills"
       aria-labelledby="skills-title"
-      className="relative overflow-hidden py-16 sm:py-24 px-4 sm:px-6"
+      className="relative isolate overflow-hidden px-4 py-16 sm:px-6 sm:py-24"
     >
-      <div className="max-w-6xl mx-auto">
+      {showVideo && (
+        <div className="pointer-events-none absolute inset-0 -z-20" aria-hidden="true">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            className="h-full w-full object-cover opacity-35"
+          >
+            <source src="/videos/skills-bg.webm" type="video/webm" />
+          </video>
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,0,20,0.87),rgba(3,0,20,0.48),rgba(3,0,20,0.9))]" />
+        </div>
+      )}
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-70"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(112, 66, 248, 0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.07) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          maskImage:
+            "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(112,66,248,0.25),rgba(6,182,212,0.08)_35%,transparent_68%)]"
+      />
+      <motion.div
+        aria-hidden="true"
+        animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+        transition={{ duration: 42, ease: "linear", repeat: Infinity }}
+        className="pointer-events-none absolute left-[6%] top-28 -z-10 hidden h-24 w-24 rounded-full border border-cyan-300/20 lg:block"
+      >
+        <span className="absolute -right-1 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_16px_#67e8f9]" />
+      </motion.div>
+      <motion.div
+        aria-hidden="true"
+        animate={prefersReducedMotion ? undefined : { rotate: -360 }}
+        transition={{ duration: 54, ease: "linear", repeat: Infinity }}
+        className="pointer-events-none absolute bottom-20 right-[7%] -z-10 hidden h-32 w-32 rounded-full border border-violet-300/20 lg:block"
+      >
+        <span className="absolute -left-1 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-violet-300 shadow-[0_0_16px_#c4b5fd]" />
+      </motion.div>
+
+      <div className="mx-auto max-w-6xl">
         <motion.header
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="max-w-3xl mx-auto text-center mb-10 sm:mb-14"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+          className="mx-auto max-w-3xl text-center"
         >
-          <motion.div
-            variants={slideInFromTop}
-            className="Welcome-box inline-flex py-[8px] px-[9px] border border-[#7042f88b] opacity-[0.9]"
-          >
-            <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
+          <div className="Welcome-box mx-auto border border-[#7042f88b] px-[9px] py-[8px] opacity-95">
+            <SparklesIcon className="mr-[10px] h-5 w-5 text-[#b49bff]" />
             <span className="Welcome-text text-[13px]">
-              Seguridad de aplicaciones · ingeniería segura
+              Ciberseguridad · Cloud · Scrum
             </span>
-          </motion.div>
-
-          <motion.h2
+          </div>
+          <h2
             id="skills-title"
-            variants={slideInFromLeft(0.5)}
-            className="text-3xl sm:text-4xl text-[var(--foreground)] font-semibold mt-4"
+            className="mt-5 text-3xl font-semibold leading-tight text-white sm:text-4xl"
           >
-            Tecnología al servicio de aplicaciones más seguras.
-          </motion.h2>
-
-          <motion.p
-            variants={slideInFromRight(0.5)}
-            className="text-base sm:text-lg text-[var(--muted)] mt-4 leading-relaxed"
-          >
-            Mi foco es integrar controles verificables en productos reales; el
-            backend, los datos y el despliegue son la base para hacerlo bien.
-          </motion.p>
+            Herramientas para proteger, desplegar y avanzar.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300 sm:text-lg">
+            Un stack intencional: seguridad de aplicaciones, fundamentos cloud,
+            trabajo ágil y lenguajes para automatizar tareas técnicas.
+          </p>
         </motion.header>
 
-        <div className="grid lg:grid-cols-2 gap-5 sm:gap-6">
-          <CapabilityCard
-            title="Seguridad de aplicaciones"
-            description="Controles aplicados desde el diseño de la funcionalidad, no como un añadido al final."
-            capabilities={SECURITY_CAPABILITIES}
-            color="#06b6d4"
-            index={0}
-          />
-          <CapabilityCard
-            title="Ingeniería segura"
-            description="Prácticas que hacen el código más revisable, mantenible y confiable durante su evolución."
-            capabilities={ENGINEERING_CAPABILITIES}
-            color="#a78bfa"
-            index={1}
-          />
+        <div className="mt-10 grid gap-4 md:grid-cols-3 sm:mt-12 sm:gap-5">
+          {FOCUS_AREAS.map((area, index) => (
+            <FocusCard
+              key={area.title}
+              area={area}
+              index={index}
+              reducedMotion={prefersReducedMotion}
+            />
+          ))}
         </div>
 
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 22 }}
+          whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.45, delay: 0.16 }}
-          aria-labelledby="backend-foundations-title"
-          className="mt-8 sm:mt-10 rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 sm:p-7"
+          transition={{
+            duration: prefersReducedMotion ? 0 : 0.5,
+            delay: prefersReducedMotion ? 0 : 0.16,
+          }}
+          aria-labelledby="languages-title"
+          className="relative mt-8 overflow-hidden rounded-2xl border border-[#7042f8]/35 bg-[#08031d]/75 p-5 shadow-[0_18px_52px_-36px_rgba(112,66,248,0.72)] backdrop-blur-sm sm:mt-10 sm:p-7"
         >
-          <div className="max-w-2xl">
-            <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-[#00ff9f]">
-              Base de implementación
-            </p>
-            <h3
-              id="backend-foundations-title"
-              className="text-xl font-semibold text-[var(--foreground)] mt-2"
-            >
-              Backend, datos y despliegue.
-            </h3>
-            <p className="text-sm text-[var(--muted)] leading-relaxed mt-2">
-              Herramientas que uso para convertir requisitos de seguridad en
-              servicios, permisos y flujos operables.
-            </p>
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b49bff] to-transparent"
+          />
+          <div className="relative flex flex-col gap-3 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
+            <div>
+              <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[#b49bff]">
+                LENGUAJES
+              </p>
+              <h3 id="languages-title" className="mt-2 text-2xl font-semibold text-white">
+                Base técnica para automatizar y analizar.
+              </h3>
+            </div>
+            <div className="flex items-center justify-center gap-2 font-mono text-[10px] text-gray-400 sm:justify-end">
+              <KeyRound aria-hidden="true" size={14} className="text-cyan-300" />
+              <span>scripts · integraciones · utilidades</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5 mt-7">
-            {BACKEND_FOUNDATIONS.map((skill, index) => (
-              <div
-                key={skill.name}
-                className="min-h-28 rounded-lg border border-[var(--border)] bg-black/10 flex flex-col items-center justify-center gap-2 px-2 text-center"
-              >
-                <SkillIcon
-                  src={skill.image}
-                  name={skill.name}
-                  width={skill.width}
-                  height={skill.height}
-                  index={index}
-                />
-                <span className="font-mono text-[10px] text-[var(--muted)]">
-                  {skill.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.section>
+          <ul className="relative mt-6 grid grid-cols-2 gap-3 sm:mt-7 sm:gap-4 lg:grid-cols-4">
+            {LANGUAGE_SKILLS.map((skill, index) => {
+              const { Icon } = skill;
 
-        <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4, delay: 0.22 }}
-          aria-labelledby="complementary-technologies-title"
-          className="mt-8 sm:mt-10"
-        >
-          <h3
-            id="complementary-technologies-title"
-            className="font-mono text-xs text-[var(--muted)] tracking-[0.14em] uppercase text-center"
-          >
-            Tecnologías complementarias
-          </h3>
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            {COMPLEMENTARY_TECHNOLOGIES.map((technology) => (
-              <span
-                key={technology}
-                className="font-mono text-[11px] px-3 py-1.5 rounded-full border border-[#7042f8]/35 bg-[#0b0322]/45 text-gray-300"
-              >
-                {technology}
-              </span>
-            ))}
+              return (
+                <motion.li
+                  key={skill.name}
+                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94 }}
+                  whileInView={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.015 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : 0.35,
+                    delay: prefersReducedMotion ? 0 : 0.24 + index * 0.08,
+                  }}
+                  className="group relative min-h-44 overflow-hidden rounded-xl border bg-[#050114]/80 p-4 text-center sm:min-h-48 sm:p-5"
+                  style={{
+                    borderColor: `${skill.accent}48`,
+                    boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 16px 35px -29px ${skill.glow}`,
+                  }}
+                >
+                  <div
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-8 h-20 w-20 -translate-x-1/2 rounded-full blur-2xl transition-opacity duration-300 group-hover:opacity-100"
+                    style={{ background: skill.glow }}
+                  />
+                  <Icon
+                    aria-hidden="true"
+                    className="relative mx-auto h-16 w-16 transition-transform duration-300 group-hover:scale-110 sm:h-[4.5rem] sm:w-[4.5rem]"
+                    style={{
+                      color: skill.accent,
+                      filter: `drop-shadow(0 0 12px ${skill.glow})`,
+                    }}
+                  />
+                  <p className="relative mt-4 font-mono text-sm font-semibold text-white">
+                    {skill.name}
+                  </p>
+                  <p className="relative mx-auto mt-1 max-w-[10rem] text-xs leading-5 text-gray-400">
+                    {skill.description}
+                  </p>
+                </motion.li>
+              );
+            })}
+          </ul>
+
+          <div className="relative mt-6 flex flex-wrap justify-center gap-2 border-t border-white/5 pt-5 sm:justify-between">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-300/25 bg-orange-300/10 px-3 py-1.5 font-mono text-[10px] text-orange-100">
+              <FaAws aria-hidden="true" className="text-orange-300" />
+              AWS · fundamentos cloud
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-300/25 bg-blue-300/10 px-3 py-1.5 font-mono text-[10px] text-blue-100">
+              <SiGooglecloud aria-hidden="true" className="text-blue-300" />
+              Google Cloud · formación complementaria
+            </span>
           </div>
         </motion.section>
       </div>

@@ -9,14 +9,11 @@ const VIEW_H = 640;
 
 // Centro de cada constelación (coordenadas viewBox)
 const CLUSTER_CENTERS: Record<string, { cx: number; cy: number }> = {
-  academica:       { cx: 175, cy: 150 },
-  gubernamentales: { cx: 450, cy: 115 },
-  bootcamps:       { cx: 720, cy: 160 },
-  cloud:           { cx: 990, cy: 190 },
-  programacion:    { cx: 210, cy: 430 },
-  blockchain:      { cx: 460, cy: 500 },
-  complementaria:  { cx: 715, cy: 460 },
-  reconocimientos: { cx: 975, cy: 490 },
+  academica: { cx: 145, cy: 180 },
+  seguridad: { cx: 390, cy: 120 },
+  cloud: { cx: 745, cy: 160 },
+  agilidad: { cx: 425, cy: 465 },
+  java: { cx: 870, cy: 445 },
 };
 
 // Offsets deterministas por cantidad de ítems (forma de la constelación)

@@ -3,6 +3,13 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ShieldCheckIcon } from "@heroicons/react/24/solid";
+import {
+  Cloud,
+  KeyRound,
+  LockKeyhole,
+  Terminal,
+  Workflow,
+} from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import {
   slideInFromLeft,
@@ -62,7 +69,7 @@ export default function Hero() {
           >
             <ShieldCheckIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
             <p className="Welcome-text text-[13px]">
-              Seguridad de aplicaciones · Disponible para proyectos
+              Ciberseguridad · Cloud · trabajo ágil
             </p>
           </motion.div>
 
@@ -76,7 +83,7 @@ export default function Hero() {
             >
               <span>Oliver Ascencio</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
-                Seguridad de aplicaciones y backend seguro.
+                Ciberseguridad con visión cloud.
               </span>
             </h1>
           </motion.div>
@@ -85,9 +92,30 @@ export default function Hero() {
             variants={slideInFromLeft(0.8)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
-            Implemento autenticación, autorización y validación de
-            integraciones para construir APIs y productos web más seguros.
+            TSU en Ciberseguridad. Me enfoco en controles de acceso,
+            fundamentos cloud y colaboración ágil para que los sistemas sean
+            más confiables desde el inicio.
           </motion.p>
+
+          <motion.div
+            variants={slideInFromLeft(0.9)}
+            aria-label="Áreas de enfoque"
+            className="flex flex-wrap gap-2 -mt-1"
+          >
+            {[
+              { label: "Cloud fundamentals", Icon: Cloud },
+              { label: "OWASP · RBAC", Icon: LockKeyhole },
+              { label: "Equipos ágiles", Icon: Workflow },
+            ].map(({ label, Icon }) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#7042f8]/35 bg-[#0b0322]/60 px-3 py-1.5 font-mono text-[11px] text-gray-300"
+              >
+                <Icon size={13} className="text-cyan-300" aria-hidden="true" />
+                {label}
+              </span>
+            ))}
+          </motion.div>
 
           <motion.div
             variants={slideInFromLeft(1)}
@@ -100,10 +128,10 @@ export default function Hero() {
               Ver seguridad aplicada
             </a>
             <a
-              href="#proyectos"
-              className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[200px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
+              href="#skills"
+              className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[240px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
             >
-              Ver proyectos
+              Explorar habilidades
             </a>
           </motion.div>
 
@@ -141,23 +169,40 @@ export default function Hero() {
         >
           <div
             aria-hidden="true"
-            className="relative flex aspect-square w-full max-w-[520px] items-center justify-center overflow-hidden rounded-[2rem] border border-[#7042f8]/30 bg-[#0b0322]/60 shadow-[0_0_80px_rgba(112,66,248,0.16)]"
+            className="relative flex aspect-square w-full max-w-[520px] items-center justify-center overflow-hidden rounded-[2rem] border border-[#7042f8]/30 bg-[#0b0322]/70 shadow-[0_0_80px_rgba(112,66,248,0.16)]"
           >
+            <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(112,66,248,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(112,66,248,0.12)_1px,transparent_1px)] [background-size:32px_32px]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(112,66,248,0.32),transparent_58%)]" />
-            <div className="absolute inset-8 rounded-full border border-[#7042f8]/20" />
-            <div className="absolute inset-20 rounded-full border border-cyan-400/20" />
+            <div className="absolute inset-8 rounded-full border border-[#7042f8]/20 animate-[spin_24s_linear_infinite] motion-reduce:animate-none" />
+            <div className="absolute inset-20 rounded-full border border-cyan-400/20 animate-[spin_18s_linear_infinite_reverse] motion-reduce:animate-none" />
             <div className="relative z-10 flex flex-col items-center gap-5 text-center">
               <div className="rounded-3xl border border-[#b49bff]/40 bg-[#7042f8]/15 p-7 shadow-[0_0_45px_rgba(112,66,248,0.3)]">
                 <ShieldCheckIcon className="h-24 w-24 text-[#b49bff]" />
               </div>
               <div className="space-y-2">
                 <p className="font-mono text-xs tracking-[0.25em] text-cyan-200">
-                  CONTROLES APLICADOS
+                  PERFIL DE ENFOQUE
                 </p>
                 <p className="text-sm text-gray-300">
-                  Autenticación · autorización · APIs
+                  Seguridad · cloud · Scrum
                 </p>
               </div>
+            </div>
+            <div className="absolute left-7 top-9 flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-[#071327]/85 px-3 py-2 shadow-lg">
+              <Cloud size={17} className="text-cyan-300" />
+              <span className="font-mono text-[10px] tracking-wider text-cyan-100">CLOUD</span>
+            </div>
+            <div className="absolute right-7 top-24 flex items-center gap-2 rounded-xl border border-[#b49bff]/30 bg-[#160933]/85 px-3 py-2 shadow-lg">
+              <Workflow size={16} className="text-[#cbbdff]" />
+              <span className="font-mono text-[10px] tracking-wider text-purple-100">SCRUM</span>
+            </div>
+            <div className="absolute bottom-24 left-8 flex items-center gap-2 rounded-xl border border-[#00ff9f]/25 bg-[#05221d]/85 px-3 py-2 shadow-lg">
+              <KeyRound size={16} className="text-[#82ffca]" />
+              <span className="font-mono text-[10px] tracking-wider text-[#c2ffe7]">SECURITY</span>
+            </div>
+            <div className="absolute bottom-7 right-7 flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#09061b]/90 px-3 py-2 font-mono text-[10px] text-gray-300 shadow-lg">
+              <Terminal size={14} className="text-[#b49bff]" />
+              <span>JAVA · JS · PY · SH</span>
             </div>
           </div>
         </motion.div>
