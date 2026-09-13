@@ -44,16 +44,20 @@ const CLOUD_NODES = [
 ] as const;
 
 const LANGUAGE_NODES = [
-  { position: [-1.42, 1.18, 0] as const, kind: "java" as const },
-  { position: [1.42, 1.18, 0] as const, kind: "javascript" as const },
-  { position: [-1.42, -1.13, 0] as const, kind: "python" as const },
-  { position: [1.42, -1.13, 0] as const, kind: "shell" as const },
+  { position: [-1.62, 0.82, 0] as const, kind: "java" as const },
+  { position: [0, 1.58, 0] as const, kind: "javascript" as const },
+  { position: [1.62, 0.82, 0] as const, kind: "typescript" as const },
+  { position: [-1.62, -0.82, 0] as const, kind: "python" as const },
+  { position: [0, -1.58, 0] as const, kind: "postgresql" as const },
+  { position: [1.62, -0.82, 0] as const, kind: "shell" as const },
 ] as const;
 
 const LANGUAGE_COLORS = {
   java: "#ef4444",
   javascript: "#f7df1e",
+  typescript: "#3178c6",
   python: "#4b8bbe",
+  postgresql: "#4169e1",
   shell: "#4ade80",
 } as const;
 
@@ -580,6 +584,29 @@ function JavaScriptSymbol() {
   );
 }
 
+function TypeScriptSymbol() {
+  const strokes = [
+    { position: [-0.23, 0.24, 0] as const, size: [0.42, 0.09, 0.08] as const },
+    { position: [-0.23, 0, 0] as const, size: [0.09, 0.52, 0.08] as const },
+    { position: [0.24, 0.24, 0] as const, size: [0.34, 0.09, 0.08] as const },
+    { position: [0.075, 0.12, 0] as const, size: [0.09, 0.24, 0.08] as const },
+    { position: [0.24, 0, 0] as const, size: [0.34, 0.09, 0.08] as const },
+    { position: [0.405, -0.12, 0] as const, size: [0.09, 0.24, 0.08] as const },
+    { position: [0.24, -0.24, 0] as const, size: [0.34, 0.09, 0.08] as const },
+  ];
+
+  return (
+    <group position={[-0.03, 0, 0.19]} scale={0.78}>
+      {strokes.map(({ position, size }, index) => (
+        <mesh key={index} position={position}>
+          <boxGeometry args={size} />
+          <meshBasicMaterial color="#eff6ff" toneMapped={false} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 function PythonSymbol() {
   return (
     <group position={[0, 0, 0.2]} scale={0.75}>
@@ -610,6 +637,36 @@ function PythonSymbol() {
       <mesh position={[0.3, -0.2, 0.22]}>
         <sphereGeometry args={[0.035, 8, 8]} />
         <meshBasicMaterial color="#fff7cc" toneMapped={false} />
+      </mesh>
+    </group>
+  );
+}
+
+function PostgreSqlSymbol() {
+  return (
+    <group position={[0, 0, 0.18]} scale={0.78}>
+      <mesh>
+        <cylinderGeometry args={[0.32, 0.32, 0.48, 24]} />
+        <meshStandardMaterial
+          color="#1f4f8f"
+          emissive="#4169e1"
+          emissiveIntensity={0.62}
+          metalness={0.5}
+          roughness={0.2}
+        />
+      </mesh>
+      {[0.2, 0, -0.2].map((y, index) => (
+        <mesh key={y} position={[0, y, 0.02]} scale={[1, 0.32, 1]}>
+          <torusGeometry args={[0.32, 0.027, 8, 32]} />
+          <meshBasicMaterial
+            color={index === 0 ? "#dbeafe" : "#93c5fd"}
+            toneMapped={false}
+          />
+        </mesh>
+      ))}
+      <mesh position={[0.19, -0.08, 0.32]}>
+        <sphereGeometry args={[0.045, 10, 10]} />
+        <meshBasicMaterial color="#67e8f9" toneMapped={false} />
       </mesh>
     </group>
   );
@@ -652,9 +709,15 @@ function LanguageNode({
   return (
     <group position={position}>
       <mesh>
-        <boxGeometry args={[1.12, 1.12, 0.16]} />
+        <boxGeometry args={[0.96, 0.96, 0.16]} />
         <meshStandardMaterial
-          color={kind === "javascript" ? "#d9be0f" : "#0c1228"}
+          color={
+            kind === "javascript"
+              ? "#d9be0f"
+              : kind === "typescript"
+                ? "#245a91"
+                : "#0c1228"
+          }
           emissive={color}
           emissiveIntensity={kind === "javascript" ? 0.24 : 0.36}
           metalness={0.72}
@@ -666,10 +729,12 @@ function LanguageNode({
       </mesh>
       {kind === "java" && <JavaSymbol />}
       {kind === "javascript" && <JavaScriptSymbol />}
+      {kind === "typescript" && <TypeScriptSymbol />}
       {kind === "python" && <PythonSymbol />}
+      {kind === "postgresql" && <PostgreSqlSymbol />}
       {kind === "shell" && <ShellSymbol />}
-      <mesh position={[0, -0.72, -0.08]}>
-        <boxGeometry args={[0.72, 0.018, 0.018]} />
+      <mesh position={[0, -0.61, -0.08]}>
+        <boxGeometry args={[0.64, 0.018, 0.018]} />
         <meshBasicMaterial color={color} toneMapped={false} />
       </mesh>
     </group>

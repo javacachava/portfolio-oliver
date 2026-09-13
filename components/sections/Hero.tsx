@@ -1,9 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ShieldCheckIcon } from "@heroicons/react/24/solid";
+import { FaJava } from "react-icons/fa6";
+import {
+  SiGnubash,
+  SiJavascript,
+  SiPhp,
+  SiPostgresql,
+  SiPython,
+  SiTypescript,
+} from "react-icons/si";
+import { TbBrandCSharp } from "react-icons/tb";
 import {
   Cloud,
   Database,
@@ -22,8 +32,100 @@ import {
   slideInFromTop,
 } from "@/lib/motion";
 
+const HERO_LANGUAGE_ICONS = [
+  {
+    label: "Java",
+    Icon: FaJava,
+    color: "#f89820",
+    position: "right-[36%] top-[16%]",
+    size: "text-[38px]",
+    drift: -10,
+    rotate: -4,
+    duration: 8.5,
+    delay: 0,
+  },
+  {
+    label: "JavaScript",
+    Icon: SiJavascript,
+    color: "#f7df1e",
+    position: "right-[21%] top-[10%]",
+    size: "text-[34px]",
+    drift: 9,
+    rotate: 3,
+    duration: 9.5,
+    delay: 0.8,
+  },
+  {
+    label: "TypeScript",
+    Icon: SiTypescript,
+    color: "#3178c6",
+    position: "right-[6%] top-[19%]",
+    size: "text-[36px]",
+    drift: -8,
+    rotate: 4,
+    duration: 8,
+    delay: 1.4,
+  },
+  {
+    label: "Python",
+    Icon: SiPython,
+    color: "#4b8bbe",
+    position: "right-[31%] top-[42%]",
+    size: "text-[38px]",
+    drift: 11,
+    rotate: 4,
+    duration: 10,
+    delay: 1.8,
+  },
+  {
+    label: "Bash / Shell",
+    Icon: SiGnubash,
+    color: "#4eaa25",
+    position: "right-[5%] top-[44%]",
+    size: "text-[38px]",
+    drift: -11,
+    rotate: -3,
+    duration: 9,
+    delay: 0.4,
+  },
+  {
+    label: "PostgreSQL",
+    Icon: SiPostgresql,
+    color: "#4169e1",
+    position: "right-[36%] top-[70%]",
+    size: "text-[38px]",
+    drift: -9,
+    rotate: 3,
+    duration: 9.5,
+    delay: 1.1,
+  },
+  {
+    label: "PHP",
+    Icon: SiPhp,
+    color: "#8993be",
+    position: "right-[20%] top-[79%]",
+    size: "text-[42px]",
+    drift: 8,
+    rotate: -4,
+    duration: 8.5,
+    delay: 1.6,
+  },
+  {
+    label: "C#",
+    Icon: TbBrandCSharp,
+    color: "#9b6cff",
+    position: "right-[5%] top-[70%]",
+    size: "text-[40px]",
+    drift: 10,
+    rotate: 4,
+    duration: 10,
+    delay: 0.6,
+  },
+] as const;
+
 export default function Hero() {
   const [showVideo, setShowVideo] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
   const { ref: sectionRef, inView } = useInView({
     triggerOnce: false,
     rootMargin: "160px 0px",
@@ -66,6 +168,44 @@ export default function Hero() {
           <source src="/videos/blackhole.webm" type="video/webm" />
         </video>
       )}
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] hidden select-none overflow-hidden lg:block [mask-image:linear-gradient(to_right,transparent_0%,transparent_40%,black_57%,black_94%,transparent_100%)]"
+      >
+        <div className="absolute inset-y-[6%] right-[2%] w-[46%] rounded-full border border-[#7042f8]/10 opacity-80" />
+        <div className="absolute inset-y-[13%] right-[7%] w-[36%] rounded-full border border-cyan-300/[0.07]" />
+        {HERO_LANGUAGE_ICONS.map((language) => (
+          <motion.div
+            key={language.label}
+            initial={false}
+            animate={
+              inView && !shouldReduceMotion
+                ? {
+                    y: [0, language.drift, 0],
+                    rotate: [0, language.rotate, 0],
+                  }
+                : { y: 0, rotate: 0 }
+            }
+            transition={{
+              duration: language.duration,
+              delay: language.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className={`absolute ${language.position} grid h-[68px] w-[68px] place-items-center rounded-2xl border border-white/10 bg-[#070312]/55 opacity-55 shadow-[0_0_30px_rgba(112,66,248,0.12)] will-change-transform`}
+          >
+            <language.Icon
+              focusable="false"
+              className={language.size}
+              style={{
+                color: language.color,
+                filter: `drop-shadow(0 0 13px ${language.color}66)`,
+              }}
+            />
+          </motion.div>
+        ))}
+      </div>
 
       <motion.div
         initial="hidden"
@@ -217,7 +357,7 @@ export default function Hero() {
             </div>
             <div className="absolute bottom-7 right-7 flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#09061b]/90 px-3 py-2 font-mono text-[10px] text-gray-300 shadow-lg">
               <Terminal size={14} className="text-[#b49bff]" />
-              <span>JAVA · JS · PY · SH</span>
+              <span>JAVA · JS/TS · PY · SQL · SH</span>
             </div>
           </div>
         </motion.div>
