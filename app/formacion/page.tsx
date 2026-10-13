@@ -1,155 +1,72 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/ui/PageHeader";
-import Section from "@/components/ui/Section";
-import {
-  completedCourses,
-  courseAreaLabels,
-  formalEducation,
-  inProgress,
-  participations,
-  recognitions,
-  type Course,
-  type CourseArea,
-} from "@/data/education";
-import { profile } from "@/data/profile";
+import Navbar from "@/components/ui/Navbar";
+import Footer from "@/components/sections/Footer";
+import DeferredStarsCanvas from "@/components/ui/DeferredStarsCanvas";
+import Constellation from "@/components/ui/Constellation";
+import FormacionList from "@/components/sections/FormacionList";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
+import Counter from "@/components/ui/Counter";
+import { formacionStats } from "@/data/formacion";
 
 export const metadata: Metadata = {
-  title: "Formación y reconocimientos",
+  title: "Formación en ciberseguridad, cloud y Java — Oliver Ascencio",
   description:
-    "Formación de Oliver Ascencio: Ingeniería en Desarrollo de Software (UNICAES), TSU en Ciberseguridad (ESIT / MINED), bootcamps, cursos, reconocimientos y participaciones.",
-  alternates: { canonical: "/formacion" },
+    "Formación y práctica verificable de Oliver Ascencio en ciberseguridad, cloud, Java y trabajo ágil.",
 };
 
-const areaOrder: CourseArea[] = ["software", "ciberseguridad", "ia-cloud", "gestion", "otros"];
+const stats = [
+  { value: formacionStats.totalHours, suffix: "h", label: "documentadas", color: "#7042f8" },
+  { value: formacionStats.totalItems, suffix: "", label: "certificaciones e ítems", color: "#06b6d4" },
+  { value: formacionStats.totalInstitutions, suffix: "", label: "instituciones", color: "#00ff9f" },
+];
 
-function CourseItem({ course, dashed = false }: { course: Course; dashed?: boolean }) {
-  const details = [course.provider, course.date, course.hours ? `${course.hours} horas` : null]
-    .filter(Boolean)
-    .join(". ");
-  return (
-    <li
-      className={`reveal border-l-2 py-1 pl-5 ${dashed ? "border-dashed border-soft/60" : "border-violet"}`}
-    >
-      <p className="text-ink">{course.title}</p>
-      <p className="t-small">{details}.</p>
-      {course.note && <p className="t-small mt-0.5 text-fg">{course.note}.</p>}
-    </li>
-  );
-}
-
-export default function EducationPage() {
+export default function FormacionPage() {
   return (
     <>
-      <PageHeader
-        id="formacion-titulo"
-        title="Formación y reconocimientos"
-        lead={
-          <p>
-            Educación formal, formación en curso, cursos y bootcamps, y reconocimientos, en bloques
-            separados. Los cursos no son certificaciones profesionales y se presentan con su estado
-            real. Idiomas: {profile.languages}.
+      <DeferredStarsCanvas />
+      <Navbar />
+      <main id="contenido-principal" className="relative z-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
+        {/* Header */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-10 sm:mb-14 text-center">
+          <SectionEyebrow className="mb-3 justify-center flex">
+            Formación verificable
+          </SectionEyebrow>
+          <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 w-fit mx-auto pb-2">
+            Ciberseguridad, cloud y práctica ágil
+          </h1>
+          <p className="text-[var(--muted)] max-w-xl mx-auto mt-3">
+            Evidencia seleccionada de ciberseguridad, cloud, Java y trabajo
+            ágil — {formacionStats.yearRange}. Scrum se presenta como práctica
+            de equipo, no como certificación.
           </p>
-        }
-      />
 
-      <Section id="formal" title="Educación formal" flush>
-        <ol>
-          {formalEducation.map((item) => (
-            <li
-              key={item.title}
-              className="reveal grid gap-x-8 gap-y-2 border-t-2 border-violet py-7 first:mt-0 sm:grid-cols-[11rem_1fr]"
-            >
-              <p className="t-small">{item.period}</p>
-              <div>
-                <h3 className="t-h3">{item.title}</h3>
-                <p className="t-small mt-1">{item.institution}</p>
-                <p className="mt-3 font-medium text-soft">{item.status}</p>
-                {item.details.length > 0 && (
-                  <ul className="measure mt-3 space-y-2">
-                    {item.details.map((detail) => (
-                      <li key={detail} className="flex gap-3">
-                        <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-violet" />
-                        <span>{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      <Section id="en-curso" title="En curso o por iniciar" band="nebula">
-        <ul className="space-y-5">
-          {inProgress.map((course) => (
-            <CourseItem key={course.title} course={course} dashed />
-          ))}
-        </ul>
-      </Section>
-
-      <Section
-        id="cursos"
-        title="Cursos y bootcamps completados"
-        intro="Agrupados por área. Dentro de cada área, del más reciente al más antiguo."
-      >
-        <div className="space-y-12">
-          {areaOrder.map((area) => {
-            const items = completedCourses.filter((course) => course.area === area);
-            if (items.length === 0) return null;
-            return (
-              <div key={area}>
-                <h3 className="t-h3">{courseAreaLabels[area]}</h3>
-                <ul className="mt-5 space-y-5">
-                  {items.map((course) => (
-                    <CourseItem key={course.title} course={course} />
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </Section>
-
-      <Section id="reconocimientos" title="Reconocimientos" band="nebula">
-        <ul className="space-y-6">
-          {recognitions.map((item) => (
-            <li key={item.title} className="reveal border-l-2 border-violet py-1 pl-5">
-              <p className="text-ink">{item.title}</p>
-              <p className="t-small">
-                {[item.year, item.organizer, item.project ? `Proyecto: ${item.project}` : null]
-                  .filter(Boolean)
-                  .join(". ")}
-                .
-              </p>
-              {item.detail && <p className="t-small mt-0.5 text-fg">{item.detail}</p>}
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section
-        id="participaciones"
-        title="Ferias, congresos y hackatones"
-        intro="Participaciones documentadas. No son premios."
-      >
-        <ul className="space-y-6">
-          {participations.map((item) => (
-            <li key={item.title} className="reveal border-l-2 border-dashed border-soft/60 py-1 pl-5">
-              <p className="text-ink">{item.title}</p>
-              {(item.year || item.organizer || item.project) && (
-                <p className="t-small">
-                  {[item.year, item.organizer, item.project ? `Proyecto: ${item.project}` : null]
-                    .filter(Boolean)
-                    .join(". ")}
-                  .
+          {/* Stats */}
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-14 mt-10">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-3xl sm:text-4xl font-bold tabular-nums" style={{ color: s.color }}>
+                  <Counter to={s.value} />
+                  {s.suffix}
                 </p>
-              )}
-              <p className="t-small mt-0.5 text-fg">{item.detail}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
+                <p className="font-mono text-[11px] text-[var(--muted)] mt-1 uppercase tracking-wider">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Constelación — solo desktop (requiere mouse) */}
+        <div className="hidden lg:block max-w-7xl mx-auto px-6 mb-20">
+          <Constellation />
+        </div>
+
+        {/* Lista terminal — principal en móvil, índice en desktop */}
+        <div className="px-4 sm:px-6 mt-8">
+          <FormacionList />
+        </div>
+      </main>
+      <Footer />
     </>
   );
 }

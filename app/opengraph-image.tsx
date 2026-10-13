@@ -1,63 +1,144 @@
 import { ImageResponse } from "next/og";
-import { profile } from "@/data/profile";
 
-export const alt = `${profile.shortName}: ${profile.role}`;
+export const runtime = "edge";
+export const alt = "Oliver Ascencio — Application & Cloud Security";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/** Tarjeta social: vacío violeta con órbitas de neón y el nombre como protagonista. */
 export default function OgImage() {
   return new ImageResponse(
     (
       <div
         style={{
-          width: "100%",
-          height: "100%",
+          width: 1200,
+          height: 630,
+          background: "#0a0a0a",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          padding: 72,
-          background: "#030014",
-          color: "#f0f0ff",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          padding: "80px",
+          fontFamily: "system-ui, sans-serif",
           position: "relative",
         }}
       >
-        <svg width="1200" height="630" viewBox="0 0 1200 630" style={{ position: "absolute", left: 0, top: 0 }}>
-          <defs>
-            <radialGradient id="g" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#7042f8" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="#7042f8" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-          <circle cx="930" cy="300" r="300" fill="url(#g)" />
-          <circle cx="930" cy="300" r="250" fill="none" stroke="#7042f8" strokeWidth="2" opacity="0.55" />
-          <circle cx="930" cy="300" r="170" fill="none" stroke="#06b6d4" strokeWidth="2" opacity="0.5" />
-          <circle cx="930" cy="300" r="90" fill="none" stroke="#f43f5e" strokeWidth="2" opacity="0.4" />
-          <circle cx="930" cy="300" r="34" fill="#7042f8" />
-          <circle cx="1090" cy="190" r="9" fill="#67e8f9" />
-          <circle cx="790" cy="440" r="7" fill="#b49bff" />
-        </svg>
+        {/* Grid lines */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        {/* Accent glow */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 100,
+            width: 500,
+            height: 400,
+            borderRadius: 9999,
+            background: "#6366f1",
+            opacity: 0.07,
+            filter: "blur(120px)",
+          }}
+        />
 
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 30, color: "#b49bff" }}>
-          <span style={{ fontWeight: 800 }}>{"›_"}</span>
-          <span style={{ fontSize: 26, color: "#a89fd2" }}>{profile.location}</span>
+        {/* Content */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, zIndex: 1 }}>
+          <div
+            style={{
+              fontSize: 14,
+              color: "#6366f1",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontWeight: 600,
+            }}
+          >
+            Application & Cloud Security Junior
+          </div>
+          <div
+            style={{
+              fontSize: 72,
+              fontWeight: 800,
+              color: "#ededed",
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Oliver Ascencio
+          </div>
+          <div
+            style={{
+              fontSize: 24,
+              color: "#6366f1",
+              fontWeight: 500,
+            }}
+          >
+            Cybersecurity · Application Security · Cloud · Santa Ana, El Salvador
+          </div>
+          <div
+            style={{
+              fontSize: 18,
+              color: "#a1a1aa",
+              marginTop: 8,
+              maxWidth: 700,
+              lineHeight: 1.5,
+            }}
+          >
+            Controles de acceso, seguridad de datos y buenas prácticas cloud
+            desde el diseño, con evidencia en productos reales.
+          </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 112, fontWeight: 800, lineHeight: 0.98, letterSpacing: -3 }}>
-            {profile.shortName}
-          </div>
-          <div style={{ marginTop: 26, fontSize: 40, color: "#b49bff", maxWidth: 760 }}>
-            {profile.role}
-          </div>
+        {/* Stack tags */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 80,
+            left: 80,
+            display: "flex",
+            gap: 10,
+            zIndex: 1,
+          }}
+        >
+          {["OWASP", "RBAC", "PostgreSQL", "Node.js", "AWS · Google Cloud"].map((tag) => (
+            <div
+              key={tag}
+              style={{
+                padding: "6px 14px",
+                borderRadius: 6,
+                background: "rgba(99,102,241,0.1)",
+                border: "1px solid rgba(99,102,241,0.25)",
+                color: "#a1a1aa",
+                fontSize: 13,
+                fontFamily: "monospace",
+              }}
+            >
+              {tag}
+            </div>
+          ))}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#a89fd2" }}>
-          <span>Ingeniería en Desarrollo de Software y cofundador de WUJU</span>
-          <span>oliver-ascencio.wuju.dev</span>
+        {/* Domain */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 80,
+            right: 80,
+            fontSize: 16,
+            color: "#3f3f46",
+            fontWeight: 600,
+            zIndex: 1,
+          }}
+        >
+          oliver-ascencio.wuju.dev
         </div>
       </div>
     ),
-    { ...size },
+    { ...size }
   );
 }

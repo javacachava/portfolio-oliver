@@ -1,17 +1,6 @@
-import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import type { Metadata } from "next";
+import { Inter, Space_Grotesk, JetBrains_Mono, Cedarville_Cursive } from "next/font/google";
 import "./globals.css";
-import SiteHeader from "@/components/layout/SiteHeader";
-import SiteFooter from "@/components/layout/SiteFooter";
-import Starfield from "@/components/ui/Starfield";
-import { profile } from "@/data/profile";
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "swap",
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,69 +8,93 @@ const inter = Inter({
   display: "swap",
 });
 
-// Solo para etiquetas técnicas (cápsulas y rótulos de diagramas).
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
+  weight: ["400", "500"],
+});
+
+const cedarvilleCursive = Cedarville_Cursive({
+  variable: "--font-cursive",
+  subsets: ["latin"],
+  display: "swap",
+  weight: "400",
   preload: false,
 });
 
-const siteTitle = `${profile.shortName} — ${profile.role}`;
-const siteDescription =
-  "Portafolio de Oliver Ascencio: estudiante de Ingeniería en Desarrollo de Software, formación técnica en ciberseguridad y cofundador de WUJU. Proyectos de software, datos e IA aplicada en El Salvador.";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(profile.siteUrl),
-  title: { default: siteTitle, template: `%s — ${profile.shortName}` },
-  description: siteDescription,
-  applicationName: `${profile.shortName} — portafolio`,
-  authors: [{ name: profile.shortName, url: profile.github.href }],
-  creator: profile.shortName,
+  metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
+  title: "Oliver Ascencio | Application & Cloud Security",
+  description:
+    "Portfolio de Oliver Ascencio, estudiante de Ingeniería de Software y próximo egresado en Ciberseguridad, enfocado en Application Security, Cloud Security y desarrollo seguro.",
+  authors: [
+    {
+      name: "Oliver Ascencio",
+      url: "https://github.com/javacachava",
+    },
+  ],
+  keywords: [
+    "application security",
+    "cloud security",
+    "devsecops",
+    "ciberseguridad",
+    "cybersecurity",
+    "cloud",
+    "OWASP",
+    "RBAC",
+    "PostgreSQL",
+    "Node.js",
+    "Java",
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "El Salvador",
+    "portafolio",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: siteTitle,
-    description: siteDescription,
-    url: profile.siteUrl,
-    siteName: `${profile.shortName} — portafolio`,
+    title: "Oliver Ascencio | Application & Cloud Security",
+    description:
+      "Application Security, Cloud Security y desarrollo seguro, con evidencia en controles de acceso, bases de datos e integraciones reales.",
+    url: "https://oliver-ascencio.wuju.dev",
+    siteName: "Oliver Ascencio Portfolio",
     locale: "es_SV",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
+    title: "Oliver Ascencio | Application & Cloud Security",
+    description:
+      "Application Security, Cloud Security y desarrollo backend con controles aplicados a productos reales.",
   },
-  robots: { index: true, follow: true },
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: "#030014",
-  colorScheme: "dark",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="es"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cedarvilleCursive.variable} dark h-full antialiased`}
     >
-      <body>
-        <Starfield />
-        <div className="relative z-10 flex min-h-dvh flex-col">
-          <a href="#contenido" className="skip-link">
-            Saltar al contenido
-          </a>
-          <SiteHeader />
-          <main id="contenido" className="flex-1">
-            {children}
-          </main>
-          <SiteFooter />
-        </div>
+      <body className="min-h-full flex flex-col bg-background text-foreground overflow-y-scroll overflow-x-hidden">
+        {children}
       </body>
     </html>
   );

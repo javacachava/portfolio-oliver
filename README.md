@@ -1,31 +1,40 @@
-# Portafolio de Oliver Ascencio
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Sitio personal de [Oliver Ascencio](https://oliver-ascencio.wuju.dev): proyectos, experiencia, competencias y formación. Next.js 16 (App Router), React 19 y Tailwind CSS 4, sin otras dependencias de interfaz. Tema espacial (violeta y cian) con cielo estrellado, el agujero negro del hero (`public/videos/blackhole.webm`) y una escena orbital con los lenguajes con los que he trabajado.
+## Getting Started
 
-## Desarrollo
+First, run the development server:
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build    # compila y prerenderiza todas las rutas
-npm run start    # sirve la compilación
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-> Next 16 tiene cambios respecto a versiones anteriores. Antes de tocar código, consulta la guía correspondiente en `node_modules/next/dist/docs/`.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Estructura
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-```
-app/            rutas: / · /proyectos · /proyectos/[slug] · /formacion · /sobre-mi
-components/     layout (cabecera, pie), home (secciones de la portada) y ui (placas, diagramas, secciones)
-data/           contenido: perfil, proyectos, diagramas, WUJU, experiencia, competencias, formación
-public/cv/      CV descargable
-public/demos/   demostraciones con datos simulados (HTML autocontenido)
-docs/           guía de contenido y asuntos pendientes (docs/CONTENIDO.md)
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-El contenido vive en `data/` y las páginas lo leen: para agregar un proyecto o un curso no hace falta tocar componentes. Ver [docs/CONTENIDO.md](docs/CONTENIDO.md).
+## Learn More
 
-## Despliegue
+To learn more about Next.js, take a look at the following resources:
 
-Un push a `main` ejecuta `.github/workflows/deploy.yml`: entra por SSH al VPS, hace `git pull` y `docker compose up -d --build`. La imagen (`Dockerfile`) compila con `output: "standalone"` y se publica detrás de Caddy.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Créditos
+
+Diseño visual basado en [space-portfolio](https://github.com/sanidhyy/space-portfolio) de Sanidhya Kumar Verma (licencia MIT): fondo de estrellas three.js, videos (blackhole, encryption, skills), iconos de skills y estética espacial. Adaptado con contenido y secciones propias.

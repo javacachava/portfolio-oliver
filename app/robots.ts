@@ -1,10 +1,14 @@
 import type { MetadataRoute } from "next";
-import { profile } from "@/data/profile";
+
+const baseUrl = "https://oliver-ascencio.wuju.dev";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/" },
-    sitemap: `${profile.siteUrl}/sitemap.xml`,
-    host: profile.siteUrl,
+    rules: {
+      userAgent: "*",
+      allow: "/",
+    },
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

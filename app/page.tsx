@@ -1,63 +1,71 @@
-import type { Metadata } from "next";
-import AboutTeaser from "@/components/home/AboutTeaser";
-import EducationSummary from "@/components/home/EducationSummary";
-import ExperienceTimeline from "@/components/home/ExperienceTimeline";
-import FeaturedProjects from "@/components/home/FeaturedProjects";
-import Hero from "@/components/home/Hero";
-import Skills from "@/components/home/Skills";
-import WujuBlock from "@/components/home/WujuBlock";
-import JsonLd from "@/components/ui/JsonLd";
-import { profile } from "@/data/profile";
-
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-};
+import Navbar from "@/components/ui/Navbar";
+import Hero from "@/components/sections/Hero";
+import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
+import Security from "@/components/sections/Security";
+import Experience from "@/components/sections/Experience";
+import Awards from "@/components/sections/Awards";
+import About from "@/components/sections/About";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/sections/Footer";
+import DeferredStarsCanvas from "@/components/ui/DeferredStarsCanvas";
 
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: profile.name,
-  alternateName: profile.shortName,
-  url: profile.siteUrl,
-  email: profile.email,
-  description: profile.tagline,
+  name: "Oliver Ascencio",
+  url: "https://oliver-ascencio.wuju.dev",
+  jobTitle: "Application & Cloud Security",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Santa Ana",
     addressCountry: "SV",
   },
-  worksFor: { "@type": "Organization", name: "WUJU", url: "https://wuju.dev" },
-  alumniOf: [
-    { "@type": "CollegeOrUniversity", name: "Universidad Católica de El Salvador (UNICAES)" },
-    { "@type": "EducationalOrganization", name: "ESIT / MINED" },
-  ],
-  knowsLanguage: [
-    { "@type": "Language", name: "Español" },
-    { "@type": "Language", name: "Inglés" },
+  sameAs: [
+    "https://github.com/javacachava",
+    "https://linkedin.com/in/oliver-ascencio",
   ],
   knowsAbout: [
-    "Desarrollo de software",
     "Ciberseguridad",
+    "OWASP",
     "Control de acceso basado en roles",
-    "Bases de datos",
-    "Inteligencia artificial aplicada",
-    "Análisis de datos",
-    "Coordinación de proyectos tecnológicos",
+    "Cloud fundamentals",
+    "AWS",
+    "Google Cloud",
+    "PostgreSQL",
+    "Node.js",
+    "Java",
+    "JavaScript",
+    "TypeScript",
+    "Python",
   ],
-  sameAs: [profile.github.href, profile.linkedin.href],
 };
 
-export default function HomePage() {
+export default function Page() {
   return (
     <>
-      <JsonLd data={personJsonLd} />
-      <Hero />
-      <FeaturedProjects />
-      <WujuBlock />
-      <ExperienceTimeline />
-      <Skills />
-      <EducationSummary />
-      <AboutTeaser />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <a href="#contenido-principal" className="skip-link">
+        Saltar al contenido principal
+      </a>
+      <DeferredStarsCanvas />
+      <Navbar />
+      <main id="contenido-principal" className="relative z-10">
+        <Hero />
+        <Projects />
+        <Security />
+        <Experience />
+        <Skills />
+        <Awards />
+        <About />
+        <Contact />
+      </main>
+      <Footer />
     </>
   );
 }
