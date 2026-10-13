@@ -41,7 +41,26 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      {
+        // Las demostraciones usan datos simulados: se pueden abrir, pero no deben indexarse.
+        source: "/demos/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
+  },
+  async rewrites() {
+    // Next recorta la barra final (308) y `public/` no sirve index.html de carpetas,
+    // así que /demos/pos/ terminaba en 404. Se sirve el index.html de cada demo
+    // desde la URL sin barra final.
+    return {
+      beforeFiles: [
+        { source: "/demos/pos", destination: "/demos/pos/index.html" },
+        {
+          source: "/demos/restaurante-chatbot",
+          destination: "/demos/restaurante-chatbot/index.html",
+        },
+      ],
+    };
   },
 };
 

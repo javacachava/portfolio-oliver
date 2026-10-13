@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
+import { profile } from "@/data/profile";
 
-export const runtime = "edge";
-export const alt = "Oliver Ascencio — Application & Cloud Security";
+export const alt = `${profile.shortName} — ${profile.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,135 +10,40 @@ export default function OgImage() {
     (
       <div
         style={{
-          width: 1200,
-          height: 630,
-          background: "#0a0a0a",
+          width: "100%",
+          height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          padding: "80px",
-          fontFamily: "system-ui, sans-serif",
-          position: "relative",
+          justifyContent: "space-between",
+          padding: 80,
+          background: "#f5f2eb",
+          color: "#14181b",
         }}
       >
-        {/* Grid lines */}
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        {/* Accent glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 100,
-            width: 500,
-            height: 400,
-            borderRadius: 9999,
-            background: "#6366f1",
-            opacity: 0.07,
-            filter: "blur(120px)",
-          }}
-        />
-
-        {/* Content */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16, zIndex: 1 }}>
-          <div
-            style={{
-              fontSize: 14,
-              color: "#6366f1",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              fontWeight: 600,
-            }}
-          >
-            Application & Cloud Security Junior
-          </div>
-          <div
-            style={{
-              fontSize: 72,
-              fontWeight: 800,
-              color: "#ededed",
-              lineHeight: 1.05,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Oliver Ascencio
-          </div>
-          <div
-            style={{
-              fontSize: 24,
-              color: "#6366f1",
-              fontWeight: 500,
-            }}
-          >
-            Cybersecurity · Application Security · Cloud · Santa Ana, El Salvador
-          </div>
-          <div
-            style={{
-              fontSize: 18,
-              color: "#a1a1aa",
-              marginTop: 8,
-              maxWidth: 700,
-              lineHeight: 1.5,
-            }}
-          >
-            Controles de acceso, seguridad de datos y buenas prácticas cloud
-            desde el diseño, con evidencia en productos reales.
-          </div>
-        </div>
-
-        {/* Stack tags */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 80,
-            left: 80,
             display: "flex",
-            gap: 10,
-            zIndex: 1,
+            fontSize: 22,
+            letterSpacing: 3,
+            textTransform: "uppercase",
+            color: "#586067",
           }}
         >
-          {["OWASP", "RBAC", "PostgreSQL", "Node.js", "AWS · Google Cloud"].map((tag) => (
-            <div
-              key={tag}
-              style={{
-                padding: "6px 14px",
-                borderRadius: 6,
-                background: "rgba(99,102,241,0.1)",
-                border: "1px solid rgba(99,102,241,0.25)",
-                color: "#a1a1aa",
-                fontSize: 13,
-                fontFamily: "monospace",
-              }}
-            >
-              {tag}
-            </div>
-          ))}
+          Portafolio · {profile.location}
         </div>
 
-        {/* Domain */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 80,
-            right: 80,
-            fontSize: 16,
-            color: "#3f3f46",
-            fontWeight: 600,
-            zIndex: 1,
-          }}
-        >
-          oliver-ascencio.wuju.dev
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ fontSize: 104, lineHeight: 1.02, letterSpacing: -2 }}>{profile.shortName}</div>
+          <div style={{ marginTop: 24, fontSize: 38, color: "#2e363b" }}>{profile.role}</div>
+          <div style={{ marginTop: 40, width: 120, height: 4, background: "#0b5c5a" }} />
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#586067" }}>
+          <span>Ingeniería en Desarrollo de Software · WUJU</span>
+          <span>oliver-ascencio.wuju.dev</span>
         </div>
       </div>
     ),
-    { ...size }
+    { ...size },
   );
 }
