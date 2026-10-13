@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageHeader from "@/components/ui/PageHeader";
 import Section from "@/components/ui/Section";
 import {
   completedCourses,
@@ -13,7 +14,7 @@ import {
 import { profile } from "@/data/profile";
 
 export const metadata: Metadata = {
-  title: "Formación",
+  title: "Formación y reconocimientos",
   description:
     "Formación de Oliver Ascencio: Ingeniería en Desarrollo de Software (UNICAES), TSU en Ciberseguridad (ESIT / MINED), bootcamps, cursos, reconocimientos y participaciones.",
   alternates: { canonical: "/formacion" },
@@ -21,15 +22,17 @@ export const metadata: Metadata = {
 
 const areaOrder: CourseArea[] = ["software", "ciberseguridad", "ia-cloud", "gestion", "otros"];
 
-function CourseItem({ course }: { course: Course }) {
-  const details = [course.provider, course.date, course.hours ? `${course.hours} h` : null]
+function CourseItem({ course, dashed = false }: { course: Course; dashed?: boolean }) {
+  const details = [course.provider, course.date, course.hours ? `${course.hours} horas` : null]
     .filter(Boolean)
-    .join(" · ");
+    .join(". ");
   return (
-    <li className="py-3">
-      <p className="text-ink">{course.title}</p>
-      <p className="meta">{details}</p>
-      {course.note && <p className="mt-1 text-[0.95rem]">{course.note}</p>}
+    <li
+      className={`reveal border-l-2 py-1 pl-5 ${dashed ? "border-dashed border-caramelo/60" : "border-cobre"}`}
+    >
+      <p className="text-crema">{course.title}</p>
+      <p className="t-small">{details}.</p>
+      {course.note && <p className="t-small mt-0.5 text-fg">{course.note}.</p>}
     </li>
   );
 }
@@ -37,37 +40,35 @@ function CourseItem({ course }: { course: Course }) {
 export default function EducationPage() {
   return (
     <>
-      <section aria-labelledby="formacion-titulo" className="wrap pb-12 pt-14 sm:pt-20">
-        <p className="eyebrow">Formación</p>
-        <h1 id="formacion-titulo" className="display mt-4 max-w-[14ch]">
-          Formación
-        </h1>
-        <p className="measure mt-6 text-[1.125rem]">
-          Educación formal, formación en curso, cursos y bootcamps, y reconocimientos, en bloques
-          separados. Los cursos no son certificaciones profesionales y se presentan con su estado
-          real. Idiomas: {profile.languages}.
-        </p>
-      </section>
+      <PageHeader
+        id="formacion-titulo"
+        title="Formación y reconocimientos"
+        lead={
+          <p>
+            Educación formal, formación en curso, cursos y bootcamps, y reconocimientos, en bloques
+            separados. Los cursos no son certificaciones profesionales y se presentan con su estado
+            real. Idiomas: {profile.languages}.
+          </p>
+        }
+      />
 
-      <Section id="formal" index="01" eyebrow="Formación" title="Educación formal">
+      <Section id="formal" title="Educación formal" flush>
         <ol>
           {formalEducation.map((item) => (
             <li
               key={item.title}
-              className="grid gap-x-8 gap-y-1 border-t border-rule py-7 first:border-t-0 first:pt-0 sm:grid-cols-[11rem_1fr]"
+              className="reveal grid gap-x-8 gap-y-2 border-t-2 border-cobre py-7 first:mt-0 sm:grid-cols-[11rem_1fr]"
             >
-              <p className="meta">{item.period}</p>
+              <p className="t-small">{item.period}</p>
               <div>
-                <h3 className="h3">{item.title}</h3>
-                <p className="meta mt-1">{item.institution}</p>
-                <p className="mt-3 text-ink">{item.status}</p>
+                <h3 className="t-h3">{item.title}</h3>
+                <p className="t-small mt-1">{item.institution}</p>
+                <p className="mt-3 font-medium text-caramelo">{item.status}</p>
                 {item.details.length > 0 && (
-                  <ul className="mt-2 space-y-1.5">
+                  <ul className="measure mt-3 space-y-2">
                     {item.details.map((detail) => (
                       <li key={detail} className="flex gap-3">
-                        <span aria-hidden="true" className="select-none text-accent">
-                          –
-                        </span>
+                        <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-cobre" />
                         <span>{detail}</span>
                       </li>
                     ))}
@@ -79,29 +80,27 @@ export default function EducationPage() {
         </ol>
       </Section>
 
-      <Section id="en-curso" index="02" eyebrow="Formación" title="En curso o por iniciar">
-        <ul className="divide-y divide-rule border-y border-rule">
+      <Section id="en-curso" title="En curso o por iniciar" band="mocha">
+        <ul className="space-y-5">
           {inProgress.map((course) => (
-            <CourseItem key={course.title} course={course} />
+            <CourseItem key={course.title} course={course} dashed />
           ))}
         </ul>
       </Section>
 
       <Section
         id="cursos"
-        index="03"
-        eyebrow="Formación"
         title="Cursos y bootcamps completados"
         intro="Agrupados por área. Dentro de cada área, del más reciente al más antiguo."
       >
-        <div className="space-y-10">
+        <div className="space-y-12">
           {areaOrder.map((area) => {
             const items = completedCourses.filter((course) => course.area === area);
             if (items.length === 0) return null;
             return (
               <div key={area}>
-                <h3 className="eyebrow">{courseAreaLabels[area]}</h3>
-                <ul className="mt-2 divide-y divide-rule border-y border-rule">
+                <h3 className="t-h3">{courseAreaLabels[area]}</h3>
+                <ul className="mt-5 space-y-5">
                   {items.map((course) => (
                     <CourseItem key={course.title} course={course} />
                   ))}
@@ -112,22 +111,18 @@ export default function EducationPage() {
         </div>
       </Section>
 
-      <Section id="reconocimientos" index="04" eyebrow="Trayectoria" title="Reconocimientos">
-        <ul className="divide-y divide-rule border-y border-rule">
+      <Section id="reconocimientos" title="Reconocimientos" band="mocha">
+        <ul className="space-y-6">
           {recognitions.map((item) => (
-            <li key={item.title} className="grid gap-x-8 gap-y-1 py-4 sm:grid-cols-[7rem_1fr]">
-              <p className="meta">{item.year}</p>
-              <div>
-                <p className="text-ink">{item.title}</p>
-                {(item.organizer || item.project) && (
-                  <p className="meta">
-                    {[item.organizer, item.project ? `Proyecto: ${item.project}` : null]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </p>
-                )}
-                {item.detail && <p className="mt-1 text-[0.95rem]">{item.detail}</p>}
-              </div>
+            <li key={item.title} className="reveal border-l-2 border-cobre py-1 pl-5">
+              <p className="text-crema">{item.title}</p>
+              <p className="t-small">
+                {[item.year, item.organizer, item.project ? `Proyecto: ${item.project}` : null]
+                  .filter(Boolean)
+                  .join(". ")}
+                .
+              </p>
+              {item.detail && <p className="t-small mt-0.5 text-fg">{item.detail}</p>}
             </li>
           ))}
         </ul>
@@ -135,28 +130,22 @@ export default function EducationPage() {
 
       <Section
         id="participaciones"
-        index="05"
-        eyebrow="Trayectoria"
         title="Ferias, congresos y hackatones"
         intro="Participaciones documentadas. No son premios."
       >
-        <ul className="divide-y divide-rule border-y border-rule">
+        <ul className="space-y-6">
           {participations.map((item) => (
-            <li key={item.title} className="grid gap-x-8 gap-y-1 py-4 sm:grid-cols-[7rem_1fr]">
-              <p className="meta" aria-hidden={!item.year}>
-                {item.year ?? "—"}
-              </p>
-              <div>
-                <p className="text-ink">{item.title}</p>
-                {(item.organizer || item.project) && (
-                  <p className="meta">
-                    {[item.organizer, item.project ? `Proyecto: ${item.project}` : null]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </p>
-                )}
-                <p className="mt-1 text-[0.95rem]">{item.detail}</p>
-              </div>
+            <li key={item.title} className="reveal border-l-2 border-dashed border-caramelo/60 py-1 pl-5">
+              <p className="text-crema">{item.title}</p>
+              {(item.year || item.organizer || item.project) && (
+                <p className="t-small">
+                  {[item.year, item.organizer, item.project ? `Proyecto: ${item.project}` : null]
+                    .filter(Boolean)
+                    .join(". ")}
+                  .
+                </p>
+              )}
+              <p className="t-small mt-0.5 text-fg">{item.detail}</p>
             </li>
           ))}
         </ul>

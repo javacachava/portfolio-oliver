@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Diagram from "@/components/ui/Diagram";
 import JsonLd from "@/components/ui/JsonLd";
-import { ArrowRight, ArrowUpRight } from "@/components/ui/Icons";
+import { ArrowUpRight } from "@/components/ui/Icons";
 import StatusBadge from "@/components/ui/StatusBadge";
+import { diagrams } from "@/data/diagrams";
 import { profile } from "@/data/profile";
 import { getProject, projectKindLabels, projects } from "@/data/projects";
 
@@ -45,6 +47,38 @@ function Paragraphs({ items }: { items: string[] }) {
   );
 }
 
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul className="measure space-y-3">
+      {items.map((item) => (
+        <li key={item} className="flex gap-3">
+          <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-cobre" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function CaseSection({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} aria-labelledby={`${id}-t`} className="reveal">
+      <h2 id={`${id}-t`} className="t-h3 !text-[clamp(1.6rem,3vw,2.1rem)]">
+        {title}
+      </h2>
+      <div className="mt-5">{children}</div>
+    </section>
+  );
+}
+
 export default async function ProjectPage({
   params,
 }: {
@@ -54,6 +88,7 @@ export default async function ProjectPage({
   const project = getProject(slug);
   if (!project) notFound();
 
+  const diagram = diagrams[project.slug];
   const index = projects.findIndex((p) => p.slug === project.slug);
   const next = projects[(index + 1) % projects.length];
 
@@ -62,11 +97,11 @@ export default async function ProjectPage({
     { id: "contexto", label: "Contexto y usuarios" },
     { id: "solucion", label: "Solución" },
     { id: "mi-papel", label: "Mi papel" },
-    { id: "stack", label: "Stack tecnológico" },
+    { id: "stack", label: "Tecnologías" },
     ...(project.decisions.length > 0 ? [{ id: "decisiones", label: "Decisiones técnicas" }] : []),
     { id: "estado", label: "Estado actual" },
     { id: "evidencias", label: "Resultados y evidencias" },
-    { id: "recursos", label: "Recursos" },
+    { id: "material", label: "Material y enlaces" },
   ];
 
   const jsonLd = {
@@ -89,178 +124,166 @@ export default async function ProjectPage({
       <JsonLd data={jsonLd} />
 
       <article>
-        <header className="wrap pb-12 pt-10 sm:pt-14">
-          <nav aria-label="Ruta de navegación" className="meta">
-            <ol className="flex flex-wrap gap-x-2">
-              <li>
-                <Link href="/proyectos" className="link">
-                  Proyectos
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page">{project.title}</li>
-            </ol>
-          </nav>
-
-          <p className="eyebrow mt-8">
-            {project.kinds.map((kind) => projectKindLabels[kind]).join(" · ")}
-          </p>
-          <h1 className="display mt-4 max-w-[16ch]">{project.title}</h1>
-          <p className="measure mt-6 font-serif text-[1.35rem] leading-snug text-body sm:text-[1.6rem]">
-            {project.summary}
-          </p>
-
-          <dl className="mt-10 grid gap-x-8 gap-y-4 border-t border-ink pt-5 sm:grid-cols-2 lg:grid-flow-col lg:auto-cols-fr">
-            <div>
-              <dt className="eyebrow">Organización</dt>
-              <dd className="mt-1 text-ink">{project.organization}</dd>
+        <header className="relative overflow-hidden">
+          <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 opacity-60" />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-20 -top-24 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(closest-side,rgba(200,130,72,0.2),transparent)]"
+          />
+          <div className="wrap relative grid gap-x-10 gap-y-10 pb-14 pt-10 sm:pb-20 sm:pt-14 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <nav aria-label="Ruta de navegación" className="t-small">
+                <ol className="flex flex-wrap gap-x-2">
+                  <li>
+                    <Link href="/proyectos" className="link">
+                      Proyectos
+                    </Link>
+                  </li>
+                  <li aria-hidden="true">/</li>
+                  <li aria-current="page">{project.title}</li>
+                </ol>
+              </nav>
+              <ul className="mt-8 flex flex-wrap gap-2" aria-label="Categorías">
+                {project.kinds.map((kind) => (
+                  <li key={kind} className="chip">
+                    {projectKindLabels[kind]}
+                  </li>
+                ))}
+              </ul>
+              <h1 className="t-display mt-5 !text-[clamp(2.8rem,8.5vw,6.2rem)]">{project.title}</h1>
+              <p className="t-lead measure mt-6">{project.summary}</p>
             </div>
-            {project.period && (
-              <div>
-                <dt className="eyebrow">Período</dt>
-                <dd className="mt-1 text-ink">{project.period}</dd>
+
+            <aside aria-label="Ficha del proyecto" className="lg:col-span-4 lg:self-end">
+              <div className="plate p-6">
+              <dl className="space-y-4">
+                <div>
+                  <dt className="t-small">Organización</dt>
+                  <dd className="mt-0.5 text-crema">{project.organization}</dd>
+                </div>
+                {project.period && (
+                  <div>
+                    <dt className="t-small">Período</dt>
+                    <dd className="mt-0.5 text-crema">{project.period}</dd>
+                  </div>
+                )}
+                <div>
+                  <dt className="t-small">Estado</dt>
+                  <dd className="mt-1">
+                    <StatusBadge status={project.status} />
+                  </dd>
+                </div>
+                <div>
+                  <dt className="t-small">Mi rol</dt>
+                  <dd className="mt-0.5 text-crema">{project.role.title}</dd>
+                </div>
+              </dl>
+              {project.teamNote && <p className="t-small mt-4 border-t border-line pt-3">{project.teamNote}</p>}
               </div>
-            )}
-            <div>
-              <dt className="eyebrow">Estado</dt>
-              <dd className="mt-1">
-                <StatusBadge status={project.status} />
-              </dd>
-            </div>
-            <div>
-              <dt className="eyebrow">Mi rol</dt>
-              <dd className="mt-1 text-ink">{project.role.title}</dd>
-            </div>
-          </dl>
-          {project.teamNote && <p className="meta mt-4">{project.teamNote}</p>}
+            </aside>
+          </div>
         </header>
 
-        <div className="wrap grid gap-x-8 gap-y-10 border-t border-rule pb-8 pt-12 lg:grid-cols-12">
+        {diagram && (
+          <section aria-labelledby="arquitectura-t" className="wrap pb-16 sm:pb-20">
+            <h2 id="arquitectura-t" className="t-h3 !text-[clamp(1.6rem,3vw,2.1rem)]">
+              Cómo está armado
+            </h2>
+            <div className="plate reveal mt-6 p-6 sm:p-10">
+              <Diagram id={`caso-${project.slug}`} diagram={diagram} />
+            </div>
+          </section>
+        )}
+
+        <div className="border-t border-line">
+        <div className="wrap grid gap-x-10 gap-y-12 pb-10 pt-16 lg:grid-cols-12">
           <aside className="lg:col-span-3">
-            <nav aria-label="Secciones del caso" className="lg:sticky lg:top-24">
-              <p className="eyebrow">En esta página</p>
-              <ol className="mt-3 space-y-1.5 text-[0.95rem]">
-                {sections.map((section, i) => (
-                  <li key={section.id} className="flex gap-3">
-                    <span className="meta pt-0.5">{String(i + 1).padStart(2, "0")}</span>
-                    <a href={`#${section.id}`} className="text-body no-underline hover:text-accent hover:underline">
+            <nav aria-label="Secciones del caso" className="lg:sticky lg:top-28">
+              <p className="t-small font-medium text-caramelo">En esta página</p>
+              <ul className="mt-3 space-y-1 border-l border-line">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#${section.id}`}
+                      className="-ml-px block border-l border-transparent py-1 pl-4 text-[0.95rem] text-fg-muted no-underline transition-colors hover:border-cobre hover:text-crema"
+                    >
                       {section.label}
                     </a>
                   </li>
                 ))}
-              </ol>
+              </ul>
             </nav>
           </aside>
 
-          <div className="space-y-14 lg:col-span-8 lg:col-start-5">
-            <section id="problema" aria-labelledby="problema-t">
-              <h2 id="problema-t" className="h3">
-                Problema que aborda
-              </h2>
-              <div className="mt-4">
-                <Paragraphs items={project.problem} />
-              </div>
-            </section>
+          <div className="space-y-16 lg:col-span-8 lg:col-start-5">
+            <CaseSection id="problema" title="Problema que aborda">
+              <Paragraphs items={project.problem} />
+            </CaseSection>
 
-            <section id="contexto" aria-labelledby="contexto-t">
-              <h2 id="contexto-t" className="h3">
-                Contexto y usuarios
-              </h2>
-              <div className="mt-4">
-                <Paragraphs items={project.context} />
-              </div>
-            </section>
+            <CaseSection id="contexto" title="Contexto y usuarios">
+              <Paragraphs items={project.context} />
+            </CaseSection>
 
-            <section id="solucion" aria-labelledby="solucion-t">
-              <h2 id="solucion-t" className="h3">
-                Solución
-              </h2>
-              <div className="mt-4">
-                <Paragraphs items={project.solution} />
-              </div>
-            </section>
+            <CaseSection id="solucion" title="Solución">
+              <Paragraphs items={project.solution} />
+            </CaseSection>
 
-            <section id="mi-papel" aria-labelledby="papel-t">
-              <h2 id="papel-t" className="h3">
-                Mi papel y contribuciones
-              </h2>
-              <p className="mt-4 text-ink">{project.role.title}</p>
-              <ul className="measure mt-4 space-y-2.5">
-                {project.role.contributions.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <span aria-hidden="true" className="select-none text-accent">
-                      –
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+            <CaseSection id="mi-papel" title="Mi papel y contribuciones">
+              <p className="font-medium text-caramelo">{project.role.title}</p>
+              <div className="mt-4">
+                <Bullets items={project.role.contributions} />
+              </div>
               {project.role.notMine && (
-                <p className="measure mt-5 border-l-2 border-rule pl-4 text-[0.98rem] text-muted">
-                  {project.role.notMine}
-                </p>
+                <p className="t-small measure mt-6 border-l-2 border-line pl-4">{project.role.notMine}</p>
               )}
-            </section>
+            </CaseSection>
 
-            <section id="stack" aria-labelledby="stack-t">
-              <h2 id="stack-t" className="h3">
-                Stack tecnológico
-              </h2>
-              <ul className="mt-4 border-t border-rule">
+            <CaseSection id="stack" title="Tecnologías">
+              <ul className="border-t border-line">
                 {project.stack.map((item) => (
                   <li
                     key={item.name}
-                    className="grid gap-x-6 gap-y-1 border-b border-rule py-3 sm:grid-cols-[14rem_1fr_auto]"
+                    className="grid gap-x-6 gap-y-1 border-b border-line py-3.5 sm:grid-cols-[13rem_1fr_7rem]"
                   >
-                    <span className="text-ink">{item.name}</span>
+                    <span className="flex items-center gap-2.5 text-crema">
+                      <span
+                        aria-hidden="true"
+                        className={`size-2 shrink-0 ${
+                          item.scope === "mine" ? "bg-cobre" : "border border-caramelo/70"
+                        }`}
+                      />
+                      {item.name}
+                    </span>
                     <span>{item.use}</span>
-                    <span className="meta">{item.scope === "mine" ? "Mi parte" : "Del proyecto"}</span>
+                    <span className="t-small sm:text-right">
+                      {item.scope === "mine" ? "Mi parte" : "Del proyecto"}
+                    </span>
                   </li>
                 ))}
               </ul>
-            </section>
+            </CaseSection>
 
             {project.decisions.length > 0 && (
-              <section id="decisiones" aria-labelledby="decisiones-t">
-                <h2 id="decisiones-t" className="h3">
-                  Decisiones técnicas
-                </h2>
-                <ul className="mt-4 space-y-6">
+              <CaseSection id="decisiones" title="Decisiones técnicas">
+                <ul className="space-y-7">
                   {project.decisions.map((decision) => (
-                    <li key={decision.title}>
-                      <h3 className="font-sans text-[1.05rem] font-medium text-ink">{decision.title}</h3>
-                      <p className="measure mt-1">{decision.body}</p>
+                    <li key={decision.title} className="border-l-2 border-cobre pl-5">
+                      <h3 className="font-sans text-[1.05rem] font-semibold text-crema">{decision.title}</h3>
+                      <p className="measure mt-1.5">{decision.body}</p>
                     </li>
                   ))}
                 </ul>
-              </section>
+              </CaseSection>
             )}
 
-            <section id="estado" aria-labelledby="estado-t">
-              <h2 id="estado-t" className="h3">
-                Estado actual
-              </h2>
-              <div className="mt-4">
-                <Paragraphs items={project.currentState} />
-              </div>
-            </section>
+            <CaseSection id="estado" title="Estado actual">
+              <Paragraphs items={project.currentState} />
+            </CaseSection>
 
-            <section id="evidencias" aria-labelledby="evidencias-t">
-              <h2 id="evidencias-t" className="h3">
-                Resultados y evidencias
-              </h2>
-              <ul className="measure mt-4 space-y-2.5">
-                {project.evidence.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <span aria-hidden="true" className="select-none text-accent">
-                      –
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+            <CaseSection id="evidencias" title="Resultados y evidencias">
+              <Bullets items={project.evidence} />
               {project.images && project.images.length > 0 && (
-                <div className="mt-6 grid gap-6">
+                <div className="mt-8 grid gap-6">
                   {project.images.map((image) => (
                     <figure key={image.src}>
                       <Image
@@ -269,52 +292,49 @@ export default async function ProjectPage({
                         width={image.width}
                         height={image.height}
                         sizes="(min-width: 1024px) 46rem, 100vw"
-                        className="h-auto w-full border border-rule"
+                        className="h-auto w-full border border-line"
                       />
-                      {image.caption && <figcaption className="meta mt-2">{image.caption}</figcaption>}
+                      {image.caption && <figcaption className="t-small mt-2">{image.caption}</figcaption>}
                     </figure>
                   ))}
                 </div>
               )}
-            </section>
+            </CaseSection>
 
-            <section id="recursos" aria-labelledby="recursos-t">
-              <h2 id="recursos-t" className="h3">
-                Recursos
-              </h2>
+            <CaseSection id="material" title="Material y enlaces">
               {project.links.length > 0 && (
-                <ul className="mt-4 space-y-3">
+                <ul className="flex flex-wrap gap-3">
                   {project.links.map((link) => (
                     <li key={link.href}>
                       <a
                         href={link.href}
-                        className="link inline-flex items-center gap-1.5"
+                        className="btn btn-ghost"
                         {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       >
                         {link.label}
-                        <ArrowUpRight size={15} />
+                        <ArrowUpRight size={16} />
                         {link.external && <span className="sr-only"> (se abre en una pestaña nueva)</span>}
                       </a>
-                      {link.note && <span className="meta"> · {link.note}</span>}
+                      {link.note && <p className="t-small mt-1.5">{link.note}</p>}
                     </li>
                   ))}
                 </ul>
               )}
               {project.noPublicResources && (
-                <p className="measure mt-4 text-muted">{project.noPublicResources}</p>
+                <p className="measure mt-4 text-fg-muted">{project.noPublicResources}</p>
               )}
-            </section>
+            </CaseSection>
           </div>
         </div>
+        </div>
 
-        <nav aria-label="Otro proyecto" className="wrap mt-8 border-t border-rule pt-8">
-          <p className="eyebrow">Siguiente proyecto</p>
+        <nav aria-label="Otro proyecto" className="wrap mt-10 border-t border-line pt-10">
+          <p className="t-small">Siguiente proyecto</p>
           <Link
             href={`/proyectos/${next.slug}`}
-            className="group mt-2 inline-flex items-center gap-3 font-serif text-[1.6rem] text-ink no-underline hover:text-accent"
+            className="t-h2 mt-2 inline-block !text-[clamp(1.8rem,4.5vw,3rem)] no-underline transition-colors hover:text-caramelo"
           >
             {next.title}
-            <ArrowRight size={22} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </nav>
       </article>

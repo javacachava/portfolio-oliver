@@ -8,12 +8,16 @@ Guía para mantener el contenido y registro de lo que está verificado y lo que 
 | --- | --- |
 | Nombre, contacto, enlaces, idiomas, ficha de la portada | `data/profile.ts` |
 | Casos de proyecto (los 9 puntos de cada caso) | `data/projects.ts` (tipos y rótulos en `data/project-types.ts`) |
+| Diagramas de arquitectura de cada caso y el diagrama de WUJU | `data/diagrams.ts` |
+| Descripción de WUJU y de mi rol dentro de la organización | `data/wuju.ts` |
 | Experiencia | `data/experience.ts` |
 | Competencias (práctica vs. formación académica) | `data/skills.ts` |
 | Formación, cursos, reconocimientos y participaciones | `data/education.ts` |
-| Colores, tipografía y componentes base | `app/globals.css` |
+| Colores (paleta Espresso Tech), tipografía, movimiento y componentes base | `app/globals.css` |
 
 Agregar un proyecto: añade un objeto a `projects` en `data/projects.ts`. La ficha `/proyectos/[slug]`, el listado, el filtro y el sitemap se generan solos.
+
+Agregar un diagrama: añade una entrada en `data/diagrams.ts` con el mismo `slug` del proyecto. Cada nodo indica su columna y fila; el componente `Diagram` calcula la geometría, las pistas y la versión vertical para móvil. Los diagramas se elaboran solo con lo respaldado por el CV, el repositorio o la documentación del proyecto, y cada uno lleva una nota que aclara que no es una captura.
 
 Agregar capturas: copia las imágenes a `public/projects/<slug>/` y declara `images` en el caso, con `alt`, `width` y `height` reales. La ficha ya sabe mostrarlas con `next/image`.
 
@@ -39,7 +43,8 @@ Estas decisiones de contenido dependen de información que no pude verificar. Ha
 8. **CV descargable.** `public/cv/CV_Oliver_Ascencio.pdf` sigue siendo el CV anterior (contiene datos que difieren del CV maestro). Reemplazarlo cuando el PDF del CV maestro esté disponible como archivo.
 9. **Foto y capturas.** No hay foto real ni capturas de proyectos; el sitio no usa avatares. Las demos de `public/demos/` son simulaciones con datos ficticios y se identifican como tales.
 10. **Repositorios privados.** Las fichas dicen «el repositorio es privado» sin exponer su contenido. Confirmar que eso es aceptable.
-11. **Entradas retiradas.** Quedaron fuera por no figurar en el CV maestro: taller de Tableau, curso de Java de Udemy, SOLID y Clean Code, y Blockchain.
+11. **Diagramas.** Los de `data/diagrams.ts` los elaboré a partir del CV, los repositorios y la documentación de cada proyecto. Conviene que los revises, sobre todo el flujo de CuencaOS (sensores, borde, plataforma, Akhet y revisión humana), la composición de Terrivo / Atria y el diagrama de WUJU frente a tu rol. Los de TuGuíaSV solo muestran los servicios con los que trabajaste, sin flujo de datos.
+12. **Entradas retiradas.** Quedaron fuera por no figurar en el CV maestro: taller de Tableau, curso de Java de Udemy, SOLID y Clean Code, y Blockchain.
 
 ## Demos
 

@@ -17,8 +17,8 @@ npm run start    # sirve la compilación
 
 ```
 app/            rutas: / · /proyectos · /proyectos/[slug] · /formacion · /sobre-mi
-components/     layout (cabecera, pie) y ui (secciones, filas de proyecto, filtro)
-data/           contenido: perfil, proyectos, experiencia, competencias, formación
+components/     layout (cabecera, pie), home (secciones de la portada) y ui (placas, diagramas, secciones)
+data/           contenido: perfil, proyectos, diagramas, WUJU, experiencia, competencias, formación
 public/cv/      CV descargable
 public/demos/   demostraciones con datos simulados (HTML autocontenido)
 docs/           guía de contenido y asuntos pendientes (docs/CONTENIDO.md)

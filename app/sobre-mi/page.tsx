@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageHeader from "@/components/ui/PageHeader";
 import Section from "@/components/ui/Section";
 import { profile } from "@/data/profile";
 
@@ -74,39 +75,42 @@ const approach = [
 export default function AboutPage() {
   return (
     <>
-      <section aria-labelledby="sobre-titulo" className="wrap pb-12 pt-14 sm:pt-20">
-        <p className="eyebrow">Sobre mí</p>
-        <h1 id="sobre-titulo" className="display mt-4 max-w-[14ch]">
-          Sobre mí
-        </h1>
-        <div className="measure mt-6 space-y-4 text-[1.125rem]">
-          <p>
-            Soy estudiante de Ingeniería en Desarrollo de Software en UNICAES y tengo completados
-            los requisitos académicos del TSU en Ciberseguridad; mi graduación está pendiente.
-            Vivo en {profile.location}.
-          </p>
-          <p>
-            Soy cofundador de WUJU, donde coordino un equipo técnico en proyectos de software, datos
-            e investigación aplicada. Trabajo con bases de datos, desarrollo web y análisis en
-            Python, y llevo la seguridad como criterio de diseño.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        id="sobre-titulo"
+        title="Sobre mí"
+        lead={
+          <div className="space-y-4">
+            <p>
+              Soy estudiante de Ingeniería en Desarrollo de Software en UNICAES y tengo completados
+              los requisitos académicos del TSU en Ciberseguridad; mi graduación está pendiente.
+              Vivo en {profile.location}.
+            </p>
+            <p>
+              Soy cofundador de WUJU, donde coordino un equipo técnico en proyectos de software,
+              datos e investigación aplicada. Trabajo con bases de datos, desarrollo web y análisis
+              en Python, y llevo la seguridad como criterio de diseño.
+            </p>
+          </div>
+        }
+      />
 
-      <Section id="trayectoria" index="01" eyebrow="Sobre mí" title="Trayectoria">
-        <ol>
+      <Section id="trayectoria" title="Trayectoria" flush>
+        <ol className="relative pl-8 sm:pl-12">
+          <span
+            aria-hidden="true"
+            className="timeline-line absolute left-[7px] top-2 bottom-2 w-[2px] bg-cobre sm:left-[11px]"
+          />
           {timeline.map((period) => (
-            <li
-              key={period.year}
-              className="grid gap-x-8 gap-y-2 border-t border-rule py-7 first:border-t-0 first:pt-0 sm:grid-cols-[9rem_1fr]"
-            >
-              <h3 className="font-serif text-[1.5rem] text-ink">{period.year}</h3>
-              <ul className="space-y-2.5">
+            <li key={period.year} className="reveal relative pb-12 last:pb-0">
+              <span
+                aria-hidden="true"
+                className="absolute -left-8 top-[0.45rem] size-4 rounded-full border-2 border-cobre bg-espresso sm:-left-12 sm:size-[1.4rem]"
+              />
+              <h3 className="t-h3">{period.year}</h3>
+              <ul className="measure mt-4 space-y-3">
                 {period.items.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span aria-hidden="true" className="select-none text-accent">
-                      –
-                    </span>
+                    <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-cobre" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -116,18 +120,18 @@ export default function AboutPage() {
         </ol>
       </Section>
 
-      <Section id="enfoque" index="02" eyebrow="Sobre mí" title="Enfoque de trabajo">
+      <Section id="enfoque" title="Enfoque de trabajo" band="mocha">
         <ul>
           {approach.map((item) => (
-            <li key={item.title} className="border-t border-rule py-6 first:border-t-0 first:pt-0">
-              <h3 className="font-sans text-[1.1rem] font-medium text-ink">{item.title}</h3>
-              <p className="measure mt-1">{item.body}</p>
+            <li key={item.title} className="reveal border-t border-line py-6 first:border-t-0 first:pt-0">
+              <h3 className="font-sans text-[1.1rem] font-semibold text-crema">{item.title}</h3>
+              <p className="measure mt-1.5">{item.body}</p>
             </li>
           ))}
         </ul>
       </Section>
 
-      <Section id="intereses" index="03" eyebrow="Sobre mí" title="Intereses y objetivos">
+      <Section id="intereses" title="Intereses y objetivos">
         <div className="measure space-y-4">
           <p>
             Me interesan la estrategia de ciberseguridad, el cumplimiento y la gestión de riesgo, el
@@ -139,12 +143,11 @@ export default function AboutPage() {
             desarrollo de software, ciberseguridad o datos e IA aplicada, y seguir aprendiendo con
             un equipo.
           </p>
-          <p>
-            <Link href="/proyectos" className="link">
+          <p className="flex flex-wrap gap-3 pt-2">
+            <Link href="/proyectos" className="btn btn-primary">
               Ver proyectos
-            </Link>{" "}
-            ·{" "}
-            <Link href="/#contacto" className="link">
+            </Link>
+            <Link href="/#contacto" className="btn btn-ghost">
               Contactar
             </Link>
           </p>

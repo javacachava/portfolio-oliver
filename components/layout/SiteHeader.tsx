@@ -8,11 +8,11 @@ import { profile } from "@/data/profile";
 
 const links = [
   { label: "Proyectos", href: "/proyectos", route: "/proyectos" },
+  { label: "WUJU", href: "/#wuju" },
   { label: "Experiencia", href: "/#experiencia" },
   { label: "Competencias", href: "/#competencias" },
   { label: "Formación", href: "/formacion", route: "/formacion" },
   { label: "Sobre mí", href: "/sobre-mi", route: "/sobre-mi" },
-  { label: "Contacto", href: "/#contacto" },
 ] as const;
 
 type NavLink = (typeof links)[number];
@@ -25,7 +25,7 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const [openFor, setOpenFor] = useState<string | null>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  // El menú se considera abierto solo en la ruta donde se abrió: al navegar se cierra solo.
+  // El menú cuenta como abierto solo en la ruta donde se abrió: al navegar se cierra solo.
   const open = openFor === pathname;
 
   useEffect(() => {
@@ -41,18 +41,26 @@ export default function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-bg/90 backdrop-blur-sm">
-      <div className="wrap flex h-14 items-center justify-between gap-6">
+    <header className="sticky top-0 z-40 border-b border-line bg-espresso/85 backdrop-blur-md">
+      <div className="wrap flex h-16 items-center justify-between gap-6">
         <Link
           href="/"
-          className="font-serif text-[1.2rem] tracking-tight text-ink no-underline"
           aria-label={`${profile.shortName}, ir al inicio`}
+          className="group flex items-center gap-3 no-underline"
         >
-          {profile.shortName}
+          <span
+            aria-hidden="true"
+            className="grid size-8 place-items-center rounded-[3px] border border-cobre font-display text-[0.8rem] font-bold text-cobre transition-colors group-hover:bg-cobre group-hover:text-espresso"
+          >
+            OA
+          </span>
+          <span className="font-display text-[1.1rem] font-semibold tracking-tight text-crema">
+            {profile.shortName}
+          </span>
         </Link>
 
-        <nav aria-label="Principal" className="hidden lg:block">
-          <ul className="flex items-center gap-7">
+        <nav aria-label="Principal" className="hidden items-center gap-6 lg:flex">
+          <ul className="flex items-center gap-6">
             {links.map((link) => (
               <li key={link.label}>
                 <Link
@@ -65,33 +73,47 @@ export default function SiteHeader() {
               </li>
             ))}
           </ul>
+          <Link href="/#contacto" className="btn btn-primary !min-h-10 !px-4 !py-1.5 text-[0.9rem]">
+            Contacto
+          </Link>
         </nav>
 
         <button
           ref={toggleRef}
           type="button"
-          className="-mr-2 inline-flex size-11 items-center justify-center text-ink lg:hidden"
+          className="-mr-2 inline-flex size-11 items-center justify-center text-crema lg:hidden"
           aria-expanded={open}
           aria-controls="menu-movil"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setOpenFor(open ? null : pathname)}
         >
-          {open ? <Close size={22} /> : <Menu size={22} />}
+          {open ? <Close size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {open && (
-        <nav
-          id="menu-movil"
-          aria-label="Principal"
-          className="border-t border-rule bg-bg lg:hidden"
-        >
-          <ul className="wrap py-2">
-            {links.map((link) => (
-              <li key={link.label} className="border-b border-rule last:border-b-0">
+      {/* Panel móvil: se despliega con una transición de altura; inert cuando está cerrado. */}
+      <div
+        id="menu-movil"
+        inert={!open}
+        className={`grid border-line transition-[grid-template-rows,border-color] duration-300 ease-out lg:hidden ${
+          open ? "grid-rows-[1fr] border-t" : "grid-rows-[0fr] border-t-0"
+        }`}
+      >
+        <nav aria-label="Principal" className="overflow-hidden bg-espresso">
+          <ul className="wrap py-3">
+            {links.map((link, i) => (
+              <li
+                key={link.label}
+                className="border-b border-line transition-all duration-300"
+                style={{
+                  transitionDelay: open ? `${60 + i * 40}ms` : "0ms",
+                  opacity: open ? 1 : 0,
+                  transform: open ? "none" : "translateY(-0.4rem)",
+                }}
+              >
                 <Link
                   href={link.href}
-                  className="nav-link w-full justify-between py-1"
+                  className="nav-link w-full py-1 text-[1.05rem]"
                   aria-current={isCurrent(pathname, link) ? "page" : undefined}
                   onClick={() => setOpenFor(null)}
                 >
@@ -99,9 +121,18 @@ export default function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li className="pt-4 pb-2">
+              <Link
+                href="/#contacto"
+                className="btn btn-primary w-full"
+                onClick={() => setOpenFor(null)}
+              >
+                Contacto
+              </Link>
+            </li>
           </ul>
         </nav>
-      )}
+      </div>
     </header>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import ProjectFilter from "@/components/ui/ProjectFilter";
-import { toSummary } from "@/components/ui/ProjectRow";
-import { projects } from "@/data/projects";
+import PageHeader from "@/components/ui/PageHeader";
+import ProjectPlate from "@/components/ui/ProjectPlate";
+import { projectKindLabels, projects, type ProjectKind } from "@/data/projects";
 
 export const metadata: Metadata = {
   title: "Proyectos",
@@ -10,23 +10,70 @@ export const metadata: Metadata = {
   alternates: { canonical: "/proyectos" },
 };
 
+const kindOrder: ProjectKind[] = ["software", "investigacion", "ia-datos", "emprendimiento"];
+
 export default function ProjectsPage() {
+  const options = [
+    { value: "todos", label: "Todos", count: projects.length },
+    ...kindOrder.map((kind) => ({
+      value: kind,
+      label: projectKindLabels[kind],
+      count: projects.filter((p) => p.kinds.includes(kind)).length,
+    })),
+  ];
+
   return (
     <>
-      <section aria-labelledby="proyectos-titulo" className="wrap pb-8 pt-14 sm:pt-20">
-        <p className="eyebrow">Proyectos</p>
-        <h1 id="proyectos-titulo" className="display mt-4 max-w-[14ch]">
-          Proyectos
-        </h1>
-        <p className="measure mt-6 text-[1.125rem]">
-          {projects.length} proyectos de software, investigación, IA y emprendimiento. Cada caso
-          explica el problema, el contexto, mi parte, las decisiones técnicas y el estado actual.
-          Los proyectos de WUJU son trabajo de equipo, y en cada uno se indica qué parte es mía.
-        </p>
-      </section>
+      <PageHeader
+        id="proyectos-titulo"
+        title="Proyectos"
+        lead={
+          <p>
+            {projects.length} proyectos de software, investigación, IA y emprendimiento. Cada caso
+            explica el problema, el contexto, mi parte y el estado actual. Los de WUJU son trabajo
+            de equipo y en cada uno indico qué parte es mía.
+          </p>
+        }
+      />
 
-      <section aria-label="Listado de proyectos" className="wrap pb-8 pt-8">
-        <ProjectFilter projects={projects.map(toSummary)} />
+      <section aria-labelledby="listado-titulo" className="filter pb-24">
+        <h2 id="listado-titulo" className="sr-only">
+          Listado de proyectos
+        </h2>
+        <div className="wrap">
+          <fieldset>
+            <legend className="sr-only">Filtrar proyectos por tipo</legend>
+            <div className="flex flex-wrap gap-3">
+              {options.map((option) => (
+                <label key={option.value}>
+                  <input
+                    type="radio"
+                    name="tipo"
+                    value={option.value}
+                    defaultChecked={option.value === "todos"}
+                    className="sr-only"
+                  />
+                  <span className="filter-pill">
+                    {option.label}
+                    <span className="text-[0.8rem] opacity-70">{option.count}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <ul className="mt-10 grid gap-6 lg:grid-cols-2">
+            {projects.map((project, i) => (
+              <li
+                key={project.slug}
+                data-kinds={project.kinds.join(" ")}
+                className={i === 0 ? "lg:col-span-2" : undefined}
+              >
+                <ProjectPlate project={project} large={i === 0} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </>
   );

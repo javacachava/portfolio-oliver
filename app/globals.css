@@ -1,67 +1,67 @@
 @import "tailwindcss";
 
 /*
- * Sistema visual: editorial sobre papel cálido, tinta casi negra y un único acento (verde agua).
- * Los pares de color cumplen WCAG AA sobre --bg y --surface (verificado: muted ≥ 5.7:1, accent ≥ 7:1).
- * Modo oscuro automático según prefers-color-scheme.
+ * Espresso Tech: placa de circuito en espresso, con pistas de cobre.
+ * Paleta fijada por el cliente; los derivados (panel, línea, texto atenuado) se verificaron con WCAG AA.
+ * Tema único oscuro: la identidad depende de la paleta, no de un modo claro.
  */
 :root {
-  color-scheme: light dark;
-  --bg: #f5f2eb;
-  --surface: #fbf9f4;
-  --ink: #14181b;
-  --body: #2e363b;
-  --muted: #586067;
-  --accent: #0b5c5a;
-  --accent-ink: #ffffff;
-  --ochre: #8a5a0b;
-  --rule: #d8d2c4;
-}
+  color-scheme: dark;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1315;
-    --surface: #151a1d;
-    --ink: #ece8df;
-    --body: #cfcbc2;
-    --muted: #9aa3a8;
-    --accent: #63bdb5;
-    --accent-ink: #0f1315;
-    --ochre: #d9a94f;
-    --rule: #2a3135;
-  }
+  --espresso: #15100d;
+  --mocha: #34251e;
+  --cobre: #c88248;
+  --caramelo: #e5b88e;
+  --crema: #f5ebdd;
+
+  --panel: #1d1511;
+  --muted: #b3a392;
+
+  /* Semánticos: cambian dentro de las bandas claras (.band-crema). */
+  --bg: var(--espresso);
+  --fg: var(--crema);
+  --fg-muted: var(--muted);
+  --accent: var(--cobre);
+  --accent-soft: var(--caramelo);
+  --surface: var(--panel);
+  --line: rgba(229, 184, 142, 0.18);
+  --line-strong: rgba(200, 130, 72, 0.55);
 }
 
 @theme inline {
+  --color-espresso: var(--espresso);
+  --color-mocha: var(--mocha);
+  --color-cobre: var(--cobre);
+  --color-caramelo: var(--caramelo);
+  --color-crema: var(--crema);
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-ink: var(--ink);
-  --color-body: var(--body);
-  --color-muted: var(--muted);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
   --color-accent: var(--accent);
-  --color-accent-ink: var(--accent-ink);
-  --color-ochre: var(--ochre);
-  --color-rule: var(--rule);
-  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --color-accent-soft: var(--accent-soft);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --font-display: var(--font-bricolage), "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
-/* Elementos base: en @layer base para que las utilidades de Tailwind puedan sobrescribirlos. */
+/* ───────────── Base ───────────── */
 @layer base {
   * {
-    border-color: var(--rule);
+    border-color: var(--line);
   }
 
   html {
-    background: var(--bg);
+    background: var(--espresso);
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background: var(--bg);
-    color: var(--body);
+    position: relative;
+    background: var(--espresso);
+    color: var(--crema);
     font-family: var(--font-sans);
     font-size: 1.0625rem;
     line-height: 1.65;
@@ -69,15 +69,25 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Textura delicada: grano fijo y casi imperceptible sobre todo el sitio. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .92 0 0 0 0 .87 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-serif);
-    color: var(--ink);
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.12;
+    font-family: var(--font-display);
+    color: var(--fg);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
     text-wrap: balance;
   }
 
@@ -87,8 +97,8 @@
   }
 
   ::selection {
-    background: var(--accent);
-    color: var(--accent-ink);
+    background: var(--cobre);
+    color: var(--espresso);
   }
 
   [id] {
@@ -96,123 +106,267 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--caramelo);
     outline-offset: 3px;
     border-radius: 2px;
   }
+
+  .band-crema :focus-visible {
+    outline-color: var(--espresso);
+  }
 }
 
-/* Clases de componente: en @layer components por la misma razón. */
+/* ───────────── Componentes ───────────── */
 @layer components {
-  /* ───────────── Retícula y tipografía ───────────── */
-
   .wrap {
     width: 100%;
-    max-width: 72rem;
+    max-width: 76rem;
     margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 2.5rem);
+    padding-inline: clamp(1.25rem, 4vw, 2.75rem);
   }
 
   .measure {
-    max-width: 66ch;
+    max-width: 62ch;
   }
 
-  .display {
-    font-size: clamp(2.9rem, 8vw, 5.25rem);
-    letter-spacing: -0.025em;
-    line-height: 1.02;
+  /* Bandas de superficie */
+  .band-mocha {
+    --bg: var(--mocha);
+    --surface: #2a1d18;
+    --line: rgba(229, 184, 142, 0.22);
+    background: var(--mocha);
   }
 
-  .h2 {
-    font-size: clamp(1.9rem, 4vw, 2.6rem);
+  .band-crema {
+    --bg: var(--crema);
+    --fg: var(--espresso);
+    --fg-muted: #5a4a3d;
+    --accent: #7e4412;
+    --accent-soft: #7e4412;
+    --surface: #ede0cc;
+    --line: rgba(21, 16, 13, 0.18);
+    --line-strong: rgba(126, 68, 18, 0.6);
+    background: var(--crema);
+    color: var(--espresso);
   }
 
-  .h3 {
-    font-size: clamp(1.35rem, 2.4vw, 1.65rem);
-    line-height: 1.2;
+  .band-cobre {
+    --bg: var(--cobre);
+    --fg: var(--espresso);
+    --fg-muted: #2a1c12;
+    --accent: var(--espresso);
+    --line: rgba(21, 16, 13, 0.3);
+    background: var(--cobre);
+    color: var(--espresso);
   }
 
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.4;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
+  /* Retícula: líneas finas que se desvanecen hacia los bordes. */
+  .grid-texture {
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 70% 40%, #000 20%, transparent 75%);
   }
 
-  .meta {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
+  /* Escala tipográfica */
+  .t-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3.6rem, 12vw, 9rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 96;
+  }
+
+  .t-h2 {
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 72;
+  }
+
+  .t-h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 36;
+  }
+
+  .t-lead {
+    font-size: clamp(1.15rem, 1.6vw, 1.3rem);
+    line-height: 1.55;
+    color: var(--fg);
+  }
+
+  .t-small {
+    font-size: 0.9rem;
     line-height: 1.5;
-    color: var(--muted);
+    color: var(--fg-muted);
   }
 
-  .rule-top {
-    border-top: 1px solid var(--rule);
+  .t-tag {
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: var(--fg-muted);
   }
 
-  /* ───────────── Enlaces y botones ───────────── */
+  .muted {
+    color: var(--fg-muted);
+  }
 
+  /* Título de sección: el barrido y la pista aparecen al llegar a la vista. */
+  .section-title {
+    position: relative;
+    padding-bottom: 1.1rem;
+  }
+
+  .section-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 4.5rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .section-title::before {
+    content: "";
+    position: absolute;
+    left: 4.5rem;
+    bottom: -3px;
+    width: 8px;
+    height: 8px;
+    border: 2px solid var(--accent);
+    border-radius: 9999px;
+    background: var(--bg);
+  }
+
+  /* ─── Enlaces y botones ─── */
   .link {
-    color: var(--accent);
+    color: var(--accent-soft);
     text-decoration: underline;
+    text-decoration-color: var(--line-strong);
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
-    transition: text-decoration-thickness 0.15s ease;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
   }
 
   .link:hover {
-    text-decoration-thickness: 2px;
+    text-decoration-color: currentColor;
   }
 
   .btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    padding: 0.55rem 1.15rem;
-    border: 1px solid var(--ink);
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid var(--cobre);
     border-radius: 2px;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 0.97rem;
+    font-weight: 600;
     line-height: 1.2;
     text-decoration: none;
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+
+  /* Relleno que avanza desde la izquierda, como una pista que se energiza. */
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: scaleX(var(--fill, 0));
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    background: var(--fill-color);
   }
 
   .btn-primary {
-    background: var(--ink);
-    color: var(--bg);
+    --fill: 1;
+    --fill-color: var(--cobre);
+    color: var(--espresso);
+  }
+
+  .btn-primary::before {
+    transform: scaleX(1);
   }
 
   .btn-primary:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-ink);
+    color: var(--espresso);
+    border-color: var(--caramelo);
   }
 
-  .btn-secondary {
-    background: transparent;
-    color: var(--ink);
+  .btn-primary:hover::before {
+    background: var(--caramelo);
   }
 
-  .btn-secondary:hover {
-    background: var(--ink);
-    color: var(--bg);
+  .btn-ghost {
+    --fill-color: var(--crema);
+    color: var(--crema);
+    border-color: rgba(245, 235, 221, 0.4);
   }
 
-  /* ───────────── Navegación ───────────── */
+  .btn-ghost:hover {
+    --fill: 1;
+    color: var(--espresso);
+    border-color: var(--crema);
+  }
 
+  .band-cobre .btn-primary {
+    --fill-color: var(--espresso);
+    color: var(--cobre);
+    border-color: var(--espresso);
+  }
+
+  .band-cobre .btn-primary::before {
+    background: var(--espresso);
+  }
+
+  .band-cobre .btn-primary:hover {
+    color: var(--espresso);
+    border-color: var(--espresso);
+  }
+
+  .band-cobre .btn-primary:hover::before {
+    background: var(--crema);
+  }
+
+  .btn .pad {
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 2px solid currentColor;
+    border-radius: 9999px;
+    transition: transform 0.3s ease;
+  }
+
+  .btn:hover .pad {
+    transform: translateX(0.3rem);
+  }
+
+  /* ─── Navegación ─── */
   .nav-link {
     position: relative;
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    color: var(--body);
-    font-size: 0.9375rem;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
     text-decoration: none;
+    transition: color 0.2s ease;
   }
 
   .nav-link::after {
@@ -220,17 +374,17 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0.55rem;
-    height: 1px;
-    background: var(--accent);
+    bottom: 0.45rem;
+    height: 2px;
+    background: var(--cobre);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
   .nav-link:hover,
   .nav-link[aria-current="page"] {
-    color: var(--ink);
+    color: var(--crema);
   }
 
   .nav-link:hover::after,
@@ -238,100 +392,294 @@
     transform: scaleX(1);
   }
 
-  /* ───────────── Estado de proyecto ───────────── */
+  /* ─── Placa (superficie con pads en las esquinas) ─── */
+  .plate {
+    --pad: radial-gradient(circle at center, transparent 0 1.5px, var(--cobre) 2px 3.5px, transparent 4px);
+    position: relative;
+    border: 1px solid var(--line);
+    background-color: var(--surface);
+    background-image: var(--pad), var(--pad), var(--pad), var(--pad);
+    background-repeat: no-repeat;
+    background-size: 9px 9px;
+    background-position:
+      9px 9px,
+      calc(100% - 9px) 9px,
+      9px calc(100% - 9px),
+      calc(100% - 9px) calc(100% - 9px);
+  }
 
+  .band-crema .plate {
+    --pad: radial-gradient(circle at center, transparent 0 1.5px, #7e4412 2px 3.5px, transparent 4px);
+  }
+
+  /* Destello de cobre que sigue al cursor sobre el borde. */
+  .plate-spot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--cobre), transparent 70%)
+      border-box;
+    mask:
+      linear-gradient(#000 0 0) padding-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .plate-spot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(200, 130, 72, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .plate-spot:hover::after,
+  .plate-spot:focus-within::after,
+  .plate-spot:hover::before,
+  .plate-spot:focus-within::before {
+    opacity: 1;
+  }
+
+  /* Etiqueta de categoría: una "pata" con borde fino, no un texto suelto. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--fg-muted);
+  }
+
+  /* Filtro de proyectos sin JavaScript: radios + :has(). */
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--cobre);
+    color: var(--crema);
+  }
+
+  input:checked + .filter-pill {
+    border-color: var(--cobre);
+    background: rgba(200, 130, 72, 0.16);
+    color: var(--crema);
+  }
+
+  input:focus-visible + .filter-pill {
+    outline: 2px solid var(--caramelo);
+    outline-offset: 3px;
+  }
+
+  .filter:has(input[value="software"]:checked) [data-kinds]:not([data-kinds~="software"]),
+  .filter:has(input[value="investigacion"]:checked) [data-kinds]:not([data-kinds~="investigacion"]),
+  .filter:has(input[value="ia-datos"]:checked) [data-kinds]:not([data-kinds~="ia-datos"]),
+  .filter:has(input[value="emprendimiento"]:checked) [data-kinds]:not([data-kinds~="emprendimiento"]) {
+    display: none;
+  }
+
+  /* ─── Estado de proyecto ─── */
   .status {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    color: var(--body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--fg);
   }
 
   .status-dot {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.55rem;
+    height: 0.55rem;
     border-radius: 9999px;
-    background: var(--muted);
+    border: 2px solid var(--caramelo);
   }
 
   .status[data-tone="development"] .status-dot {
-    background: var(--ochre);
     animation: pulse-dot 2.4s ease-in-out infinite;
-  }
-
-  .status[data-tone="prototype"] .status-dot {
-    background: var(--ochre);
   }
 
   .status[data-tone="functional"] .status-dot,
   .status[data-tone="delivered"] .status-dot {
-    background: var(--accent);
+    background: var(--caramelo);
   }
 
-  @keyframes pulse-dot {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.35;
-    }
+  .status[data-tone="prototype"] .status-dot {
+    border-style: dashed;
   }
 
-  /* ───────────── Entrada de la portada ───────────── */
-
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(0.75rem);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+  /* ─── Diagramas ─── */
+  .dg-edge {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
   }
 
-  .rise {
-    animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  .dg-pulse {
+    fill: none;
+    stroke: var(--caramelo);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 0.05 0.95;
+    stroke-dashoffset: 1;
+    opacity: 0;
+    animation: travel 5s linear infinite backwards;
+    animation-delay: var(--d, 0s);
   }
 
-  .rise-2 {
-    animation-delay: 0.08s;
+  /* Placas del listado: los pulsos solo corren al pasar el cursor o enfocar la placa. */
+  [data-hover-pulse] .dg-pulse {
+    animation-play-state: paused;
   }
 
-  .rise-3 {
-    animation-delay: 0.16s;
+  .plate-spot:hover [data-hover-pulse] .dg-pulse,
+  .plate-spot:focus-within [data-hover-pulse] .dg-pulse {
+    animation-play-state: running;
   }
 
-  .rise-4 {
-    animation-delay: 0.24s;
+  .band-crema .dg-pulse {
+    stroke: #7e4412;
   }
 
-  /* ───────────── Listado de proyectos ───────────── */
-
-  .project-row .arrow {
-    transition: transform 0.2s ease;
+  .dg-node rect {
+    fill: var(--surface);
+    stroke: var(--line-strong);
+    stroke-width: 1.25;
+    transition: fill 0.25s ease, stroke 0.25s ease;
   }
 
-  .project-row:hover .arrow,
-  .project-row:focus-within .arrow {
-    transform: translateX(0.35rem);
+  .dg-node[data-kind="mine"] rect {
+    fill: rgba(200, 130, 72, 0.16);
+    stroke: var(--cobre);
   }
 
-  /* ───────────── Accesibilidad ───────────── */
+  .band-crema .dg-node[data-kind="mine"] rect {
+    stroke: #7e4412;
+    fill: rgba(126, 68, 18, 0.12);
+  }
 
+  .dg-node[data-kind="external"] rect {
+    stroke-dasharray: 4 3;
+  }
+
+  .dg-label {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    fill: var(--fg);
+  }
+
+  .dg-sub {
+    font-family: var(--font-mono);
+    fill: var(--fg-muted);
+  }
+
+  .dg-pad {
+    fill: var(--bg);
+    stroke: var(--cobre);
+    stroke-width: 1.5;
+  }
+
+  /* ─── Retícula del hero ─── */
+  .hero-trace {
+    fill: none;
+    stroke: var(--cobre);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.6s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+    animation-delay: calc(var(--i, 0) * 140ms + 200ms);
+    transition: stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
+  }
+
+  .hero-trace[data-dim="true"] {
+    opacity: 0.28;
+  }
+
+  .hero-trace[data-active="true"] {
+    stroke: var(--caramelo);
+    stroke-width: 3;
+  }
+
+  .hero-chip {
+    animation: fade-in 0.7s ease both;
+    animation-delay: calc(var(--i, 0) * 160ms + 900ms);
+  }
+
+  .hero-chip rect {
+    fill: var(--panel);
+    stroke: var(--cobre);
+    stroke-width: 1.5;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+  }
+
+  .hero-chip[data-active="true"] rect {
+    fill: rgba(200, 130, 72, 0.22);
+    stroke: var(--caramelo);
+  }
+
+  .hero-chip text {
+    font-family: var(--font-display);
+    font-weight: 600;
+    fill: var(--crema);
+  }
+
+  .hero-chip text.hero-ev {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    fill: var(--muted);
+  }
+
+  .hero-chip text.hero-uref {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    fill: var(--muted);
+  }
+
+  /* ─── Línea de tiempo (banda crema) ─── */
+  .timeline-line {
+    transform-origin: top;
+  }
+
+  /* ─── Transición de página ─── */
+  .page-in {
+    animation: page-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  /* ─── Accesibilidad ─── */
   .skip-link {
     position: fixed;
     top: 0.75rem;
     left: 0.75rem;
     z-index: 100;
-    padding: 0.6rem 0.9rem;
-    background: var(--ink);
-    color: var(--bg);
-    font-size: 0.9rem;
+    padding: 0.65rem 1rem;
+    background: var(--crema);
+    color: var(--espresso);
+    font-size: 0.92rem;
+    font-weight: 600;
     text-decoration: none;
     transform: translateY(-200%);
   }
@@ -350,6 +698,129 @@
   }
 }
 
+/* ───────────── Movimiento ───────────── */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes travel {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  8%,
+  92% {
+    opacity: 0.95;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes rise-soft {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Revelado por scroll: animaciones ligadas al scroll del navegador (sin JS).
+ * Mejora progresiva: donde no hay `animation-timeline`, el contenido simplemente está visible.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-title {
+      animation: wipe both cubic-bezier(0.2, 0.7, 0.2, 1);
+      animation-timeline: view();
+      animation-range: entry 5% entry 55%;
+    }
+
+    .section-title::after {
+      transform-origin: left;
+      animation: grow-x both linear;
+      animation-timeline: view();
+      animation-range: entry 20% entry 70%;
+    }
+
+    .reveal {
+      animation: rise-soft both cubic-bezier(0.2, 0.7, 0.2, 1);
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+
+    .timeline-line {
+      animation: grow-y both linear;
+      animation-timeline: view();
+      animation-range: entry 10% cover 55%;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -360,18 +831,22 @@
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .hero-trace {
+    stroke-dashoffset: 0;
+  }
+
+  .dg-pulse {
+    display: none;
   }
 }
 
 @media print {
-  .no-print {
-    display: none !important;
-  }
-
-  body {
-    background: #fff;
-    color: #000;
+  body::before {
+    display: none;
   }
 }

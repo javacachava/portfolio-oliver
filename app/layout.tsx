@@ -1,29 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import { profile } from "@/data/profile";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+// Titulares: Bricolage Grotesque, con eje óptico para que los tamaños grandes ganen contraste.
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
 });
 
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
+// Solo para las etiquetas técnicas de los diagramas.
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500"],
   display: "swap",
+  preload: false,
 });
 
 const siteTitle = `${profile.shortName} — ${profile.role}`;
@@ -56,10 +58,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f2eb" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f1315" },
-  ],
+  themeColor: "#15100d",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -68,17 +68,19 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable}`}
+      className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}
     >
-      <body className="flex min-h-dvh flex-col">
-        <a href="#contenido" className="skip-link">
-          Saltar al contenido
-        </a>
-        <SiteHeader />
-        <main id="contenido" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+      <body>
+        <div className="relative z-10 flex min-h-dvh flex-col">
+          <a href="#contenido" className="skip-link">
+            Saltar al contenido
+          </a>
+          <SiteHeader />
+          <main id="contenido" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );
