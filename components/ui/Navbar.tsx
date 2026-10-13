@@ -15,10 +15,10 @@ import {
 } from "lucide-react";
 
 const links: Array<{ label: string; href: string; Icon: LucideIcon }> = [
-  { label: "Skills", href: "/#skills", Icon: Cpu },
+  { label: "Habilidades", href: "/#skills", Icon: Cpu },
   { label: "Proyectos", href: "/#proyectos", Icon: Rocket },
   { label: "Sobre mí", href: "/#sobre-mi", Icon: CircleUser },
-  { label: "Wuju", href: "/#wuju", Icon: Users },
+  { label: "WUJU", href: "/#wuju", Icon: Users },
   { label: "Formación", href: "/formacion", Icon: GraduationCap },
   { label: "Contacto", href: "/#contacto", Icon: Mail },
 ];

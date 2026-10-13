@@ -10,6 +10,7 @@ import { formacionStats } from "@/data/formacion";
 
 export const metadata: Metadata = {
   title: "Formación — Oliver Ascencio",
+  alternates: { canonical: "/formacion" },
   description:
     "Formación de Oliver Ascencio: Ingeniería en Desarrollo de Software, TSU en Ciberseguridad, bootcamps, cursos y reconocimientos, con su estado real.",
 };

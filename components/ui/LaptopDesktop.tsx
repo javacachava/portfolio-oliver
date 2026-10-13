@@ -80,7 +80,7 @@ export default function LaptopDesktop({
         </span>
         <span className="flex items-center gap-1.5 font-mono text-[7px] sm:text-[9px] text-gray-400 tabular-nums">
           <span className="w-1.5 h-1.5 rounded-full bg-[#00ff9f] animate-pulse" />
-          online · {time}
+          {time}
         </span>
       </div>
     </div>

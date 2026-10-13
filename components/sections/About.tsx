@@ -82,7 +82,7 @@ const EXPERIENCIA = [
     role: "Desarrollador del sistema POS (servicio social)",
     org: "Pizza Brava / ESIT",
     period: "Nov 2025 – Mar 2026",
-    detail: "RBAC para cajero, cocina y administrador, base de datos PostgreSQL y capacitación del personal.",
+    detail: "Control de acceso por roles (RBAC) para cajero, cocina y administrador; base de datos PostgreSQL sincronizada con Firestore; React y Node.js; capacitación del personal.",
     color: GREEN,
   },
   {
@@ -97,12 +97,12 @@ const EXPERIENCIA = [
 const education = [
   {
     level: "Ingeniería en Desarrollo de Software",
-    institution: "UNICAES · sede Santa Ana",
+    institution: "Universidad Católica de El Salvador (UNICAES) · sede Santa Ana",
     status: "2.º año · 2025–2029 (esperado)",
     color: PURPLE,
   },
   {
-    level: "TSU en Ciberseguridad",
+    level: "Técnico Superior Universitario (TSU) en Ciberseguridad",
     institution: "ESIT / MINED · aval INFOTEC México",
     status: "31/31 materias · servicio social completado · graduación pendiente",
     color: CYAN,
@@ -179,7 +179,7 @@ export default function About() {
                   >
                     <Image
                       src={SKINS[skin].src}
-                      alt={`Oliver Ascencio — ${SKINS[skin].label}`}
+                      alt={`Avatar de Oliver Ascencio, versión ${SKINS[skin].label.toLowerCase()}`}
                       fill
                       className="object-cover object-top"
                       sizes="280px"
@@ -263,8 +263,8 @@ export default function About() {
               {/* Short bio */}
               <p className="text-xs text-[var(--muted)] leading-relaxed">
                 Estudiante de Ingeniería en Desarrollo de Software y
-                cofundador de WUJU. TSU en Ciberseguridad pendiente de
-                graduación.
+                cofundador de WUJU. Técnico Superior Universitario (TSU) en
+                Ciberseguridad pendiente de graduación.
               </p>
             </div>
 
@@ -378,8 +378,7 @@ export default function About() {
                 Tecnologías y conocimientos
               </p>
               <p className="text-xs text-[var(--muted)] mb-6 opacity-80">
-                Tomados de mi CV maestro, sin porcentajes ni niveles: la evidencia está en Proyectos y
-                Experiencia.
+                Sin porcentajes ni niveles: el detalle de cada una está en Proyectos y Experiencia.
               </p>
               <div className="grid md:grid-cols-2 gap-4">
                 {AREAS.map((area) => (

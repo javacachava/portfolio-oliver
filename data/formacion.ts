@@ -26,9 +26,9 @@ export const formacion: FormacionCategory[] = [
         date: "2025–2029 (esperado)",
       },
       {
-        name: "TSU en Ciberseguridad",
+        name: "Técnico Superior Universitario (TSU) en Ciberseguridad",
         institution: "ESIT / MINED · aval INFOTEC México",
-        detail: "31/31 materias y 64/64 UV; servicio social completado; graduación pendiente",
+        detail: "31/31 materias y 64/64 unidades valorativas (UV); servicio social completado; graduación pendiente",
         date: "2024–2025",
       },
       {
@@ -117,7 +117,7 @@ export const formacion: FormacionCategory[] = [
       {
         name: "Scrum Fundamentals y el rol de Scrum Master",
         institution: "Fundación Caprile",
-        detail: "16 h · inscrito; inicia el 13 de octubre de 2026",
+        detail: "16 h · inscrito",
         date: "2026",
       },
       {
@@ -134,22 +134,15 @@ export const formacion: FormacionCategory[] = [
     ],
   },
   {
-    id: "blockchain",
-    label: "Bitcoin",
-    color: "#f59e0b",
+    id: "complementaria",
+    label: "Otros cursos",
+    color: "#34d399",
     items: [
       {
         name: "Bitcoin",
         institution: "Node Nation / INSA",
         date: "2024",
       },
-    ],
-  },
-  {
-    id: "complementaria",
-    label: "Lengua de Señas",
-    color: "#34d399",
-    items: [
       {
         name: "Lengua de Señas Salvadoreña básica",
         institution: "ITCA-FEPADE / Fundación Helen Keller",

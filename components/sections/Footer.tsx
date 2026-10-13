@@ -15,7 +15,7 @@ export default function Footer() {
           download="Oliver_Ascencio_Master_CV.pdf"
           className="text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors underline underline-offset-4"
         >
-          Descargar CV (PDF)
+          Descargar CV (PDF, en inglés)
         </a>
       </div>
     </footer>

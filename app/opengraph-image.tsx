@@ -135,7 +135,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          oliver.wuju.dev
+          oliver-ascencio.wuju.dev
         </div>
       </div>
     ),

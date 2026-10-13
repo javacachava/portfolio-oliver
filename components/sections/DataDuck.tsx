@@ -8,15 +8,15 @@ import Counter from "@/components/ui/Counter";
 const metrics = [
   { to: 6,    from: 0,    label: "Equipo técnico",     color: "#7042f8" },
   { to: 2,    from: 0,    label: "Iniciativas activas", color: "#a78bfa" },
-  { to: 2025, from: 2020, label: "Cofundación",         color: "#06b6d4" },
+  { to: 2025, from: 2025, label: "Cofundación de WUJU", color: "#06b6d4" },
   { to: 2,    from: 0,    label: "Eventos 2026",        color: "#00ff9f" },
 ];
 
-const gitLog = [
-  { hash: "c1a0e", ref: "dev", msg: "cuencaos: plataforma hidrológica · WUJU Labs",       live: false },
-  { hash: "t4r1v", ref: "dev", msg: "terrivo: monitoreo agropecuario · Atria",            live: false },
-  { hash: "s7e26", ref: "dev", msg: "startupstem 2026: finalista · una de cinco de 37",   live: false },
-  { hash: "i5p26", ref: "dev", msg: "inspirastem 2026: póster científico · cuencaos",     live: false },
+const hitos = [
+  { tag: "en desarrollo", msg: "cuencaos: plataforma hidrológica · WUJU Labs",     done: false },
+  { tag: "en desarrollo", msg: "terrivo: monitoreo agropecuario · Atria",          done: false },
+  { tag: "logro",         msg: "startupstem 2026: finalista · una de cinco de 37", done: true },
+  { tag: "logro",         msg: "inspirastem 2026: póster científico · cuencaos",   done: true },
 ];
 
 export default function Wuju() {
@@ -37,8 +37,8 @@ export default function Wuju() {
             <br className="hidden sm:block" /> e innovación desde El Salvador.
           </h2>
           <p className="text-[var(--muted)] max-w-xl">
-            Organización salvadoreña de investigación aplicada, software y datos.
-            Soy cofundador y líder técnico del equipo técnico de seis personas.
+            Iniciativas de software, datos e investigación aplicada.
+            Soy cofundador y líder técnico: coordino un equipo de seis personas.
           </p>
         </motion.div>
 
@@ -71,7 +71,7 @@ export default function Wuju() {
                     className="text-3xl font-bold tabular-nums mb-1"
                     style={{ color: m.color }}
                   >
-                    <Counter from={m.from} to={m.to} />
+                    {m.from === m.to ? m.to : <Counter from={m.from} to={m.to} />}
                   </p>
                   <p className="text-xs text-[var(--muted)]">{m.label}</p>
                 </div>
@@ -119,33 +119,30 @@ export default function Wuju() {
                 ))}
               </div>
               <span className="font-mono text-[11px] text-[var(--muted)]">
-                ~/wuju <span className="text-[var(--accent)]">$</span> git log --oneline
+                ~/wuju <span className="text-[var(--accent)]">$</span> cat hitos.txt
               </span>
             </div>
 
             {/* Log output */}
             <div className="p-5 flex flex-col gap-3">
-              {gitLog.map((entry, i) => (
+              {hitos.map((entry, i) => (
                 <motion.div
-                  key={entry.hash}
+                  key={entry.msg}
                   initial={{ opacity: 0, x: -12 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: 0.2 + i * 0.08 }}
                   className="flex items-start gap-3"
                 >
-                  <span className="font-mono text-[11px] text-[var(--muted)] shrink-0 mt-0.5 tabular-nums">
-                    {entry.hash}
-                  </span>
                   <span
                     className="font-mono text-[10px] px-1.5 py-0.5 rounded shrink-0 mt-0.5"
                     style={
-                      entry.live
+                      entry.done
                         ? { color: "#00ff9f", background: "rgba(0,255,159,0.12)", border: "1px solid rgba(0,255,159,0.25)" }
                         : { color: "#06b6d4", background: "rgba(6,182,212,0.10)", border: "1px solid rgba(6,182,212,0.2)" }
                     }
                   >
-                    {entry.live ? "prod" : "dev"}
+                    {entry.tag}
                   </span>
                   <span className="text-sm text-[var(--muted)] leading-snug">{entry.msg}</span>
                 </motion.div>
@@ -153,7 +150,7 @@ export default function Wuju() {
 
               <div className="mt-2 pt-4 border-t border-[var(--border)] flex items-center justify-between">
                 <span className="font-mono text-[10px] text-[var(--muted)]">
-                  4 hitos · en desarrollo
+                  4 hitos
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff]">
                   Santa Ana, SV

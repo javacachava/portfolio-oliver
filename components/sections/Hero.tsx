@@ -44,22 +44,22 @@ export default function Hero() {
             className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]"
           >
             <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
-            <h1 className="Welcome-text text-[13px]">
+            <p className="Welcome-text text-[13px]">
               Ingeniería de Software · Cofundador de WUJU
-            </h1>
+            </p>
           </motion.div>
 
           <motion.div
             variants={slideInFromLeft(0.1)}
             className="flex flex-col gap-6 mt-6 text-4xl sm:text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
           >
-            <span>
+            <h1 style={{ fontFamily: "inherit", letterSpacing: "inherit" }}>
               Hola, soy{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
                 Oliver Ascencio
               </span>
               .
-            </span>
+            </h1>
           </motion.div>
 
           <motion.p
@@ -84,9 +84,9 @@ export default function Hero() {
             <a
               href="/cv/Oliver_Ascencio_Master_CV.pdf"
               download="Oliver_Ascencio_Master_CV.pdf"
-              className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[200px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
+              className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[240px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
             >
-              Descargar CV
+              Descargar CV (inglés)
             </a>
             <a
               href="#contacto"

@@ -88,10 +88,10 @@ export const projects: Project[] = [
     tagline: "Punto de venta con control de acceso por roles (servicio social)",
     description:
       "Sistema de punto de venta para un restaurante, con cuentas de cajero, cocina y administrador. Desarrollado como servicio social con ESIT entre noviembre de 2025 y marzo de 2026.",
-    stack: ["PostgreSQL", "RBAC", "Mínimo privilegio"],
+    stack: ["React", "Node.js", "PostgreSQL", "Firestore", "RBAC"],
     highlights: [
       "Diseñé e implementé el control de acceso por roles (RBAC) con mínimo privilegio",
-      "Diseñé la base de datos PostgreSQL",
+      "Diseñé la base de datos PostgreSQL y su sincronización con Firestore; desarrollé la funcionalidad con React y Node.js",
       "Levanté requisitos con el dueño del negocio y capacité al personal",
     ],
     status: "Servicio social · Nov 2025 – Mar 2026",
@@ -130,10 +130,9 @@ export const projects: Project[] = [
       "Importación de invitados por CSV",
       "Panel con lector de QR, asientos y comunicados",
     ],
-    status: "Funcional · desplegado en Vercel",
+    status: "Funcional",
     statusType: "functional",
     accentColor: "#f59e0b",
-    demo: "https://invitacion-baby-shower-zeta.vercel.app",
     github: "https://github.com/javacachava/invitacion-baby-shower",
   },
   {

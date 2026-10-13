@@ -9,10 +9,9 @@ interface Line {
   color?: string;
 }
 
-const HASHES = ["a4f2c", "d8e9f", "c2b7e", "f1a4d", "e5c8b"];
 
 const BANNER: Line[] = [
-  { t: "out", s: "oliver-os v2.0 · bash", color: "#b49bff" },
+  { t: "out", s: "oliver-os · bash", color: "#b49bff" },
   { t: "out", s: "comandos: ls · cd · cat · git · neofetch · help" },
   { t: "out", s: "" },
 ];
@@ -120,7 +119,7 @@ export default function LaptopTerminal({
         if (i === -1) {
           print([
             { t: "out", s: `bash: cd: ${arg}: No existe el directorio` },
-            { t: "out", s: "probá 'ls' para ver los proyectos" },
+            { t: "out", s: "prueba 'ls' para ver los proyectos" },
             { t: "out", s: "" },
           ]);
         } else {
@@ -152,33 +151,36 @@ export default function LaptopTerminal({
           print([
             ...active.highlights.map((h, i) => ({
               t: "out" as const,
-              s: `${HASHES[i % HASHES.length]} feat: ${h}`,
+              s: `• ${h}`,
               color: i === 0 ? active.accentColor : undefined,
             })),
             { t: "out", s: "" },
           ]);
         } else if (sub === "status") {
           print([
-            { t: "out", s: "On branch main" },
-            { t: "out", s: `Your branch is up to date with 'origin/main'.` },
-            { t: "out", s: "" },
             { t: "out", s: `  estado: ${active.status}`, color: active.accentColor },
-            { t: "out", s: "" },
-            { t: "out", s: "nothing to commit, working tree clean" },
             { t: "out", s: "" },
           ]);
         } else if (sub === "clone") {
           const target = rest.slice(1).join(" ").toLowerCase() || active.id;
           const i = findProject(target);
-          print([
-            { t: "out", s: `Cloning into '${i >= 0 ? projects[i].id : target}'...` },
-            { t: "out", s: "fatal: repository is private", color: "#f87171" },
-            { t: "out", s: "→ solicitá acceso: oliver.a.ascencio@gmail.com", color: accent },
-            { t: "out", s: "" },
-          ]);
+          const repo = i >= 0 ? projects[i].github : undefined;
+          print(
+            repo
+              ? [
+                  { t: "out", s: `Repositorio público: ${repo}`, color: accent },
+                  { t: "out", s: "" },
+                ]
+              : [
+                  { t: "out", s: `Cloning into '${i >= 0 ? projects[i].id : target}'...` },
+                  { t: "out", s: "fatal: no hay un repositorio público enlazado", color: "#f87171" },
+                  { t: "out", s: "→ pide más información: oliver.a.ascencio@gmail.com", color: accent },
+                  { t: "out", s: "" },
+                ],
+          );
         } else {
           print([
-            { t: "out", s: `git: '${sub ?? ""}' is not a git command. Probá: log, status, clone` },
+            { t: "out", s: `git: '${sub ?? ""}' is not a git command. Prueba: log, status, clone` },
             { t: "out", s: "" },
           ]);
         }
@@ -204,7 +206,7 @@ export default function LaptopTerminal({
         print([
           { t: "out", s: "        ›_        oliver@wuju", color: accent },
           { t: "out", s: "       ────       ─────────────" },
-          { t: "out", s: "                  OS: oliver-os v2.0" },
+          { t: "out", s: "                  OS: oliver-os" },
           { t: "out", s: "                  Host: Santa Ana, El Salvador" },
           { t: "out", s: "                  Rol: Ingeniería de Software · WUJU" },
           { t: "out", s: "                  Shell: software · seguridad · IA" },
@@ -252,8 +254,8 @@ export default function LaptopTerminal({
           ]);
         } else {
           print([
-            { t: "out", s: "visitante is not in the sudoers file. This incident will be reported." },
-            { t: "out", s: "(probá 'sudo hire oliver')" },
+            { t: "out", s: "visitante no está en el archivo sudoers. Este incidente será reportado." },
+            { t: "out", s: "(prueba 'sudo hire oliver')" },
             { t: "out", s: "" },
           ]);
         }
@@ -269,7 +271,7 @@ export default function LaptopTerminal({
       default:
         print([
           { t: "out", s: `bash: ${head}: command not found` },
-          { t: "out", s: "probá 'help'" },
+          { t: "out", s: "prueba 'help'" },
           { t: "out", s: "" },
         ]);
     }

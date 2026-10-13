@@ -32,7 +32,8 @@ const cedarvilleCursive = Cedarville_Cursive({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://oliver.wuju.dev"),
+  metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
+  alternates: { canonical: "/" },
   title: "Oliver Ascencio — Software, ciberseguridad e IA aplicada",
   description:
     "Portfolio de Oliver Ascencio: estudiante de Ingeniería en Desarrollo de Software, formación técnica en ciberseguridad y cofundador de WUJU. Proyectos de software, datos e IA aplicada. Santa Ana, El Salvador.",

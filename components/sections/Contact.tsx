@@ -34,7 +34,7 @@ export default function Contact() {
       >
         <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
         <span className="Welcome-text text-[13px]">
-          Abierto a oportunidades · El Salvador
+          Abierto a oportunidades y colaboraciones · El Salvador
         </span>
       </motion.div>
 
@@ -55,7 +55,7 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.25 }}
         className="text-[var(--muted)] max-w-md mt-3 mb-10"
       >
-        Busco oportunidades laborales, pasantías, becas y colaboraciones en desarrollo de software, ciberseguridad y datos e IA aplicada.
+        Me interesan la estrategia de ciberseguridad, el cumplimiento y riesgo, el desarrollo seguro de software, la IA aplicada y la arquitectura de seguridad a largo plazo.
       </motion.p>
 
       {/* CTAs */}
@@ -79,7 +79,7 @@ export default function Contact() {
           className="flex items-center justify-center gap-2 py-3 px-8 text-white rounded-lg text-sm font-medium border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
         >
           <Download size={15} />
-          Descargar CV
+          Descargar CV (PDF, inglés)
         </a>
       </motion.div>
 

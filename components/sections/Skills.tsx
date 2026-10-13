@@ -88,7 +88,7 @@ const GROUPS: Group[] = [
   },
   {
     label: "Ciberseguridad",
-    note: "RBAC aplicado en un POS; el resto es base académica del TSU en Ciberseguridad.",
+    note: "Control de acceso por roles (RBAC) aplicado en un POS; el resto es base académica del TSU en Ciberseguridad.",
     concepts: [
       { name: "RBAC y mínimo privilegio", Icon: ShieldCheck },
       { name: "OWASP Top 10", Icon: Bug },
@@ -160,7 +160,7 @@ export default function Skills() {
           variants={slideInFromRight(0.2)}
           className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
         >
-          Según mi CV maestro, sin porcentajes.
+          Sin porcentajes: cada área indica qué es práctica y qué es estudio.
         </motion.div>
       </motion.div>
 

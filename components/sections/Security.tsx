@@ -38,14 +38,14 @@ export default function Security() {
         <div className="flex flex-col items-center group cursor-pointer w-auto h-auto">
           <Image
             src="/lock-top.png"
-            alt="Lock top"
+            alt=""
             width={50}
             height={50}
             className="translate-y-5 transition-transform duration-200 group-hover:translate-y-11"
           />
           <Image
             src="/lock-main.png"
-            alt="Lock main"
+            alt=""
             width={70}
             height={70}
             className="z-10"

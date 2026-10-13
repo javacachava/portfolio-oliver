@@ -83,7 +83,7 @@ export default function AITools() {
           variants={slideInFromLeft(0.1)}
           className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
         >
-          IA aplicada y asistida.
+          IA como apoyo, con revisión humana.
         </motion.div>
 
         <motion.div
