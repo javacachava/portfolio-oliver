@@ -29,22 +29,22 @@ const TRAINING = [
     title: "TSU en Ciberseguridad",
     institution: "ESIT / MINED · aval INFOTEC México",
     detail: "31/31 materias aprobadas · servicio social completado",
-    badge: "EN CURSO",
+    badge: "GRADUACIÓN PENDIENTE",
     icon: GraduationCap,
     color: CYAN,
   },
   {
     title: "Fundamentos de Ciberseguridad",
     institution: "ESIT / AECID",
-    detail: "CompTIA Security · 20 horas · jul 2025",
+    detail: "CompTIA Security · 20 horas · 2025 · curso",
     badge: "SEGURIDAD",
     icon: LockKeyhole,
     color: GREEN,
   },
   {
-    title: "Infraestructura en la Nube",
+    title: "Fundamentos de AWS Cloud",
     institution: "ESIT / AECID",
-    detail: "AWS · 20 horas · jul 2025",
+    detail: "20 horas · 2025 · curso",
     badge: "CLOUD",
     icon: Cloud,
     color: VIOLET,
@@ -53,8 +53,7 @@ const TRAINING = [
 
 const IDIOMAS = [
   { name: "Español", level: "Nativo" },
-  { name: "Inglés", level: "B1 — hacia B2" },
-  { name: "Francés", level: "Nivel inicial" },
+  { name: "Inglés", level: "B1" },
 ] as const;
 
 function TrainingItem({ item }: { item: (typeof TRAINING)[number] }) {
@@ -125,12 +124,13 @@ export default function About() {
         >
           <SectionEyebrow className="mb-3">Perfil</SectionEyebrow>
           <h2 id="about-title" className="text-3xl font-bold text-[var(--foreground)] sm:text-4xl">
-            Software y seguridad, la misma disciplina.
+            Software, seguridad y datos, con la misma disciplina.
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-            Soy estudiante de Ingeniería en Desarrollo de Software y próximo egresado como TSU en
-            Ciberseguridad. Mi interés está en la intersección entre desarrollo, datos y seguridad:
-            construir sistemas y entender cómo protegerlos desde su arquitectura.
+            Soy estudiante de Ingeniería en Desarrollo de Software y tengo completados los
+            requisitos académicos del TSU en Ciberseguridad; mi graduación está pendiente. Me
+            interesan el desarrollo seguro de software, la IA aplicada y, a largo plazo, la
+            arquitectura de seguridad.
           </p>
         </motion.header>
 
@@ -145,7 +145,7 @@ export default function About() {
               style={{ boxShadow: "0 18px 48px rgba(112,66,248,.10)" }}
             >
               <div className="flex items-center justify-between gap-3 border-b border-[#7042f8]/30 bg-[#7042f8]/10 px-5 py-2.5">
-                <span className="font-mono text-[10px] tracking-wider text-[#b49bff]">SECURITY PROFILE // 01</span>
+                <span className="font-mono text-[10px] tracking-wider text-[#b49bff]">PERFIL PROFESIONAL // 01</span>
                 <span className="font-mono text-[10px] tracking-wider text-[#b49bff]">SV</span>
               </div>
 
@@ -234,10 +234,10 @@ export default function About() {
 
               <div className="px-5 pb-4 pt-2">
                 <h3 className="text-lg font-bold leading-5 text-[var(--foreground)]">Oliver Ascencio</h3>
-                <p className="mb-3 mt-1 font-mono text-xs text-[var(--accent)]">Application &amp; Cloud Security</p>
+                <p className="mb-3 mt-1 font-mono text-xs text-[var(--accent)]">Software · Ciberseguridad · IA aplicada</p>
                 <p className="text-xs leading-relaxed text-[var(--muted)]">
-                  TSU en Ciberseguridad en proceso de graduación. Desarrollo software con controles
-                  de acceso y buenas prácticas cloud desde el diseño.
+                  Estudiante de Ingeniería en Desarrollo de Software, con el TSU en Ciberseguridad
+                  pendiente de graduación. Cofundador de WUJU.
                 </p>
               </div>
 
@@ -303,15 +303,15 @@ export default function About() {
             className="flex flex-col gap-6"
           >
             <p className="text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              Como Cofundador y Líder Técnico en Wuju defino arquitectura y stack para proyectos de
-              cliente, pero sigo siendo quien diseña el control de acceso y escribe el código: en el
-              POS de Pizza Brava fue RBAC real, en este portfolio son las cabeceras de seguridad que
-              puedes revisar en <code className="rounded bg-black/20 px-1.5 py-0.5 font-mono text-sm">next.config.ts</code>.
+              Como cofundador y líder técnico de WUJU coordino un equipo técnico de seis personas y
+              participo en la arquitectura de CuencaOS y Terrivo; en el POS de Pizza Brava diseñé el
+              control de acceso por roles y la base de datos, y en este portfolio las cabeceras de
+              seguridad que puedes revisar en <code className="rounded bg-black/20 px-1.5 py-0.5 font-mono text-sm">next.config.ts</code>.
             </p>
             <p className="text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              Trabajo con equipos de 4 a 6 personas bajo un enfoque ágil: dividir objetivos,
-              priorizar y entregar por incrementos. El detalle técnico completo — por categoría,
-              con evidencia — está en{" "}
+              Trabajo con equipos de cuatro a seis personas con prácticas ágiles: dividir objetivos,
+              priorizar y entregar por incrementos. El detalle técnico, por categoría y con
+              evidencia, está en{" "}
               <a href="#skills" className="text-[var(--accent)] underline underline-offset-4 hover:text-[var(--accent-hover)]">
                 Habilidades
               </a>{" "}

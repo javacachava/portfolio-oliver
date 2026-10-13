@@ -15,12 +15,10 @@ import {
 } from "react-icons/si";
 import { TbBrandCSharp } from "react-icons/tb";
 import {
-  Cloud,
   Database,
   Download,
   GitBranch,
   KeyRound,
-  LockKeyhole,
   Server,
   Terminal,
   Workflow,
@@ -220,7 +218,7 @@ export default function Hero() {
           >
             <ShieldCheckIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
             <p className="Welcome-text text-[13px]">
-              Application &amp; Cloud Security Junior
+              Ingeniería de Software · Cofundador de WUJU
             </p>
           </motion.div>
 
@@ -234,7 +232,7 @@ export default function Hero() {
             >
               <span>Oliver Ascencio</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
-                Cybersecurity · Application Security · Cloud
+                Software, ciberseguridad e IA aplicada
               </span>
             </h1>
           </motion.div>
@@ -243,9 +241,9 @@ export default function Hero() {
             variants={slideInFromLeft(0.8)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
-            Combino desarrollo de software y ciberseguridad para construir
-            aplicaciones, APIs y sistemas con controles de acceso, seguridad
-            de datos y buenas prácticas cloud desde el diseño.
+            Estudiante de Ingeniería en Desarrollo de Software y cofundador de
+            WUJU. Desarrollo software, coordino equipos técnicos y participo en
+            proyectos de datos e IA aplicada, con la ciberseguridad como base.
           </motion.p>
 
           <motion.div
@@ -254,11 +252,11 @@ export default function Hero() {
             className="flex flex-wrap gap-2 -mt-1"
           >
             {[
-              { label: "OWASP", Icon: LockKeyhole },
-              { label: "RBAC", Icon: KeyRound },
-              { label: "PostgreSQL", Icon: Database },
+              { label: "Python", Icon: Terminal },
               { label: "Node.js", Icon: Server },
-              { label: "Cloud Security", Icon: Cloud },
+              { label: "PostgreSQL", Icon: Database },
+              { label: "RBAC", Icon: KeyRound },
+              { label: "IA y datos", Icon: Workflow },
               { label: "Git / GitHub", Icon: GitBranch },
             ].map(({ label, Icon }) => (
               <span
@@ -340,24 +338,24 @@ export default function Hero() {
                 RECORRIDO INTERACTIVO
               </p>
               <p className="whitespace-nowrap text-sm text-gray-300">
-                Seguridad · cloud · Scrum
+                Software · seguridad · datos e IA
               </p>
             </div>
             <div className="absolute left-7 top-9 flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-[#071327]/85 px-3 py-2 shadow-lg">
-              <Cloud size={17} className="text-cyan-300" />
-              <span className="font-mono text-[10px] tracking-wider text-cyan-100">CLOUD</span>
+              <Database size={17} className="text-cyan-300" />
+              <span className="font-mono text-[10px] tracking-wider text-cyan-100">DATOS E IA</span>
             </div>
             <div className="absolute right-7 top-24 flex items-center gap-2 rounded-xl border border-[#b49bff]/30 bg-[#160933]/85 px-3 py-2 shadow-lg">
               <Workflow size={16} className="text-[#cbbdff]" />
-              <span className="font-mono text-[10px] tracking-wider text-purple-100">SCRUM</span>
+              <span className="font-mono text-[10px] tracking-wider text-purple-100">WUJU</span>
             </div>
             <div className="absolute bottom-24 left-8 flex items-center gap-2 rounded-xl border border-[#00ff9f]/25 bg-[#05221d]/85 px-3 py-2 shadow-lg">
               <KeyRound size={16} className="text-[#82ffca]" />
-              <span className="font-mono text-[10px] tracking-wider text-[#c2ffe7]">SECURITY</span>
+              <span className="font-mono text-[10px] tracking-wider text-[#c2ffe7]">SEGURIDAD</span>
             </div>
             <div className="absolute bottom-7 right-7 flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#09061b]/90 px-3 py-2 font-mono text-[10px] text-gray-300 shadow-lg">
               <Terminal size={14} className="text-[#b49bff]" />
-              <span>JAVA · JS/TS · PY · SQL · SH</span>
+              <span>PY · JS/TS · SQL · JAVA · PHP</span>
             </div>
           </div>
         </motion.div>

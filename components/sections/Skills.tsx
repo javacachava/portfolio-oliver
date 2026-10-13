@@ -8,6 +8,7 @@ import {
   LayoutTemplate,
   ServerCog,
   ShieldCheck,
+  UsersRound,
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -17,58 +18,72 @@ type SkillCategory = {
   eyebrow: string;
   title: string;
   description: string;
+  /** Tecnologías y prácticas que he usado en proyectos. */
   skills: string[];
+  /** Conocimiento adquirido en cursos, bootcamps y estudios. */
+  academic: string[];
   Icon: LucideIcon;
   accent: string;
 };
 
 /**
- * Solo tecnologías con evidencia real: CV de Oliver Ascencio o inspección
- * directa de sus repositorios (FlowCore = Python/FastAPI, POS = Laravel/Vue,
- * invitacion-baby-shower = Supabase, este mismo portfolio = TypeScript/Next.js).
- * Nada de Docker/Terraform/Kubernetes/Burp Suite aunque aparezcan en algún
- * repo — no se listan como dominadas sin confirmación explícita.
+ * Fuente: CV maestro y repositorios. Se separa lo usado en proyectos (etiqueta sólida) de la
+ * formación académica (etiqueta punteada). Sin porcentajes ni niveles.
  */
 const SKILL_CATEGORIES: SkillCategory[] = [
   {
     eyebrow: "01 / SEGURIDAD",
-    title: "Security",
-    description: "Controles de acceso y fundamentos de seguridad aplicados a productos reales.",
-    skills: ["OWASP Top 10", "RBAC", "Ethical Hacking", "Criptografía", "Redes", "Respuesta a incidentes"],
+    title: "Ciberseguridad",
+    description: "Control de acceso y validación de integraciones aplicados en dos proyectos.",
+    skills: ["RBAC y mínimo privilegio (POS)", "Firma de webhook (bot)"],
+    academic: ["OWASP Top 10", "Redes", "Criptografía", "Respuesta a incidentes", "Hacking ético", "CompTIA Security (curso)"],
     Icon: ShieldCheck,
     accent: "#22d3ee",
   },
   {
-    eyebrow: "02 / DATOS",
-    title: "Database",
-    description: "Modelado relacional y no relacional, en producción y en formación.",
-    skills: ["PostgreSQL", "MySQL", "SQLite", "Firebase Firestore", "Supabase", "Modelado ER"],
+    eyebrow: "02 / DATOS E IA",
+    title: "Datos e IA",
+    description: "Modelado y consulta de datos, y análisis en Python dentro de proyectos de WUJU.",
+    skills: ["PostgreSQL", "SQLite", "Supabase", "Python (Akhet, Atria)", "Limpieza de series (FlowCore)"],
+    academic: ["MySQL", "Firestore", "ML introductorio", "IA responsable", "Vertex AI Studio", "Transformers y BERT", "Data lakes y warehouses"],
     Icon: Database,
     accent: "#a78bfa",
   },
   {
     eyebrow: "03 / SERVIDOR",
     title: "Backend",
-    description: "Lenguajes y frameworks de servidor usados en proyectos reales, no solo en cursos.",
-    skills: ["Node.js", "JavaScript", "TypeScript", "Java", "Spring Boot", "Python", "C#", "PHP", "Bash / Shell"],
+    description: "Lenguajes y frameworks de servidor usados en proyectos, no solo en cursos.",
+    skills: ["Node.js", "JavaScript", "TypeScript", "Python", "Laravel (PHP)"],
+    academic: ["Java y Spring Boot", "C#", "PHP básico"],
     Icon: ServerCog,
     accent: "#34d399",
   },
   {
     eyebrow: "04 / INTERFAZ",
     title: "Frontend",
-    description: "Interfaces con foco en accesibilidad y consistencia visual.",
-    skills: ["React", "Vite", "Tailwind CSS", "HTML5", "CSS3"],
+    description: "Interfaces web de aplicaciones reales: invitaciones, POS y este portfolio.",
+    skills: ["React", "Vue 3", "Next.js", "Vite", "Tailwind CSS"],
+    academic: ["HTML5", "CSS3"],
     Icon: LayoutTemplate,
     accent: "#f59e0b",
   },
   {
     eyebrow: "05 / INFRAESTRUCTURA",
-    title: "Cloud",
-    description: "Fundamentos de infraestructura en la nube y control de versiones.",
-    skills: ["AWS foundations", "Google Cloud", "DigitalOcean", "Cloudflare", "Git", "GitHub"],
+    title: "Infraestructura",
+    description: "Servicios e infraestructura de TuGuíaSV y entorno de contenedores del POS.",
+    skills: ["DigitalOcean", "Cloudflare CDN", "SendGrid", "Docker", "Git y GitHub"],
+    academic: ["Fundamentos de AWS", "Google Cloud (cursos)", "ITIL"],
     Icon: CloudCog,
     accent: "#06b6d4",
+  },
+  {
+    eyebrow: "06 / EQUIPOS",
+    title: "Coordinación técnica",
+    description: "Coordinación de equipos de seis y de cuatro personas, con requisitos y entregables.",
+    skills: ["Requisitos y alcance", "Decisiones documentadas", "Seguimiento ágil", "Capacitación de usuarios"],
+    academic: ["Scrum (curso por iniciar)", "ITIL"],
+    Icon: UsersRound,
+    accent: "#f472b6",
   },
 ];
 
@@ -135,7 +150,10 @@ function CategoryCard({
 
       <p className="relative mt-4 text-sm leading-6 text-gray-300">{category.description}</p>
 
-      <ul className="relative mt-5 flex flex-wrap gap-2" aria-label={`Tecnologías de ${category.title}`}>
+      <p className="relative mt-5 font-mono text-[10px] font-semibold tracking-[0.14em] text-[var(--muted)]">
+        USADO EN PROYECTOS
+      </p>
+      <ul className="relative mt-2 flex flex-wrap gap-2" aria-label={`Usado en proyectos: ${category.title}`}>
         {category.skills.map((skill) => (
           <li
             key={skill}
@@ -147,6 +165,21 @@ function CategoryCard({
             }}
           >
             {skill}
+          </li>
+        ))}
+      </ul>
+
+      <p className="relative mt-4 font-mono text-[10px] font-semibold tracking-[0.14em] text-[var(--muted)]">
+        FORMACIÓN ACADÉMICA
+      </p>
+      <ul className="relative mt-2 flex flex-wrap gap-2" aria-label={`Formación académica: ${category.title}`}>
+        {category.academic.map((item) => (
+          <li
+            key={item}
+            className="rounded-full border border-dashed px-2.5 py-1 font-mono text-[10px] leading-none text-gray-300"
+            style={{ borderColor: `${category.accent}66` }}
+          >
+            {item}
           </li>
         ))}
       </ul>
@@ -254,11 +287,11 @@ export default function Skills() {
             id="skills-title"
             className="mt-5 text-3xl font-semibold leading-tight text-white sm:text-4xl"
           >
-            Sin porcentajes inventados — evidencia por categoría.
+            Sin porcentajes inventados: evidencia por categoría.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300 sm:text-lg">
-            Cinco áreas: seguridad, datos, backend, frontend y cloud. Cada una respaldada por
-            formación real o por un proyecto que la usa en producción.
+            Seis áreas. Cada tarjeta separa lo que he usado en proyectos, con etiqueta sólida, de
+            lo que conozco por formación académica, con etiqueta punteada.
           </p>
         </motion.header>
 

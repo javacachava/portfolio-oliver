@@ -34,7 +34,7 @@ export default function Contact() {
       >
         <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
         <span className="Welcome-text text-[13px]">
-          Disponible para oportunidades remotas · El Salvador
+          Abierto a oportunidades · El Salvador
         </span>
       </motion.div>
 
@@ -55,8 +55,8 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.25 }}
         className="text-[var(--muted)] max-w-md mt-3 mb-10"
       >
-        Estoy abierto a oportunidades junior en Application Security, Cloud
-        Security, Cybersecurity y Backend.
+        Busco oportunidades laborales, pasantías, becas y colaboraciones en
+        desarrollo de software, ciberseguridad y datos e IA aplicada.
       </motion.p>
 
       {/* CTAs */}

@@ -9,14 +9,14 @@ import Counter from "@/components/ui/Counter";
 import { formacionStats } from "@/data/formacion";
 
 export const metadata: Metadata = {
-  title: "Formación en ciberseguridad, cloud y Java — Oliver Ascencio",
+  title: "Formación — Oliver Ascencio",
   description:
-    "Formación y práctica verificable de Oliver Ascencio en ciberseguridad, cloud, Java y trabajo ágil.",
+    "Formación de Oliver Ascencio: Ingeniería en Desarrollo de Software, TSU en Ciberseguridad, bootcamps y cursos, con su estado real.",
 };
 
 const stats = [
   { value: formacionStats.totalHours, suffix: "h", label: "documentadas", color: "#7042f8" },
-  { value: formacionStats.totalItems, suffix: "", label: "certificaciones e ítems", color: "#06b6d4" },
+  { value: formacionStats.totalItems, suffix: "", label: "ítems de formación", color: "#06b6d4" },
   { value: formacionStats.totalInstitutions, suffix: "", label: "instituciones", color: "#00ff9f" },
 ];
 
@@ -29,15 +29,15 @@ export default function FormacionPage() {
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-10 sm:mb-14 text-center">
           <SectionEyebrow className="mb-3 justify-center flex">
-            Formación verificable
+            Formación y estudios
           </SectionEyebrow>
           <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 w-fit mx-auto pb-2">
-            Ciberseguridad, cloud y práctica ágil
+            Software, ciberseguridad y datos
           </h1>
           <p className="text-[var(--muted)] max-w-xl mx-auto mt-3">
-            Evidencia seleccionada de ciberseguridad, cloud, Java y trabajo
-            ágil — {formacionStats.yearRange}. Scrum se presenta como práctica
-            de equipo, no como certificación.
+            Estudios, bootcamps y cursos — {formacionStats.yearRange}. Los cursos
+            no son certificaciones profesionales; el de Scrum está inscrito y
+            todavía no comienza.
           </p>
 
           {/* Stats */}

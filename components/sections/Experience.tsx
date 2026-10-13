@@ -17,43 +17,43 @@ type ExperienceItem = {
 const EXPERIENCE: ExperienceItem[] = [
   {
     role: "Cofundador y Líder Técnico",
-    org: "Wuju",
+    org: "WUJU",
     period: "2025 – presente",
     summary:
-      "Dirección técnica y estratégica de proyectos de cliente: arquitectura, stack tecnológico y alcance.",
+      "Coordinación técnica de iniciativas de software, datos e investigación aplicada dentro de un grupo multidisciplinario.",
     bullets: [
-      "Coordino un equipo de 6 personas: requerimientos, arquitectura y relación directa con clientes externos",
-      "Defino stack tecnológico y alcance para cada proyecto de cliente",
-      "Trabajo bajo un enfoque ágil con entregas por incrementos",
+      "Coordino un equipo técnico de seis personas en iniciativas de software, datos e investigación aplicada",
+      "Levanto requisitos con clientes y partes interesadas, defino el alcance, documento decisiones técnicas y doy seguimiento a los entregables con prácticas ágiles",
+      "Participo en la arquitectura y la selección de tecnologías de CuencaOS y Terrivo, y en las guías internas de integridad de investigación, manejo responsable de datos y revisión de proyectos",
     ],
-    accent: "#7042f8",
+    accent: "#9b7bff",
   },
   {
     role: "Desarrollador — Sistema POS para Pizza Brava",
     org: "Servicio Social ESIT",
     period: "Nov 2025 – Mar 2026",
     summary:
-      "Sistema de punto de venta con RBAC real: mesero, cocina, caja y administración con acceso separado por rol.",
+      "Sistema de punto de venta con control de acceso por roles para cajero, cocina y administrador.",
     bullets: [
-      "Diseñé el control de acceso por roles (RBAC) del sistema, aplicando seguridad desde el diseño",
-      "Modelé la base de datos transaccional y construí el frontend y backend del sistema",
-      "Levanté requerimientos directamente con el dueño del negocio y capacité al personal",
+      "Diseñé e implementé el control de acceso por roles (RBAC) aplicando el principio de mínimo privilegio",
+      "Diseñé la base de datos PostgreSQL y desarrollé funcionalidades de la aplicación",
+      "Levanté los requisitos con el dueño del negocio y capacité al personal en el uso del sistema",
     ],
-    stack: ["Laravel 13", "Vue 3", "TypeScript", "PostgreSQL", "Redis"],
+    stack: ["PostgreSQL", "RBAC"],
     accent: "#00ff9f",
   },
   {
-    role: "Cofundador y Desarrollador Principal",
-    org: "TuGuiaSV",
+    role: "Cofundador y Desarrollador del proyecto",
+    org: "TuGuíaSV",
     period: "Jun 2024 – presente",
     summary:
-      "Plataforma geolocalizada para turismo y negocios locales en El Salvador.",
+      "Plataforma geolocalizada de turismo e información local en El Salvador, en etapa de prototipo.",
     bullets: [
-      "Lidero un equipo de 4 personas desde la idea hasta el prototipo funcional",
-      "Diseñé el sistema de reseñas y el mapa interactivo",
-      "Gestioné la infraestructura: DigitalOcean, Cloudflare CDN y SendGrid",
-      "Presentado en Feria Eureka 2024 (CONACYT El Salvador) e InspiraSTEM 2025",
+      "Coordiné un equipo de cuatro personas en el desarrollo y prototipado de la plataforma",
+      "Trabajé con DigitalOcean, Cloudflare CDN y SendGrid en servicios e infraestructura",
+      "Presenté el proyecto en Feria Eureka 2024 (CONACYT El Salvador) e InspiraSTEM 2025",
     ],
+    stack: ["DigitalOcean", "Cloudflare CDN", "SendGrid"],
     accent: "#06b6d4",
   },
 ];
@@ -144,13 +144,13 @@ export default function Experience() {
         >
           <SectionEyebrow className="mb-2">Experiencia</SectionEyebrow>
           <h2 id="experiencia-titulo" className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
-            Liderazgo técnico, no solo gestión.
+            Responsabilidades concretas.
           </h2>
           <p className="text-[var(--muted)] max-w-2xl leading-relaxed flex items-start gap-2">
             <Code2 size={18} className="mt-1 shrink-0 text-[var(--accent)]" aria-hidden="true" />
             <span>
-              Coordino equipos y decido arquitectura, pero sigo escribiendo el código: diseño el
-              control de acceso, modelo la base de datos y construyo el producto.
+              Coordinación técnica en WUJU y desarrollo en proyectos reales: requisitos, control de
+              acceso por roles, bases de datos e infraestructura.
             </span>
           </p>
         </motion.div>
@@ -169,7 +169,7 @@ export default function Experience() {
           className="mt-8 flex items-center gap-2 font-mono text-xs text-[var(--muted)]"
         >
           <Users size={13} aria-hidden="true" />
-          Equipos de 4 a 6 personas
+          Equipos de cuatro a seis personas
           <span aria-hidden="true">·</span>
           <MapPin size={13} aria-hidden="true" />
           Santa Ana, El Salvador

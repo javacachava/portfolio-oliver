@@ -15,29 +15,26 @@ const personJsonLd = {
   "@type": "Person",
   name: "Oliver Ascencio",
   url: "https://oliver-ascencio.wuju.dev",
-  jobTitle: "Application & Cloud Security",
+  description:
+    "Estudiante de Ingeniería en Desarrollo de Software y cofundador de WUJU, con formación técnica en ciberseguridad.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Santa Ana",
     addressCountry: "SV",
   },
+  worksFor: { "@type": "Organization", name: "WUJU", url: "https://wuju.dev" },
   sameAs: [
     "https://github.com/javacachava",
     "https://linkedin.com/in/oliver-ascencio",
   ],
   knowsAbout: [
+    "Desarrollo de software",
     "Ciberseguridad",
-    "OWASP",
     "Control de acceso basado en roles",
-    "Cloud fundamentals",
-    "AWS",
-    "Google Cloud",
-    "PostgreSQL",
-    "Node.js",
-    "Java",
-    "JavaScript",
-    "TypeScript",
-    "Python",
+    "Bases de datos",
+    "Inteligencia artificial aplicada",
+    "Análisis de datos",
+    "Coordinación de proyectos tecnológicos",
   ],
 };
 

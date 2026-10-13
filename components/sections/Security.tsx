@@ -42,9 +42,9 @@ const SECURITY_CASES: SecurityCase[] = [
     risk:
       "Que una sesión autenticada lea o modifique información fuera del alcance de su cuenta.",
     control:
-      "Diseño de sesiones JWT, roles y políticas RLS para separar usuarios, propietarios y personal autorizado; el acceso privilegiado queda reservado a funciones de servidor autorizadas.",
+      "Diseño documentado de sesiones JWT, roles y políticas RLS para separar usuarios, propietarios y personal autorizado; el acceso privilegiado queda reservado a funciones de servidor autorizadas.",
     evidence:
-      "El esquema de TuGuiaSV documenta políticas RLS, guardas para columnas sensibles y que la service_role no llega al navegador.",
+      "El esquema SQL y la documentación de TuGuiaSV (repositorio privado) describen políticas RLS, guardas para columnas sensibles y que la service_role no llega al navegador. Es un diseño documentado: la plataforma sigue en prototipo.",
     tags: ["JWT", "RLS", "Mínimo privilegio"],
     Icon: KeyRound,
     accent: {
@@ -82,7 +82,7 @@ const SECURITY_CASES: SecurityCase[] = [
     control:
       "Roles y permisos por acción para los módulos operativos, con autorización en API además de la separación visible en la interfaz.",
     evidence:
-      "La especificación enumera roles y permisos; las pruebas E2E verifican respuestas 403 cuando falta autorización. El POS v1.0 está en producción.",
+      "La especificación enumera roles y permisos, y el repositorio incluye pruebas E2E por rol (mesero, cocina, caja y administración) y la versión 1.0.0 etiquetada.",
     tags: ["RBAC", "Permisos", "Pruebas E2E"],
     Icon: UsersRound,
     accent: {
@@ -169,7 +169,7 @@ export default function Security() {
           className="mx-auto max-w-3xl text-center"
         >
           <SectionEyebrow className="mb-4 text-cyan-200">
-            AppSec · controles verificables
+            Seguridad · controles verificables
           </SectionEyebrow>
           <h2
             id="seguridad-title"
@@ -390,20 +390,14 @@ export default function Security() {
                         {securityCase.control}
                       </dd>
                     </div>
-                    <div className="flex gap-2.5 rounded-xl border border-emerald-200/10 bg-emerald-300/[0.045] p-3.5">
-                      <CheckCircle2
-                        aria-hidden="true"
-                        size={17}
-                        className="mt-0.5 shrink-0 text-emerald-200"
-                      />
-                      <div>
-                        <dt className="font-mono text-[10px] font-semibold tracking-[0.14em] text-emerald-200 uppercase">
-                          Evidencia
-                        </dt>
-                        <dd className="mt-1.5 text-sm leading-6 text-slate-200">
-                          {securityCase.evidence}
-                        </dd>
-                      </div>
+                    <div className="rounded-xl border border-emerald-200/10 bg-emerald-300/[0.045] p-3.5">
+                      <dt className="flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.14em] text-emerald-200 uppercase">
+                        <CheckCircle2 aria-hidden="true" size={15} className="shrink-0 text-emerald-200" />
+                        Evidencia
+                      </dt>
+                      <dd className="mt-1.5 text-sm leading-6 text-slate-200">
+                        {securityCase.evidence}
+                      </dd>
                     </div>
                   </dl>
 

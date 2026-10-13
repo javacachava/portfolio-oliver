@@ -31,7 +31,7 @@ export default function Awards() {
           transition={{ duration: 0.5 }}
           className="mb-8 sm:mb-12"
         >
-          <SectionEyebrow className="mb-3">Logros & certificaciones</SectionEyebrow>
+          <SectionEyebrow className="mb-3">Logros y participaciones</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)]">
             Reconocimiento fuera del aula.
           </h2>

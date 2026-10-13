@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Oliver Ascencio — Application & Cloud Security";
+export const alt = "Oliver Ascencio — Software, ciberseguridad e IA aplicada";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default function OgImage() {
               fontWeight: 600,
             }}
           >
-            Application & Cloud Security Junior
+            Ingeniería de Software · Cofundador de WUJU
           </div>
           <div
             style={{
@@ -78,7 +78,7 @@ export default function OgImage() {
               fontWeight: 500,
             }}
           >
-            Cybersecurity · Application Security · Cloud · Santa Ana, El Salvador
+            Software · Ciberseguridad · IA aplicada · Santa Ana, El Salvador
           </div>
           <div
             style={{
@@ -89,8 +89,8 @@ export default function OgImage() {
               lineHeight: 1.5,
             }}
           >
-            Controles de acceso, seguridad de datos y buenas prácticas cloud
-            desde el diseño, con evidencia en productos reales.
+            Estudiante de Ingeniería en Desarrollo de Software y cofundador de
+            WUJU, con proyectos de software, datos e IA aplicada.
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          {["OWASP", "RBAC", "PostgreSQL", "Node.js", "AWS · Google Cloud"].map((tag) => (
+          {["Python", "Node.js", "PostgreSQL", "RBAC", "IA y datos"].map((tag) => (
             <div
               key={tag}
               style={{

@@ -17,13 +17,14 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="mb-8 sm:mb-12"
         >
-          <SectionEyebrow className="mb-2">Evidencia en producto</SectionEyebrow>
+          <SectionEyebrow className="mb-2">Proyectos y casos</SectionEyebrow>
           <h2 id="proyectos-titulo" className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
             Proyectos, no solo palabras clave.
           </h2>
           <p className="text-[var(--muted)] max-w-2xl leading-relaxed">
-            Cada proyecto es real: producto en uso, cliente real o repositorio verificable. Stack,
-            decisiones y — cuando aplica — el control de seguridad concreto que implementé.
+            Cada proyecto indica su estado real y cuál fue mi parte. Los de WUJU son trabajo
+            colectivo y siguen en desarrollo. Cuando aplica, incluyo el control de seguridad
+            concreto que implementé.
           </p>
         </motion.div>
 
@@ -118,7 +119,7 @@ export default function Projects() {
                           className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white"
                           style={{ color: accent }}
                         >
-                          Ver producto
+                          {project.demoLabel ?? "Ver demostración (datos simulados)"}
                           <ArrowUpRight size={15} aria-hidden="true" />
                         </a>
                       )}
