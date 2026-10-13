@@ -19,9 +19,9 @@ export interface Project {
 }
 
 /**
- * Fuente de verdad: el CV maestro de Oliver Ascencio. Los detalles que no figuran ahí se
- * toman de los repositorios o de la documentación de cada proyecto. Lo que no se pudo
- * verificar (producción, cifras de pruebas, clientes) se omite.
+ * Fuente de verdad: el CV maestro de Oliver Ascencio. Solo se muestran proyectos y detalles
+ * que figuran ahí; lo que no se pudo verificar (producción, cifras de pruebas, clientes)
+ * se omite.
  */
 export const projects: Project[] = [
   {
@@ -99,57 +99,5 @@ export const projects: Project[] = [
     accentColor: "#00ff9f",
     featured: true,
     note: "Servicio social ESIT.",
-  },
-  {
-    id: "whatsapp-order-bot",
-    iconName: "MessageCircle",
-    title: "Bot de pedidos por WhatsApp",
-    tagline: "Toma pedidos de un restaurante por WhatsApp",
-    description:
-      "Bot para Pizza Brava que toma pedidos a cualquier hora, recuerda clientes frecuentes, sugiere combos y avisa al dueño. El menú y las reglas de negocio se editan en archivos JSON, sin tocar código.",
-    stack: ["JavaScript", "Node.js", "SQLite", "Meta Cloud API"],
-    highlights: [
-      "Flujo conversacional determinista, sin modelo de lenguaje",
-      "Webhook con validación de la firma de Meta",
-      "Pruebas automatizadas en el repositorio",
-    ],
-    status: "Funcional",
-    statusType: "functional",
-    accentColor: "#22d3ee",
-  },
-  {
-    id: "invitaciones",
-    iconName: "Calendar",
-    title: "Gestión de invitaciones y eventos",
-    tagline: "Invitaciones digitales con QR y panel de administración",
-    description:
-      "Pase digital con código QR por invitado, lector de QR, importación de invitados por CSV, asientos y comunicados. Puede empaquetarse como app Android con Capacitor.",
-    stack: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Capacitor", "Vite"],
-    highlights: [
-      "Pase digital con código QR único por invitado",
-      "Importación de invitados por CSV",
-      "Panel con lector de QR, asientos y comunicados",
-    ],
-    status: "Funcional",
-    statusType: "functional",
-    accentColor: "#f59e0b",
-    github: "https://github.com/javacachava/invitacion-baby-shower",
-  },
-  {
-    id: "flowcore",
-    iconName: "Waves",
-    title: "FlowCore",
-    tagline: "Simulador hidráulico de redes de alcantarillado",
-    description:
-      "Genera series temporales sintéticas de nivel y caudal, las limpia con un pipeline determinista y calcula el caudal con la ecuación de Manning. Funciona sin conexión tras la instalación. Proyecto de equipo.",
-    stack: ["Python", "SQLite", "HTML", "JavaScript"],
-    highlights: [
-      "Limpieza de datos: filtro de mediana, z-score y tasa de cambio",
-      "Ecuación de Manning en tres geometrías: rectangular, circular y trapezoidal",
-      "Series de nivel y caudal con anomalías y eventos de lluvia programables",
-    ],
-    status: "Funcional · uso local",
-    statusType: "functional",
-    accentColor: "#f472b6",
   },
 ];
