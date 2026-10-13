@@ -12,12 +12,9 @@ import {
 } from "@/lib/motion";
 
 const TOOLS: Array<{ name: string; icon: string }> = [
-  { name: "Claude Code", icon: "/ai/claude.svg" },
-  { name: "Codex", icon: "/ai/codex.svg" },
-  { name: "ChatGPT", icon: "/ai/openai.svg" },
+  { name: "GPT", icon: "/ai/openai.svg" },
+  { name: "Claude", icon: "/ai/claude.svg" },
   { name: "Gemini", icon: "/ai/googlegemini.svg" },
-  { name: "Google AI Studio", icon: "/ai/aistudio.png" },
-  { name: "Antigravity", icon: "/ai/antigravity.png" },
   { name: "Cursor", icon: "/ai/cursor.svg" },
 ];
 
@@ -78,7 +75,7 @@ export default function AITools() {
         >
           <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
           <h2 className="Welcome-text text-[13px]">
-            IA como multiplicador, no como muleta
+            Herramientas de IA para el desarrollo
           </h2>
         </motion.div>
 
@@ -86,14 +83,14 @@ export default function AITools() {
           variants={slideInFromLeft(0.5)}
           className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
         >
-          Ingeniería asistida por IA.
+          IA aplicada y asistida.
         </motion.div>
 
         <motion.div
           variants={slideInFromRight(0.5)}
           className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
         >
-          Specs primero, agentes después, tests siempre.
+          Para prototipar, analizar y apoyar el desarrollo.
         </motion.div>
       </motion.div>
 
@@ -112,9 +109,9 @@ export default function AITools() {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="text-sm text-[var(--muted)] leading-relaxed max-w-2xl text-center mt-12"
       >
-        Programo sin IA — y la uso como multiplicador: specs primero, agentes
-        para ejecutar, revisión crítica del output y tests antes de integrar.
-        El flujo con el que se construyó este portfolio.
+        Uso GPT, Claude, Gemini y Cursor para prototipar, analizar y apoyar el
+        desarrollo. En WUJU trabajo en IA aplicada con componentes de datos en
+        Python para Akhet y Atria, y los resultados pasan por revisión humana.
       </motion.p>
     </section>
   );

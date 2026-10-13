@@ -10,6 +10,13 @@ export default function Footer() {
             © 2026 Oliver Ascencio
           </p>
         </div>
+        <a
+          href="/cv/Oliver_Ascencio_Master_CV.pdf"
+          download="Oliver_Ascencio_Master_CV.pdf"
+          className="text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors underline underline-offset-4"
+        >
+          Descargar CV (PDF)
+        </a>
       </div>
     </footer>
   );

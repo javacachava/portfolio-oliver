@@ -17,54 +17,54 @@ interface IconSkill {
   height: number;
 }
 
+/* Fuente: CV maestro (sección de habilidades). Sin tecnologías que no figuren ahí. */
 const ROW_LENGUAJES: IconSkill[] = [
-  { name: "JavaScript", image: "js.png", width: 65, height: 65 },
-  { name: "TypeScript", image: "ts.png", width: 80, height: 80 },
-  { name: "PHP", image: "php.svg", width: 80, height: 80 },
   { name: "Python", image: "python.svg", width: 70, height: 70 },
-  { name: "HTML5", image: "html.png", width: 80, height: 80 },
-  { name: "CSS3", image: "css.png", width: 80, height: 80 },
+  { name: "Java", image: "java.svg", width: 56, height: 70 },
+  { name: "JavaScript", image: "js.png", width: 65, height: 65 },
+  { name: "C#", image: "csharp.svg", width: 70, height: 70 },
+  { name: "PHP (básico)", image: "php.svg", width: 80, height: 80 },
 ];
 
 const ROW_FRONTEND: IconSkill[] = [
-  { name: "Vue 3", image: "vuejs.svg", width: 70, height: 70 },
   { name: "React", image: "react.png", width: 80, height: 80 },
-  { name: "Next.js", image: "next.png", width: 80, height: 80 },
-  { name: "Tailwind CSS", image: "tailwind.png", width: 80, height: 80 },
+  { name: "Node.js", image: "node.png", width: 80, height: 80 },
+  { name: "Spring Boot", image: "spring.svg", width: 70, height: 70 },
 ];
 
 const ROW_BACKEND: IconSkill[] = [
-  { name: "Laravel", image: "laravel.svg", width: 65, height: 65 },
-  { name: "FastAPI", image: "fastapi.svg", width: 70, height: 70 },
-  { name: "Django", image: "django.svg", width: 55, height: 55 },
-  { name: "NestJS", image: "nestjs.svg", width: 70, height: 70 },
-  { name: "Node.js", image: "node.png", width: 80, height: 80 },
-  { name: "Express", image: "express.png", width: 80, height: 80 },
+  { name: "PostgreSQL", image: "postgresql.png", width: 70, height: 70 },
+  { name: "MySQL", image: "mysql.svg", width: 70, height: 70 },
+  { name: "SQLite", image: "sqlite.svg", width: 62, height: 62 },
+  { name: "Firestore", image: "firebase.png", width: 55, height: 55 },
 ];
 
 const ROW_DATA: IconSkill[] = [
-  { name: "PostgreSQL", image: "postgresql.png", width: 70, height: 70 },
-  { name: "Supabase", image: "supabase.svg", width: 62, height: 62 },
-  { name: "Firebase", image: "firebase.png", width: 55, height: 55 },
-  { name: "Docker", image: "docker.png", width: 70, height: 70 },
-  { name: "Figma", image: "figma.png", width: 50, height: 50 },
+  { name: "DigitalOcean", image: "digitalocean.svg", width: 62, height: 62 },
+  { name: "Cloudflare", image: "cloudflare.svg", width: 72, height: 72 },
+  { name: "AWS (fundamentos)", image: "amazonaws.svg", width: 72, height: 72 },
+  { name: "Google Cloud (cursos)", image: "googlecloud.svg", width: 62, height: 62 },
+  { name: "Git", image: "git.svg", width: 62, height: 62 },
+  { name: "GitHub", image: "github.svg", width: 62, height: 62 },
 ];
 
 const EXTRA_STACK = [
-  "Pinia",
-  "Vitest",
-  "pytest",
-  "PHPStan · Pint",
-  "Three.js",
-  "HTMX",
-  "AWS Cloud",
-  "Google Cloud",
-  "Vertex AI",
-  "Redis",
-  "PostGIS",
-  "Git · GitHub",
+  "SQL",
+  "SendGrid",
+  "Análisis en Python",
+  "ML introductorio",
+  "IA responsable",
+  "Vertex AI Studio",
+  "Transformers y BERT",
+  "Data lakes y warehouses",
+  "RBAC y mínimo privilegio",
   "OWASP Top 10",
-  "Swagger/OpenAPI",
+  "Redes",
+  "Criptografía",
+  "Respuesta a incidentes",
+  "Hacking ético",
+  "ITIL",
+  "Scrum y trabajo ágil",
 ];
 
 export default function Skills() {
@@ -92,7 +92,7 @@ export default function Skills() {
         >
           <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
           <h2 className="Welcome-text text-[13px]">
-            Stack probado en producción
+            Tecnologías y conocimientos
           </h2>
         </motion.div>
 
@@ -100,14 +100,14 @@ export default function Skills() {
           variants={slideInFromLeft(0.5)}
           className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
         >
-          Tecnologías con las que construyo.
+          Lo que uso y lo que he estudiado.
         </motion.div>
 
         <motion.div
           variants={slideInFromRight(0.5)}
           className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
         >
-          Del backend a la nube, sin humo.
+          Según mi CV maestro, sin porcentajes.
         </motion.div>
       </motion.div>
 

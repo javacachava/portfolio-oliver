@@ -11,12 +11,12 @@ import { formacionStats } from "@/data/formacion";
 export const metadata: Metadata = {
   title: "Formación — Oliver Ascencio",
   description:
-    "Formación académica, certificaciones gubernamentales, bootcamps y reconocimientos de Oliver Ascencio. Más de 200 horas documentadas de formación complementaria.",
+    "Formación de Oliver Ascencio: Ingeniería en Desarrollo de Software, TSU en Ciberseguridad, bootcamps, cursos y reconocimientos, con su estado real.",
 };
 
 const stats = [
   { value: formacionStats.totalHours, suffix: "h", label: "documentadas", color: "#7042f8" },
-  { value: formacionStats.totalItems, suffix: "", label: "certificaciones e ítems", color: "#06b6d4" },
+  { value: formacionStats.totalItems, suffix: "", label: "ítems de formación", color: "#06b6d4" },
   { value: formacionStats.totalInstitutions, suffix: "", label: "instituciones", color: "#00ff9f" },
 ];
 
@@ -35,8 +35,9 @@ export default function FormacionPage() {
             Mapa de formación
           </h1>
           <p className="text-[var(--muted)] max-w-xl mx-auto mt-3">
-            Cada estrella es una certificación, curso o título. Agrupadas en
-            constelaciones por categoría — {formacionStats.yearRange}.
+            Cada estrella es un título, curso o reconocimiento, agrupados en
+            constelaciones por categoría — {formacionStats.yearRange}. Los cursos
+            no son certificaciones profesionales.
           </p>
 
           {/* Stats */}

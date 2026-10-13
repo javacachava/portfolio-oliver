@@ -10,9 +10,10 @@ import LaptopDesktop from "@/components/ui/LaptopDesktop";
 import type { Project } from "@/data/projects";
 
 const STATUS: Record<Project["statusType"], { label: string; color: string }> = {
-  live:       { label: "● LIVE",  color: "#00ff9f" },
-  active:     { label: "◎ DEV",   color: "#06b6d4" },
-  functional: { label: "◈ DEMO",  color: "#a78bfa" },
+  live:       { label: "● LIVE",       color: "#00ff9f" },
+  active:     { label: "◎ DEV",        color: "#06b6d4" },
+  functional: { label: "◈ FUNCIONAL",  color: "#00ff9f" },
+  prototype:  { label: "◐ PROTOTIPO",  color: "#a78bfa" },
 };
 
 function ScreenContent({
@@ -158,7 +159,7 @@ function ScreenContent({
                 style={{ background: `${c}18`, color: c, border: `1px solid ${c}30` }}
               >
                 <ExternalLink size={11} />
-                Ver demo
+                Ver sitio
               </a>
             )}
           </div>

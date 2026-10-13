@@ -315,7 +315,7 @@ export default function Constellation() {
               </p>
               <p className="text-xs text-gray-400 mt-1">{active.item.institution}</p>
               {active.item.detail && (
-                <p className="text-[11px] text-gray-500 mt-1">{active.item.detail}</p>
+                <p className="text-[11px] text-gray-400 mt-1">{active.item.detail}</p>
               )}
               <div className="flex items-center gap-2 mt-2 font-mono text-[10px]">
                 {active.item.hours && (
@@ -327,7 +327,7 @@ export default function Constellation() {
                   </span>
                 )}
                 {active.item.date && (
-                  <span className="text-gray-500">{active.item.date}</span>
+                  <span className="text-gray-400">{active.item.date}</span>
                 )}
               </div>
             </motion.div>
@@ -335,7 +335,7 @@ export default function Constellation() {
         </AnimatePresence>
       </div>
 
-      <p className="text-center font-mono text-[10px] text-gray-600 mt-2">
+      <p className="text-center font-mono text-[10px] text-gray-400 mt-2">
         hover para explorar · click para fijar
       </p>
     </div>

@@ -12,107 +12,145 @@ export interface Project {
   /** Capturas para la galería (rutas bajo /public), ej. "/projects/pos-1.png" */
   images?: string[];
   status: string;
-  statusType: "live" | "active" | "functional";
+  statusType: "live" | "active" | "functional" | "prototype";
   accentColor: string;
   featured?: boolean;
   note?: string;
 }
 
+/**
+ * Fuente de verdad: el CV maestro de Oliver Ascencio. Los detalles que no figuran ahí se
+ * toman de los repositorios o de la documentación de cada proyecto. Lo que no se pudo
+ * verificar (producción, cifras de pruebas, clientes) se omite.
+ */
 export const projects: Project[] = [
+  {
+    id: "cuencaos",
+    iconName: "Waves",
+    title: "CuencaOS / Akhet",
+    tagline: "Plataforma de monitoreo y análisis hidrológico de WUJU Labs",
+    description:
+      "Iniciativa de monitoreo hidrológico con datos de lluvia y nivel de agua, sensores conectados, mapeo de cuencas, indicadores de riesgo y análisis predictivo para apoyar decisiones. Akhet es su motor analítico. Proyecto colectivo de WUJU Labs.",
+    stack: ["Python", "Sensores conectados", "Análisis de datos"],
+    highlights: [
+      "Mi parte: componentes en Python de Akhet, documentación de datos e investigación de validación de modelos",
+      "Participo en la arquitectura, la selección de tecnologías y las guías de integridad de investigación",
+      "Los resultados relacionados con riesgo pasan por revisión humana",
+      "Finalista de StartupSTEM 2026 (una de cinco entre 37) y presentado en InspiraSTEM 2026",
+    ],
+    status: "En desarrollo · proyecto colectivo",
+    statusType: "active",
+    accentColor: "#06b6d4",
+    featured: true,
+    note: "Proyecto de WUJU Labs: aquí se describe solo mi parte.",
+  },
+  {
+    id: "terrivo",
+    iconName: "Sprout",
+    title: "Terrivo / Atria",
+    tagline: "Monitoreo agropecuario de ganado y cultivos",
+    description:
+      "Iniciativa de monitoreo agropecuario que combina registros RFID, historial de finca, datos ambientales e imágenes. Atria es su componente de datos y análisis, con modelos exploratorios para predicciones y recomendaciones operativas sujetas a revisión humana.",
+    stack: ["Python", "RFID", "Datos ambientales", "Imágenes"],
+    highlights: [
+      "Mi parte: componentes de datos en Python para Atria y exploración de modelos analíticos",
+      "Participo en la arquitectura y la selección de tecnologías del proyecto",
+      "Las recomendaciones operativas quedan sujetas a revisión humana",
+    ],
+    status: "En desarrollo · proyecto colectivo",
+    statusType: "active",
+    accentColor: "#34d399",
+    featured: true,
+    note: "Proyecto de WUJU: aquí se describe solo mi parte.",
+  },
   {
     id: "tuguiasv",
     iconName: "Globe",
-    title: "TuGuiaSV",
-    tagline: "Infraestructura nacional de datos geoespaciales verificados de El Salvador",
+    title: "TuGuíaSV",
+    tagline: "Plataforma geolocalizada de turismo e información local en El Salvador",
     description:
-      "Plataforma B2B que provee datos de Puntos de Interés (POIs) verificados en El Salvador. No es un directorio — es infraestructura. Las empresas consumen la API para integrar datos locales confiables sin depender de Google Maps.",
-    stack: ["NestJS", "TypeScript", "PostgreSQL", "PostGIS", "Redis", "MinIO", "Docker", "JWT", "Swagger"],
+      "Plataforma geolocalizada de turismo e información local, desarrollada y prototipada por un equipo de cuatro personas. Cofundador y desarrollador del proyecto desde junio de 2024.",
+    stack: ["DigitalOcean", "Cloudflare CDN", "SendGrid"],
     highlights: [
-      "Sistema de roles: admin / verifier / commerce / api_consumer",
-      "Score de confianza con degradación automática (algoritmo propio)",
-      "Consultas geoespaciales PostGIS — búsqueda por proximidad en km",
-      "Planes B2B con precios reales: Free($0) / Basic($29.99) / Pro($99.99) / Enterprise",
-      "Offline-first con OpenStreetMap",
+      "Coordinación de un equipo de cuatro personas",
+      "Servicios e infraestructura con DigitalOcean, Cloudflare CDN y SendGrid",
+      "Presentado en Feria Eureka 2024 (CONACYT El Salvador) e InspiraSTEM 2025",
     ],
-    status: "Backend funcional · Demo disponible",
-    statusType: "functional",
-    accentColor: "#06b6d4",   // cyan
-    featured: true,
-  },
-  {
-    id: "whatsapp-order-bot",
-    iconName: "MessageCircle",
-    title: "Bot de Pedidos WhatsApp",
-    tagline: "Pedidos 24/7 sin mesero — en producción real",
-    description:
-      "Bot de WhatsApp para un restaurante local. Toma pedidos a cualquier hora, recuerda clientes frecuentes, sugiere combos y notifica al dueño. El menú se actualiza desde un JSON — sin tocar código.",
-    stack: ["JavaScript", "Node.js", "Meta Cloud API", "WhatsApp Business"],
-    highlights: [
-      "En producción con cliente real",
-      "Sistema data-driven: menú y config editables sin código",
-      "Tests incluidos",
-      "Webhook con validación de firma Meta (listo para producción)",
-    ],
-    status: "En producción ✓ · Cliente real",
-    statusType: "live",
-    accentColor: "#00ff9f",   // green — LIVE = operational
+    status: "Prototipo · Jun 2024 – presente",
+    statusType: "prototype",
+    accentColor: "#a78bfa",
     featured: true,
   },
   {
     id: "restaurant-pos",
     iconName: "Monitor",
-    title: "POS para Restaurante",
-    tagline: "Sistema de punto de venta completo — v1.0 en producción",
+    title: "Sistema POS para Pizza Brava",
+    tagline: "Punto de venta con control de acceso por roles (servicio social)",
     description:
-      "Sistema de punto de venta con 4 dominios operativos aislados: mesero, cocina (KDS), caja y administración. Tiempo real con WebSockets (Laravel Reverb), PWA offline-first con sincronización y impresión térmica de tickets.",
-    stack: ["Laravel PHP 8.4", "Vue 3", "TypeScript", "Pinia", "PostgreSQL 16", "Redis", "Laravel Reverb", "Docker"],
+      "Sistema de punto de venta para un restaurante, con cuentas de cajero, cocina y administrador. Desarrollado como servicio social con ESIT entre noviembre de 2025 y marzo de 2026.",
+    stack: ["PostgreSQL", "RBAC", "Mínimo privilegio"],
     highlights: [
-      "v1.0 lanzado y operando en producción",
-      "4 módulos por rol con acceso estrictamente separado",
-      "KDS (Kitchen Display System) en tiempo real vía WebSockets",
-      "1,400+ tests: 550 PHPUnit + 899 Vitest + 26 E2E Playwright",
-      "PWA offline-first: la operación sigue sin internet y sincroniza al volver",
+      "Diseñé e implementé el control de acceso por roles (RBAC) con mínimo privilegio",
+      "Diseñé la base de datos PostgreSQL",
+      "Levanté requisitos con el dueño del negocio y capacité al personal",
     ],
-    status: "En producción ✓ · v1.0",
-    statusType: "live",
-    accentColor: "#00ff9f",   // green — LIVE = operational
+    status: "Servicio social · Nov 2025 – Mar 2026",
+    statusType: "functional",
+    accentColor: "#00ff9f",
     featured: true,
-    note: "Iniciado como proyecto de servicio social ESIT · v1.0 en producción desde Jul 2026",
+    note: "Servicio social ESIT.",
+  },
+  {
+    id: "whatsapp-order-bot",
+    iconName: "MessageCircle",
+    title: "Bot de pedidos por WhatsApp",
+    tagline: "Toma pedidos de un restaurante por WhatsApp",
+    description:
+      "Bot para Pizza Brava que toma pedidos a cualquier hora, recuerda clientes frecuentes, sugiere combos y avisa al dueño. El menú y las reglas de negocio se editan en archivos JSON, sin tocar código.",
+    stack: ["JavaScript", "Node.js", "SQLite", "Meta Cloud API"],
+    highlights: [
+      "Flujo conversacional determinista, sin modelo de lenguaje",
+      "Webhook con validación de la firma de Meta",
+      "Pruebas automatizadas en el repositorio",
+    ],
+    status: "Funcional",
+    statusType: "functional",
+    accentColor: "#22d3ee",
   },
   {
     id: "invitaciones",
     iconName: "Calendar",
-    title: "Gestión de Invitaciones y Eventos",
-    tagline: "Invitaciones digitales con QR, control de asistencia y app Android — todo en uno",
+    title: "Gestión de invitaciones y eventos",
+    tagline: "Invitaciones digitales con QR y panel de administración",
     description:
-      "Sistema completo de gestión de eventos con invitaciones digitales personalizadas, check-in por código QR, importación masiva de invitados por CSV y exportación en lote. Empacado como app Android nativa con Capacitor.",
-    stack: ["React 19", "TypeScript", "Supabase", "Tailwind CSS", "Capacitor", "QR Code", "PapaParse", "Vite"],
+      "Pase digital con código QR por invitado, lector de QR, importación de invitados por CSV, asientos y comunicados. Puede empaquetarse como app Android con Capacitor.",
+    stack: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Capacitor", "Vite"],
     highlights: [
-      "Invitaciones digitales con QR único por invitado",
-      "Importación/exportación masiva de invitados por CSV",
-      "App Android nativa empacada con Capacitor",
-      "Check-in en tiempo real con Supabase Realtime",
+      "Pase digital con código QR único por invitado",
+      "Importación de invitados por CSV",
+      "Panel con lector de QR, asientos y comunicados",
     ],
-    status: "Funcional · Deploy en Vercel",
+    status: "Funcional · desplegado en Vercel",
     statusType: "functional",
-    accentColor: "#06b6d4",   // cyan
+    accentColor: "#f59e0b",
+    demo: "https://invitacion-baby-shower-zeta.vercel.app",
+    github: "https://github.com/javacachava/invitacion-baby-shower",
   },
   {
     id: "flowcore",
     iconName: "Waves",
     title: "FlowCore",
-    tagline: "¿Cómo fluye el agua por una red de tuberías? Este simulador lo calcula.",
+    tagline: "Simulador hidráulico de redes de alcantarillado",
     description:
-      "Simula redes de alcantarillado sanitario y pluvial en tiempo real. Detecta datos corruptos automáticamente, limpia las series temporales y calcula caudal con la ecuación de Manning. Sin internet, sin servicios externos — corre en cualquier máquina.",
-    stack: ["Python 3.10+", "SQLite (WAL)", "HTML", "JavaScript"],
+      "Genera series temporales sintéticas de nivel y caudal, las limpia con un pipeline determinista y calcula el caudal con la ecuación de Manning. Funciona sin conexión tras la instalación. Proyecto de equipo.",
+    stack: ["Python", "SQLite", "HTML", "JavaScript"],
     highlights: [
-      "Detecta y limpia datos corruptos: filtro mediana + z-score + tasa de cambio",
-      "Ecuación de Manning en 3 geometrías: rectangular, circular y trapezoidal",
-      "Genera series temporales de nivel y caudal para análisis de infraestructura",
-      "100% offline — sin dependencias externas post-instalación",
+      "Limpieza de datos: filtro de mediana, z-score y tasa de cambio",
+      "Ecuación de Manning en tres geometrías: rectangular, circular y trapezoidal",
+      "Series de nivel y caudal con anomalías y eventos de lluvia programables",
     ],
-    status: "Funcional · Deploy disponible",
+    status: "Funcional · uso local",
     statusType: "functional",
-    accentColor: "#a78bfa",   // violet
+    accentColor: "#f472b6",
   },
 ];

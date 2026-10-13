@@ -25,11 +25,11 @@ export default function Security() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-[32px] sm:text-[40px] font-medium text-center text-gray-200 px-5"
         >
-          Rendimiento{" "}
+          Seguridad{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
             &
           </span>{" "}
-          seguridad.
+          control de acceso.
         </motion.div>
       </div>
 
@@ -53,14 +53,14 @@ export default function Security() {
 
         <div className="Welcome-box px-[15px] py-[4px] z-[20] border my-3 sm:my-[20px] border-[#7042F88B] opacity-[0.9]">
           <h3 className="Welcome-text text-[12px]">
-            OWASP Top 10 · JWT · RLS · Criptografía aplicada
+            RBAC · Mínimo privilegio · OWASP Top 10 · Criptografía
           </h3>
         </div>
       </div>
 
       <div className="relative sm:absolute sm:bottom-[10px] z-[20] px-[5px] mt-8 sm:mt-0">
         <div className="cursive text-[20px] font-medium text-center text-gray-300">
-          Seguridad en cada capa del stack.
+          Formación en ciberseguridad y RBAC aplicado en un POS.
         </div>
       </div>
 

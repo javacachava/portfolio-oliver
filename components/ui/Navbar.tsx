@@ -55,7 +55,7 @@ export default function Navbar() {
             ›_
           </span>
           <span className="text-sm font-semibold text-gray-300 tracking-tight">
-            Oliver<span className="text-[#b49bff]">.</span>dev
+            Oliver<span className="text-[#b49bff]"> Ascencio</span>
           </span>
         </a>
 

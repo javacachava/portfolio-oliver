@@ -22,11 +22,11 @@ export default function Projects() {
         >
           <SectionEyebrow className="mb-2">Proyectos</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 mb-3 w-fit pb-1">
-            Software real. Clientes reales.
+            Proyectos y trabajo colectivo.
           </h2>
           <p className="text-muted max-w-xl">
-            No tutoriales, no clones. Cada proyecto resuelve un problema concreto
-            y tiene código en producción o demo funcional.
+            Cada proyecto indica su estado real y cuál fue mi parte. Los de WUJU
+            son trabajo colectivo y siguen en desarrollo.
           </p>
         </motion.div>
 

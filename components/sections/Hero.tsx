@@ -60,7 +60,7 @@ export default function Hero() {
           >
             <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
             <h1 className="Welcome-text text-[13px]">
-              Full-Stack · Disponible para proyectos
+              Ingeniería de Software · Cofundador de WUJU
             </h1>
           </motion.div>
 
@@ -81,8 +81,9 @@ export default function Hero() {
             variants={slideInFromLeft(0.8)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
-            Construyo software que resuelve problemas reales en El Salvador.
-            Backend sólido, producto con propósito.
+            Estudiante de Ingeniería en Desarrollo de Software y cofundador de
+            WUJU. Desarrollo software, coordino equipos técnicos y participo en
+            proyectos de datos e IA aplicada, con la ciberseguridad como base.
           </motion.p>
 
           <motion.div
@@ -94,6 +95,13 @@ export default function Hero() {
               className="py-2 px-6 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
             >
               Ver proyectos
+            </a>
+            <a
+              href="/cv/Oliver_Ascencio_Master_CV.pdf"
+              download="Oliver_Ascencio_Master_CV.pdf"
+              className="py-2 px-6 text-center text-white cursor-pointer rounded-lg max-w-[200px] border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
+            >
+              Descargar CV
             </a>
             <a
               href="#contacto"

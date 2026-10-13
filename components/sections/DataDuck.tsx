@@ -6,17 +6,17 @@ import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import Counter from "@/components/ui/Counter";
 
 const metrics = [
-  { to: 7,    from: 0,    label: "Integrantes", color: "#7042f8" },
-  { to: 5,    from: 0,    label: "Productos",        color: "#a78bfa" },
-  { to: 2,    from: 0,    label: "Clientes activos", color: "#00ff9f" },
-  { to: 2026, from: 2020, label: "Fundación",        color: "#06b6d4" },
+  { to: 6,    from: 0,    label: "Equipo técnico",     color: "#7042f8" },
+  { to: 2,    from: 0,    label: "Iniciativas activas", color: "#a78bfa" },
+  { to: 2025, from: 2020, label: "Cofundación",         color: "#06b6d4" },
+  { to: 2,    from: 0,    label: "Eventos 2026",        color: "#00ff9f" },
 ];
 
 const gitLog = [
-  { hash: "a4f2c", ref: "prod", msg: "order-bot: WhatsApp order bot · cliente real",      live: true  },
-  { hash: "d8e9f", ref: "prod", msg: "restaurant-pos: v1.0 · 1,400+ tests · producción",  live: true  },
-  { hash: "c2b7e", ref: "dev",  msg: "tuguiasv: geospatial B2B infra · CONACYT",          live: false },
-  { hash: "e5c8b", ref: "dev",  msg: "flowcore: hydraulic sim · 121 reqs",                live: false },
+  { hash: "c1a0e", ref: "dev", msg: "cuencaos: plataforma hidrológica · WUJU Labs",       live: false },
+  { hash: "t4r1v", ref: "dev", msg: "terrivo: monitoreo agropecuario · Atria",            live: false },
+  { hash: "s7e26", ref: "dev", msg: "startupstem 2026: finalista · una de cinco de 37",   live: false },
+  { hash: "i5p26", ref: "dev", msg: "inspirastem 2026: póster científico · cuencaos",     live: false },
 ];
 
 export default function Wuju() {
@@ -33,12 +33,12 @@ export default function Wuju() {
         >
           <SectionEyebrow className="mb-3">Wuju</SectionEyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3">
-            Software hecho en El Salvador
-            <br className="hidden sm:block" /> para El Salvador.
+            Investigación, tecnología
+            <br className="hidden sm:block" /> e innovación desde El Salvador.
           </h2>
           <p className="text-[var(--muted)] max-w-xl">
-            Un equipo de 7 jóvenes de Santa Ana que construye
-            infraestructura tecnológica para empresas locales.
+            Organización salvadoreña de investigación aplicada, software y datos.
+            Soy cofundador y líder técnico del equipo técnico de seis personas.
           </p>
         </motion.div>
 
@@ -52,10 +52,11 @@ export default function Wuju() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-[var(--muted)] leading-relaxed mb-8">
-              Wuju nació en 2026 como asociación de desarrolladores con el objetivo
-              de crear soluciones tecnológicas accesibles para negocios salvadoreños.
-              No hacemos apps genéricas — construimos infraestructura: sistemas B2B,
-              plataformas con modelo de negocio, bots de producción y software de ingeniería.
+              Desde 2025 coordino el equipo técnico: levanto requisitos con clientes y
+              partes interesadas, defino el alcance, documento decisiones técnicas y
+              doy seguimiento a los entregables con prácticas ágiles. Participo en la
+              arquitectura y la selección de tecnologías de CuencaOS y Terrivo, y en
+              las guías internas de integridad de investigación y manejo responsable de datos.
             </p>
 
             {/* Stat counters */}
@@ -81,7 +82,7 @@ export default function Wuju() {
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="mailto:contacto@wuju.dev"
-                className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white text-sm font-medium transition-all hover:-translate-y-0.5"
+                className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#7042f8] hover:bg-[#5a2fd8] text-white text-sm font-medium transition-all hover:-translate-y-0.5"
               >
                 <Mail size={14} />
                 contacto@wuju.dev
@@ -152,7 +153,7 @@ export default function Wuju() {
 
               <div className="mt-2 pt-4 border-t border-[var(--border)] flex items-center justify-between">
                 <span className="font-mono text-[10px] text-[var(--muted)]">
-                  4 commits · 2 in prod · 2 in dev
+                  4 hitos · en desarrollo
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff]">
                   Santa Ana, SV

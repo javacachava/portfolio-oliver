@@ -14,166 +14,111 @@ const SKINS = [
 
 const SPECIAL_MOVES = [
   {
-    name: "Arquitectura backend",
-    desc: "Modelado ER · esquemas relacionales y geoespaciales",
+    name: "Requisitos y alcance",
+    desc: "Con clientes y partes interesadas",
   },
   {
-    name: "Documentación técnica",
-    desc: "Nivel tesis: requisitos, diagramas, specs",
+    name: "Control de acceso",
+    desc: "RBAC y mínimo privilegio en el POS de Pizza Brava",
   },
   {
-    name: "Producto end-to-end",
-    desc: "De idea a cliente real en producción",
+    name: "Datos e IA aplicada",
+    desc: "Componentes en Python para Akhet y Atria",
   },
   {
-    name: "Negociación & sociedades",
-    desc: "Contratos de sociedad · acuerdos freelance",
+    name: "Coordinación técnica",
+    desc: "Equipo técnico de seis personas en WUJU",
   },
 ];
 
-const PURPLE = "#7042f8";
+const PURPLE = "#9b7bff";
 const CYAN = "#06b6d4";
 const GREEN = "#00ff9f";
 const VIOLET = "#a78bfa";
 
-// Autoevaluación auditada contra los repos reales — números honestos
-const dominios = [
-  { name: "Vue 3 · Pinia · Vitest", value: 90, desc: "899 tests · PWA offline · MSW" },
-  { name: "Laravel · PHP",          value: 80, desc: "PHPStan nv6 · 550 tests · Pint" },
-  { name: "Python · FastAPI",       value: 75, desc: "pytest · seguridad aplicada" },
-  { name: "Django",                 value: 72, desc: "HTMX · tests de admin" },
-  { name: "Supabase · Postgres",    value: 65, desc: "RLS · threat modeling" },
-  { name: "Three.js · JS vanilla",  value: 65, desc: "juego completo jugable" },
-  { name: "React",                  value: 62, desc: "UI en 4 proyectos" },
-  { name: "Node · Express",         value: 62, desc: "bot en producción · HMAC" },
-  { name: "Next.js",                value: 60, desc: "este portfolio · VPS propio" },
-  { name: "Docker · DevOps",        value: 58, desc: "Compose en prod · multi-stage" },
-  { name: "NestJS",                 value: 45, desc: "API geoespacial · en pausa" },
-  { name: "Spring Boot · Java",     value: 10, desc: "recién empezando" },
-  { name: "Flutter · Dart",         value: 5,  desc: "apenas arrancado" },
-];
+// Fuente: CV maestro. Sin porcentajes ni niveles: la evidencia está en Proyectos y Experiencia.
+const AREAS = [
+  {
+    name: "Programación y software",
+    color: PURPLE,
+    items: ["Python", "Java", "Spring Boot", "JavaScript", "Node.js", "React", "C#", "SQL", "PHP básico", "Git y GitHub"],
+  },
+  {
+    name: "Bases de datos e infraestructura",
+    color: CYAN,
+    items: ["PostgreSQL", "MySQL", "SQLite", "Firestore", "DigitalOcean", "Cloudflare", "SendGrid", "AWS (fundamentos)", "Google Cloud (cursos)"],
+  },
+  {
+    name: "IA y datos",
+    color: VIOLET,
+    items: ["Análisis en Python", "ML introductorio", "IA responsable", "Vertex AI Studio", "Transformers y BERT", "Data lakes y warehouses"],
+  },
+  {
+    name: "Ciberseguridad",
+    color: GREEN,
+    items: ["RBAC", "Mínimo privilegio", "Diseño seguro", "OWASP Top 10", "Redes", "Criptografía", "Respuesta a incidentes", "Hacking ético"],
+  },
+  {
+    name: "Colaboración y gestión",
+    color: "#f472b6",
+    items: ["Requisitos", "Comunicación con partes interesadas", "Coordinación de equipos", "Documentación", "Seguimiento de tareas", "Ágil y Scrum", "ITIL", "Capacitación de usuarios"],
+  },
+  {
+    name: "Herramientas de IA para desarrollo",
+    color: "#f59e0b",
+    items: ["GPT", "Claude", "Gemini", "Cursor"],
+  },
+] as const;
 
-const transversales = [
-  { name: "Seguridad",       value: 58, desc: "RLS · HMAC · CSRF · auditorías propias" },
-  { name: "Testing",         value: 60, desc: "1400+ tests donde se aplica" },
-  { name: "Higiene de repo", value: 55, desc: "limpieza en curso" },
-  { name: "Documentación",   value: 40, desc: "en mejora activa" },
-];
-
-function tierOf(pct: number) {
-  if (pct >= 80) return { color: GREEN,  label: "PRODUCCIÓN" };
-  if (pct >= 60) return { color: CYAN,   label: "SÓLIDO" };
-  if (pct >= 40) return { color: VIOLET, label: "EN DESARROLLO" };
-  return { color: "#9a91c5", label: "APRENDIENDO" };
-}
+const EXPERIENCIA = [
+  {
+    role: "Cofundador y líder técnico",
+    org: "WUJU",
+    period: "2025 – presente",
+    detail: "Equipo técnico de seis personas; requisitos, alcance, decisiones técnicas y seguimiento ágil.",
+    color: PURPLE,
+  },
+  {
+    role: "Desarrollador del sistema POS (servicio social)",
+    org: "Pizza Brava / ESIT",
+    period: "Nov 2025 – Mar 2026",
+    detail: "RBAC para cajero, cocina y administrador, base de datos PostgreSQL y capacitación del personal.",
+    color: GREEN,
+  },
+  {
+    role: "Cofundador y desarrollador del proyecto",
+    org: "TuGuíaSV",
+    period: "Jun 2024 – presente",
+    detail: "Equipo de cuatro personas; DigitalOcean, Cloudflare CDN y SendGrid; Feria Eureka 2024 e InspiraSTEM 2025.",
+    color: CYAN,
+  },
+] as const;
 
 const education = [
   {
     level: "Ingeniería en Desarrollo de Software",
-    institution: "UNICAES · Santa Ana",
-    status: "2.° año · 2025–2029",
-    cum: "8.69",
-    cumLabel: "CUM",
+    institution: "UNICAES · sede Santa Ana",
+    status: "2.º año · 2025–2029 (esperado)",
     color: PURPLE,
   },
   {
     level: "TSU en Ciberseguridad",
     institution: "ESIT / MINED · aval INFOTEC México",
-    status: "Graduando · Servicio social completado",
-    cum: "8.89",
-    cumLabel: "CUM",
+    status: "31/31 materias · servicio social completado · graduación pendiente",
     color: CYAN,
   },
   {
-    level: "Bachillerato Técnico Vocacional ITSI",
+    level: "Bachillerato Técnico Vocacional",
     institution: "Centro Escolar INSA",
-    status: "Finalizado · 1.er lugar · Diploma de Honor",
-    cum: null,
-    cumLabel: "",
+    status: "Finalizado · Diploma de honor: 1.er lugar de la especialidad",
     color: GREEN,
   },
 ];
 
 const languages = [
-  {
-    lang: "Español",
-    level: "Nativo",
-    sublevel: "100% fluidez oral y escrita",
-    value: 100,
-    color: GREEN,
-  },
-  {
-    lang: "Inglés",
-    level: "En progreso → B2",
-    sublevel: "Lectura técnica fluida · Clases intensivas en curso",
-    value: 32,
-    color: PURPLE,
-  },
-];
-
-function DominioBar({
-  name,
-  value,
-  desc,
-  index,
-}: {
-  name: string;
-  value: number;
-  desc?: string;
-  index: number;
-}) {
-  const t = tierOf(value);
-  const SEGMENTS = 20;
-  const filled = Math.round((value / 100) * SEGMENTS);
-  return (
-    <div>
-      <div className="flex justify-between items-baseline mb-1.5 gap-2">
-        <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--foreground)] truncate">
-          {name}
-        </span>
-        <span className="flex items-baseline gap-2 shrink-0">
-          <span
-            className="font-mono text-[8px] tracking-wider px-1.5 py-px rounded"
-            style={{
-              color: t.color,
-              background: `${t.color}14`,
-              border: `1px solid ${t.color}30`,
-            }}
-          >
-            {t.label}
-          </span>
-          <span
-            className="font-mono text-[11px] font-bold tabular-nums"
-            style={{ color: t.color }}
-          >
-            {value}%
-          </span>
-        </span>
-      </div>
-      <div className="flex gap-[3px]">
-        {Array.from({ length: SEGMENTS }).map((_, i) => (
-          <motion.span
-            key={i}
-            className="h-2 flex-1 rounded-[2px]"
-            style={{
-              background: i < filled ? t.color : "var(--border)",
-              boxShadow: i < filled ? `0 0 6px ${t.color}70` : "none",
-            }}
-            initial={{ opacity: 0, scaleY: 0.3 }}
-            whileInView={{ opacity: i < filled ? 1 : 0.45, scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.25, delay: index * 0.03 + i * 0.012 }}
-          />
-        ))}
-      </div>
-      {desc && (
-        <p className="font-mono text-[10px] text-[var(--muted)] mt-1 opacity-70">
-          {desc}
-        </p>
-      )}
-    </div>
-  );
-}
+  { lang: "Español", level: "Nativo", color: GREEN },
+  { lang: "Inglés", level: "B1", color: PURPLE },
+] as const;
 
 export default function About() {
   const [skin, setSkin] = useState(0);
@@ -312,13 +257,14 @@ export default function About() {
                 Oliver Ascencio
               </h3>
               <p className="font-mono text-xs text-[var(--accent)] mb-4">
-                Full-Stack · 20 años
+                Software · Ciberseguridad · IA
               </p>
 
               {/* Short bio */}
               <p className="text-xs text-[var(--muted)] leading-relaxed">
-                Líder técnico full-stack. Backend TypeScript/Node.js,
-                cloud AWS/GCP y sistemas en tiempo real.
+                Estudiante de Ingeniería en Desarrollo de Software y
+                cofundador de WUJU. TSU en Ciberseguridad pendiente de
+                graduación.
               </p>
             </div>
 
@@ -354,18 +300,10 @@ export default function About() {
                     <p className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
                       {e.institution}
                     </p>
-                    <p className="font-mono text-[9px] mt-0.5" style={{ color: e.color + "cc" }}>
+                    <p className="font-mono text-[9px] mt-0.5" style={{ color: e.color }}>
                       {e.status}
                     </p>
                   </div>
-                  {e.cum && (
-                    <span
-                      className="font-mono text-xs font-bold shrink-0"
-                      style={{ color: e.color }}
-                    >
-                      {e.cum}
-                    </span>
-                  )}
                 </div>
               ))}
             </div>
@@ -380,7 +318,7 @@ export default function About() {
             className="rounded-xl border border-[#06b6d4]/30 bg-[var(--card)] p-4"
           >
             <p className="font-mono text-[10px] tracking-widest uppercase text-[#06b6d4] mb-3">
-              ▸ Special moves
+              ▸ Lo que aporto
             </p>
             <ul className="flex flex-col gap-2.5">
               {SPECIAL_MOVES.map((m) => (
@@ -398,7 +336,7 @@ export default function About() {
 
           </div>
 
-          {/* ─── STATS PANEL ─── */}
+          {/* ─── PANEL DERECHO: experiencia, tecnologías e idiomas ─── */}
           <motion.div
             initial={{ opacity: 0, x: 28 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -406,96 +344,93 @@ export default function About() {
             transition={{ duration: 0.55, delay: 0.1 }}
             className="flex flex-col gap-10"
           >
-            {/* DOMINIO POR TECNOLOGÍA */}
-            <div>
-              <p className="font-mono text-xs text-[var(--muted)] mb-2 tracking-widest uppercase">
-                Dominio por tecnología
-              </p>
-              <p className="text-xs text-[var(--muted)] mb-6 opacity-80">
-                Autoevaluación auditada contra mis propios repos — números
-                reales, no marketing.
-              </p>
-              <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
-                {dominios.map((d, i) => (
-                  <DominioBar key={d.name} {...d} index={i} />
-                ))}
-              </div>
-            </div>
-
-            {/* TRANSVERSALES */}
+            {/* EXPERIENCIA */}
             <div>
               <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
-                Transversales
+                Experiencia
               </p>
-              <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
-                {transversales.map((d, i) => (
-                  <DominioBar key={d.name} {...d} index={i} />
+              <ul className="flex flex-col gap-3">
+                {EXPERIENCIA.map((e) => (
+                  <li
+                    key={e.role}
+                    className="rounded-xl border p-4"
+                    style={{ borderColor: `${e.color}30`, background: `${e.color}06` }}
+                  >
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                      <span className="text-sm font-semibold text-[var(--foreground)]">{e.role}</span>
+                      <span className="font-mono text-[10px]" style={{ color: e.color }}>
+                        {e.period}
+                      </span>
+                    </div>
+                    <p className="font-mono text-[10px] text-[var(--muted)] mt-0.5">{e.org}</p>
+                    <p className="text-xs text-[var(--muted)] leading-relaxed mt-2">{e.detail}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* TECNOLOGÍAS Y CONOCIMIENTOS */}
+            <div>
+              <p className="font-mono text-xs text-[var(--muted)] mb-2 tracking-widest uppercase">
+                Tecnologías y conocimientos
+              </p>
+              <p className="text-xs text-[var(--muted)] mb-6 opacity-80">
+                Tomados de mi CV maestro, sin porcentajes ni niveles: la evidencia está en Proyectos y
+                Experiencia.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                {AREAS.map((area) => (
+                  <div
+                    key={area.name}
+                    className="rounded-xl border p-4"
+                    style={{ borderColor: `${area.color}30`, background: `${area.color}06` }}
+                  >
+                    <p className="font-mono text-[11px] font-semibold tracking-wider text-[var(--foreground)] mb-3">
+                      {area.name}
+                    </p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {area.items.map((item) => (
+                        <li
+                          key={item}
+                          className="font-mono text-[10px] px-2 py-1 rounded-full border"
+                          style={{
+                            color: area.color,
+                            borderColor: `${area.color}40`,
+                            background: `${area.color}10`,
+                          }}
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* LANGUAGES */}
+            {/* IDIOMAS */}
             <div>
               <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
                 Idiomas
               </p>
               <div className="grid md:grid-cols-2 gap-4">
-                {languages.map((l, li) => {
-                  const segments = 20;
-                  const filled = Math.round((l.value / 100) * segments);
-                  return (
-                    <motion.div
-                      key={l.lang}
-                      initial={{ opacity: 0, y: 14 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: li * 0.12 }}
-                      className="rounded-xl border p-4"
-                      style={{
-                        borderColor: `${l.color}30`,
-                        background: `${l.color}06`,
-                      }}
+                {languages.map((l) => (
+                  <div
+                    key={l.lang}
+                    className="rounded-xl border p-4 flex items-center justify-between gap-2"
+                    style={{ borderColor: `${l.color}30`, background: `${l.color}06` }}
+                  >
+                    <span className="font-mono text-[13px] font-bold text-[var(--foreground)]">{l.lang}</span>
+                    <span
+                      className="font-mono text-[10px] tracking-wider px-2 py-0.5 rounded"
+                      style={{ color: l.color, background: `${l.color}14`, border: `1px solid ${l.color}30` }}
                     >
-                      <div className="flex justify-between items-baseline mb-3 gap-2">
-                        <span className="font-mono text-[13px] font-bold text-[var(--foreground)]">
-                          {l.lang}
-                        </span>
-                        <span
-                          className="font-mono text-[9px] tracking-wider px-1.5 py-px rounded shrink-0"
-                          style={{
-                            color: l.color,
-                            background: `${l.color}14`,
-                            border: `1px solid ${l.color}30`,
-                          }}
-                        >
-                          {l.level}
-                        </span>
-                      </div>
-                      <div className="flex gap-[3px]">
-                        {Array.from({ length: segments }).map((_, i) => (
-                          <motion.span
-                            key={i}
-                            className="h-2 flex-1 rounded-[2px]"
-                            style={{
-                              background: i < filled ? l.color : "var(--border)",
-                              boxShadow: i < filled ? `0 0 6px ${l.color}70` : "none",
-                            }}
-                            initial={{ opacity: 0, scaleY: 0.3 }}
-                            whileInView={{ opacity: i < filled ? 1 : 0.45, scaleY: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.25, delay: li * 0.1 + i * 0.015 }}
-                          />
-                        ))}
-                      </div>
-                      <p className="font-mono text-[10px] text-[var(--muted)] mt-2.5 opacity-70">
-                        {l.sublevel}
-                      </p>
-                    </motion.div>
-                  );
-                })}
+                      {l.level}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-
           </motion.div>
         </div>
       </div>
