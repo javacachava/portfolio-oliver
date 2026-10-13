@@ -271,7 +271,10 @@ export default function About() {
             {/* Bottom bar */}
             <div className="border-t border-[var(--border)] px-5 py-3 flex items-center justify-between">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Santa Ana, SV</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff] animate-pulse">Disponible</span>
+              <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-[#b49bff]">
+                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#b49bff] animate-pulse" />
+                Disponible
+              </span>
             </div>
           </motion.div>
 
