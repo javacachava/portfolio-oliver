@@ -16,6 +16,9 @@ export const profile = {
   role: "Desarrollo de software, ciberseguridad e IA aplicada",
   tagline:
     "Estudiante de Ingeniería en Desarrollo de Software y cofundador de WUJU. Desarrollo software, coordino equipos técnicos y participo en proyectos de datos e IA aplicada, con la ciberseguridad como base.",
+  /** Segunda frase de la presentación: la primera ya está en la pastilla de la portada. */
+  intro:
+    "Desarrollo software, coordino equipos técnicos y participo en proyectos de datos e IA aplicada, con la ciberseguridad como base.",
   /** Fecha de la última revisión de contenido (ISO). Alimenta el sitemap. */
   lastUpdated: "2026-10-13",
 } as const;

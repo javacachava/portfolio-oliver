@@ -18,7 +18,7 @@ export default function ProjectPlate({
 }) {
   const diagram = diagrams[project.slug];
   return (
-    <Spot className="plate plate-spot group flex h-full flex-col overflow-hidden transition-colors hover:border-cobre/60">
+    <Spot className="plate plate-spot group flex h-full flex-col overflow-hidden transition-colors hover:border-violet/60">
       {diagram && (
         <div className="relative border-b border-line px-6 pb-4 pt-10 sm:px-8">
           <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 opacity-40" />

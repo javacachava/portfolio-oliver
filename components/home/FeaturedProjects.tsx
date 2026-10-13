@@ -12,7 +12,7 @@ export default function FeaturedProjects() {
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div>
             <h2 id="proyectos-titulo" className="t-h2 section-title">
-              <span className="reveal-title block">Proyectos destacados</span>
+              <span className="reveal-title gradient-text block pb-1">Proyectos destacados</span>
             </h2>
             <p className="measure reveal mt-6 text-fg">
               Cuatro casos con su contexto, mi parte y su estado real. Los de WUJU son trabajo

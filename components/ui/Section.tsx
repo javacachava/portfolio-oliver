@@ -1,4 +1,4 @@
-type Band = "mocha" | "crema";
+type Band = "nebula";
 
 interface SectionProps {
   id: string;
@@ -11,8 +11,8 @@ interface SectionProps {
 }
 
 /**
- * Sección editorial: el encabezado ocupa 4/12 (fijo al hacer scroll en escritorio) y el
- * contenido 8/12. La banda opcional cambia la superficie y, con ella, los colores semánticos.
+ * Sección: el encabezado ocupa 4/12 (fijo al hacer scroll en escritorio) y el contenido 8/12.
+ * El título lleva degradado violeta a cian y una pista de luz debajo.
  */
 export default function Section({ id, title, intro, children, band, flush }: SectionProps) {
   return (
@@ -23,8 +23,11 @@ export default function Section({ id, title, intro, children, band, flush }: Sec
     >
       <div className="wrap grid gap-x-10 gap-y-10 lg:grid-cols-12">
         <header className="self-start lg:sticky lg:top-28 lg:col-span-4">
-          <h2 id={`${id}-titulo`} className="t-h2 section-title !text-[clamp(1.9rem,3.1vw,2.7rem)] [hyphens:auto]">
-            <span className="reveal-title block">{title}</span>
+          <h2
+            id={`${id}-titulo`}
+            className="t-h2 section-title !text-[clamp(1.9rem,3.1vw,2.7rem)] [hyphens:auto]"
+          >
+            <span className="reveal-title gradient-text block pb-1">{title}</span>
           </h2>
           {intro && <div className="t-small reveal mt-5 max-w-[36ch]">{intro}</div>}
         </header>

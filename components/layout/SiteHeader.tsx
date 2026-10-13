@@ -3,23 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Close, Menu } from "@/components/ui/Icons";
+import {
+  Briefcase,
+  Building,
+  Chip,
+  Close,
+  Folder,
+  Graduation,
+  Menu,
+  User,
+} from "@/components/ui/Icons";
 import { profile } from "@/data/profile";
 
 const links = [
-  { label: "Proyectos", href: "/proyectos", route: "/proyectos" },
-  { label: "WUJU", href: "/#wuju" },
-  { label: "Experiencia", href: "/#experiencia" },
-  { label: "Competencias", href: "/#competencias" },
-  { label: "Formación", href: "/formacion", route: "/formacion" },
-  { label: "Sobre mí", href: "/sobre-mi", route: "/sobre-mi" },
+  { label: "Proyectos", href: "/proyectos", route: "/proyectos", Icon: Folder },
+  { label: "WUJU", href: "/#wuju", Icon: Building },
+  { label: "Experiencia", href: "/#experiencia", Icon: Briefcase },
+  { label: "Competencias", href: "/#competencias", Icon: Chip },
+  { label: "Formación", href: "/formacion", route: "/formacion", Icon: Graduation },
+  { label: "Sobre mí", href: "/sobre-mi", route: "/sobre-mi", Icon: User },
 ] as const;
-
-type NavLink = (typeof links)[number];
-
-function isCurrent(pathname: string, link: NavLink) {
-  return "route" in link && (pathname === link.route || pathname.startsWith(`${link.route}/`));
-}
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -41,47 +44,56 @@ export default function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-espresso/85 backdrop-blur-md">
-      <div className="wrap flex h-16 items-center justify-between gap-6">
+    <header className="sticky top-0 z-40 border-b border-line bg-void/70 backdrop-blur-md">
+      <div className="wrap relative flex h-[4.25rem] items-center justify-between gap-6">
         <Link
           href="/"
           aria-label={`${profile.shortName}, ir al inicio`}
-          className="group flex items-center gap-3 no-underline"
+          className="group flex items-center gap-2 no-underline"
         >
           <span
             aria-hidden="true"
-            className="grid size-8 place-items-center rounded-[3px] border border-cobre font-display text-[0.8rem] font-bold text-cobre transition-colors group-hover:bg-cobre group-hover:text-espresso"
+            className="font-mono text-[0.95rem] font-bold text-soft opacity-70 transition-opacity group-hover:opacity-100"
           >
-            OA
+            ›_
           </span>
-          <span className="font-display text-[1.1rem] font-semibold tracking-tight text-crema">
+          <span className="font-display text-[1.05rem] font-semibold tracking-tight text-ink">
             {profile.shortName}
           </span>
         </Link>
 
-        <nav aria-label="Principal" className="hidden items-center gap-6 lg:flex">
-          <ul className="flex items-center gap-6">
-            {links.map((link) => (
-              <li key={link.label}>
+        <nav
+          aria-label="Principal"
+          className="absolute left-1/2 hidden -translate-x-1/2 xl:block"
+        >
+          <ul className="nav-pill">
+            {links.map(({ label, href, Icon, ...rest }) => (
+              <li key={label}>
                 <Link
-                  href={link.href}
+                  href={href}
                   className="nav-link"
-                  aria-current={isCurrent(pathname, link) ? "page" : undefined}
+                  aria-current={
+                    "route" in rest && (pathname === rest.route || pathname.startsWith(`${rest.route}/`))
+                      ? "page"
+                      : undefined
+                  }
                 >
-                  {link.label}
+                  <Icon size={14} className="opacity-70" />
+                  {label}
                 </Link>
               </li>
             ))}
           </ul>
-          <Link href="/#contacto" className="btn btn-primary !min-h-10 !px-4 !py-1.5 text-[0.9rem]">
-            Contacto
-          </Link>
         </nav>
+
+        <Link href="/#contacto" className="btn btn-primary !min-h-10 !px-4 !py-1.5 hidden text-[0.9rem] xl:inline-flex">
+          Contacto
+        </Link>
 
         <button
           ref={toggleRef}
           type="button"
-          className="-mr-2 inline-flex size-11 items-center justify-center text-crema lg:hidden"
+          className="-mr-2 inline-flex size-11 items-center justify-center text-ink xl:hidden"
           aria-expanded={open}
           aria-controls="menu-movil"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
@@ -95,15 +107,15 @@ export default function SiteHeader() {
       <div
         id="menu-movil"
         inert={!open}
-        className={`grid border-line transition-[grid-template-rows,border-color] duration-300 ease-out lg:hidden ${
+        className={`grid border-line transition-[grid-template-rows,border-color] duration-300 ease-out xl:hidden ${
           open ? "grid-rows-[1fr] border-t" : "grid-rows-[0fr] border-t-0"
         }`}
       >
-        <nav aria-label="Principal" className="overflow-hidden bg-espresso">
+        <nav aria-label="Principal" className="overflow-hidden bg-void/95">
           <ul className="wrap py-3">
-            {links.map((link, i) => (
+            {links.map(({ label, href, Icon, ...rest }, i) => (
               <li
-                key={link.label}
+                key={label}
                 className="border-b border-line transition-all duration-300"
                 style={{
                   transitionDelay: open ? `${60 + i * 40}ms` : "0ms",
@@ -112,21 +124,22 @@ export default function SiteHeader() {
                 }}
               >
                 <Link
-                  href={link.href}
-                  className="nav-link w-full py-1 text-[1.05rem]"
-                  aria-current={isCurrent(pathname, link) ? "page" : undefined}
+                  href={href}
+                  className="nav-link w-full !rounded-lg py-1 text-[1.05rem]"
+                  aria-current={
+                    "route" in rest && (pathname === rest.route || pathname.startsWith(`${rest.route}/`))
+                      ? "page"
+                      : undefined
+                  }
                   onClick={() => setOpenFor(null)}
                 >
-                  {link.label}
+                  <Icon size={16} className="opacity-70" />
+                  {label}
                 </Link>
               </li>
             ))}
             <li className="pt-4 pb-2">
-              <Link
-                href="/#contacto"
-                className="btn btn-primary w-full"
-                onClick={() => setOpenFor(null)}
-              >
+              <Link href="/#contacto" className="btn btn-primary w-full" onClick={() => setOpenFor(null)}>
                 Contacto
               </Link>
             </li>

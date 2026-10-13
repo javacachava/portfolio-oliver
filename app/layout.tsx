@@ -1,27 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
+import Starfield from "@/components/ui/Starfield";
 import { profile } from "@/data/profile";
 
-// Titulares: Bricolage Grotesque, con eje óptico para que los tamaños grandes ganen contraste.
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  axes: ["opsz"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
-const geist = Geist({
-  variable: "--font-geist",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
-// Solo para las etiquetas técnicas de los diagramas.
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Solo para etiquetas técnicas (cápsulas y rótulos de diagramas).
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#15100d",
+  themeColor: "#030014",
   colorScheme: "dark",
 };
 
@@ -68,9 +68,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <Starfield />
         <div className="relative z-10 flex min-h-dvh flex-col">
           <a href="#contenido" className="skip-link">
             Saltar al contenido

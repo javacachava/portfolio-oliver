@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 /**
  * Contenedor que expone la posición del cursor como variables CSS (--mx, --my).
- * El destello de cobre del borde (.plate-spot) se dibuja solo con CSS.
+ * El destello del borde (.plate-spot) se dibuja solo con CSS.
  */
 export default function Spot({
   children,

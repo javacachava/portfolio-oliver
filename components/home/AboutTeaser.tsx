@@ -3,7 +3,7 @@ import Section from "@/components/ui/Section";
 
 export default function AboutTeaser() {
   return (
-    <Section id="sobre-mi" title="Sobre mí" band="mocha">
+    <Section id="sobre-mi" title="Sobre mí" band="nebula">
       <div className="measure space-y-5 text-[1.12rem] leading-[1.7]">
         <p className="reveal">
           Soy de Santa Ana, El Salvador. Hice un bachillerato técnico en infraestructura

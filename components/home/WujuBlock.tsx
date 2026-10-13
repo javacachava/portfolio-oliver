@@ -17,12 +17,12 @@ export default function WujuBlock() {
     <section
       id="wuju"
       aria-labelledby="wuju-titulo"
-      className="band-mocha relative overflow-hidden py-20 sm:py-28"
+      className="band-nebula relative overflow-hidden py-20 sm:py-28"
     >
       <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 opacity-50" />
       <div className="wrap relative">
         <h2 id="wuju-titulo" className="t-h2 section-title">
-          <span className="reveal-title block">WUJU</span>
+          <span className="reveal-title gradient-text block pb-1">WUJU</span>
         </h2>
         <p className="measure t-lead reveal mt-6">
           Una organización de la que soy cofundador. Esta sección separa lo que es de WUJU de lo
@@ -48,14 +48,14 @@ export default function WujuBlock() {
             </a>
           </article>
 
-          <article className="plate reveal border-cobre/50 p-6 sm:p-8">
+          <article className="plate reveal border-violet/50 p-6 sm:p-8">
             <h3 className="t-h3">Mi rol</h3>
-            <p className="mt-4 font-medium text-caramelo">{wuju.roleTitle}</p>
+            <p className="mt-4 font-medium text-soft">{wuju.roleTitle}</p>
             {role && (
               <ul className="measure mt-4 space-y-3">
                 {role.bullets.map((bullet) => (
                   <li key={bullet} className="flex gap-3">
-                    <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-cobre" />
+                    <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-violet" />
                     <span>{bullet}</span>
                   </li>
                 ))}
@@ -74,7 +74,7 @@ export default function WujuBlock() {
             {wujuProjects.map((project) => (
               <li key={project.slug} className="reveal border-t border-line pt-4">
                 <h3 className="t-h3">
-                  <Link href={`/proyectos/${project.slug}`} className="no-underline hover:text-caramelo">
+                  <Link href={`/proyectos/${project.slug}`} className="no-underline hover:text-soft">
                     {project.title}
                   </Link>
                 </h3>

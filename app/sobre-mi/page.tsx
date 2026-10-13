@@ -98,19 +98,19 @@ export default function AboutPage() {
         <ol className="relative pl-8 sm:pl-12">
           <span
             aria-hidden="true"
-            className="timeline-line absolute left-[7px] top-2 bottom-2 w-[2px] bg-cobre sm:left-[11px]"
+            className="timeline-line absolute left-[7px] top-2 bottom-2 w-[2px] bg-violet sm:left-[11px]"
           />
           {timeline.map((period) => (
             <li key={period.year} className="reveal relative pb-12 last:pb-0">
               <span
                 aria-hidden="true"
-                className="absolute -left-8 top-[0.45rem] size-4 rounded-full border-2 border-cobre bg-espresso sm:-left-12 sm:size-[1.4rem]"
+                className="absolute -left-8 top-[0.45rem] size-4 rounded-full border-2 border-violet bg-void sm:-left-12 sm:size-[1.4rem]"
               />
               <h3 className="t-h3">{period.year}</h3>
               <ul className="measure mt-4 space-y-3">
                 {period.items.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-cobre" />
+                    <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-violet" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -120,11 +120,11 @@ export default function AboutPage() {
         </ol>
       </Section>
 
-      <Section id="enfoque" title="Enfoque de trabajo" band="mocha">
+      <Section id="enfoque" title="Enfoque de trabajo" band="nebula">
         <ul>
           {approach.map((item) => (
             <li key={item.title} className="reveal border-t border-line py-6 first:border-t-0 first:pt-0">
-              <h3 className="font-sans text-[1.1rem] font-semibold text-crema">{item.title}</h3>
+              <h3 className="font-sans text-[1.1rem] font-semibold text-ink">{item.title}</h3>
               <p className="measure mt-1.5">{item.body}</p>
             </li>
           ))}

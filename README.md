@@ -1,6 +1,6 @@
 # Portafolio de Oliver Ascencio
 
-Sitio personal de [Oliver Ascencio](https://oliver-ascencio.wuju.dev): proyectos, experiencia, competencias y formación. Next.js 16 (App Router), React 19 y Tailwind CSS 4, sin otras dependencias de interfaz.
+Sitio personal de [Oliver Ascencio](https://oliver-ascencio.wuju.dev): proyectos, experiencia, competencias y formación. Next.js 16 (App Router), React 19 y Tailwind CSS 4, sin otras dependencias de interfaz. Tema espacial (violeta y cian) con cielo estrellado, el agujero negro del hero (`public/videos/blackhole.webm`) y una escena orbital con los lenguajes con los que he trabajado.
 
 ## Desarrollo
 

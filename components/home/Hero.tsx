@@ -1,232 +1,285 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
+import { Shield } from "@/components/ui/Icons";
+import LanguageIcon, { type LanguageName } from "@/components/ui/LanguageIcons";
 import { profile } from "@/data/profile";
 
 interface Area {
   id: string;
-  /** Rótulo corto dentro del chip del tablero. */
+  /** Rótulo corto de la etiqueta flotante. */
   chip: string;
-  /** Prueba corta dentro del chip. */
-  chipEvidence: string;
   title: string;
   evidence: string;
   href: string;
+  /** Posición de la etiqueta dentro de la escena (en %). */
+  at: { left?: string; right?: string; top: string };
 }
 
 const AREAS: Area[] = [
   {
     id: "software",
     chip: "Software",
-    chipEvidence: "POS, bot, invitaciones",
     title: "Desarrollo de software",
     evidence: "Sistema POS para Pizza Brava, bot de pedidos por WhatsApp y gestión de invitaciones.",
     href: "/proyectos",
+    at: { left: "5%", top: "21%" },
   },
   {
     id: "seguridad",
-    chip: "Ciberseguridad",
-    chipEvidence: "RBAC, firma de webhook, TSU",
+    chip: "Seguridad",
     title: "Ciberseguridad",
     evidence: "TSU en Ciberseguridad. Control de acceso por roles aplicado en el POS.",
     href: "/proyectos/pos-pizza-brava",
+    at: { right: "4%", top: "36%" },
   },
   {
     id: "ia",
     chip: "IA y datos",
-    chipEvidence: "Akhet, Atria, FlowCore",
     title: "IA y datos",
     evidence: "Componentes de análisis en Python para CuencaOS / Akhet y Terrivo / Atria.",
     href: "/proyectos/cuencaos",
+    at: { left: "5%", top: "74%" },
   },
   {
     id: "coordinacion",
     chip: "Coordinación",
-    chipEvidence: "WUJU, TuGuíaSV",
     title: "Coordinación técnica",
     evidence: "Líder técnico de un equipo de seis personas en WUJU.",
     href: "/#wuju",
+    at: { right: "6%", top: "86%" },
   },
 ];
 
-/* Geometría del tablero (viewBox 640 × 520). */
-const CHIP_X = 358;
-const CHIP_W = 270;
-const CHIP_H = 88;
-const GAP = 40;
-const TOP = 24;
-const DIE = { x: 24, y: 206, w: 104, h: 108 };
-const STARTS = [236, 252, 268, 284];
-/* Codos escalonados para que los trazos no se crucen: arriba crecen, abajo decrecen. */
-const ELBOWS = [196, 232, 306, 268];
-
-const chips = AREAS.map((area, i) => {
-  const y = TOP + i * (CHIP_H + GAP);
-  return { ...area, y, cy: y + CHIP_H / 2 };
-});
-
-function chamfered(x0: number, y0: number, ex: number, y1: number, x1: number, d = 14) {
-  const delta = y1 - y0;
-  if (Math.abs(delta) < 4) return `M${x0} ${y0} H${x1}`;
-  const dir = Math.sign(delta);
-  const k = Math.min(d, Math.abs(delta) / 2 - 1);
-  return `M${x0} ${y0} H${ex - k} L${ex} ${y0 + dir * k} V${y1 - dir * k} L${ex + k} ${y1} H${x1}`;
+interface Language {
+  name: LanguageName;
+  label: string;
+  color: string;
+  /** Centro del icono dentro de la escena (en %). */
+  x: number;
+  y: number;
+  drift: number;
+  tilt: number;
+  dur: number;
+  delay: number;
 }
 
-const traces = chips.map((chip, i) =>
-  chamfered(DIE.x + DIE.w, STARTS[i], ELBOWS[i], chip.cy, CHIP_X),
-);
+/* Lenguajes con los que he trabajado (ver Competencias). Se distribuyen sobre la órbita. */
+const LANGUAGES: Language[] = [
+  { name: "Python", label: "Python", color: "#4b8bbe", x: 30, y: 16, drift: -10, tilt: 3, dur: 8.5, delay: 0 },
+  { name: "JavaScript", label: "JavaScript", color: "#f7df1e", x: 66, y: 11, drift: 9, tilt: -3, dur: 9.5, delay: 0.8 },
+  { name: "TypeScript", label: "TypeScript", color: "#3178c6", x: 88, y: 28, drift: -8, tilt: 4, dur: 8, delay: 1.4 },
+  { name: "Java", label: "Java", color: "#f89820", x: 16, y: 44, drift: 11, tilt: -4, dur: 10, delay: 1.8 },
+  { name: "PostgreSQL", label: "PostgreSQL", color: "#4169e1", x: 84, y: 54, drift: -11, tilt: 3, dur: 9, delay: 0.4 },
+  { name: "PHP", label: "PHP", color: "#8993be", x: 24, y: 88, drift: -9, tilt: -3, dur: 9.5, delay: 1.1 },
+  { name: "CSharp", label: "C#", color: "#9b6cff", x: 60, y: 92, drift: 8, tilt: 4, dur: 8.5, delay: 1.6 },
+  { name: "Bash", label: "Bash", color: "#4eaa25", x: 50, y: 70, drift: 10, tilt: -4, dur: 10, delay: 0.6 },
+];
+
+const STACK_CHIPS = ["Python", "JavaScript", "React", "PostgreSQL", "Laravel", "RBAC"];
 
 export default function Hero() {
   const [active, setActive] = useState<number | null>(null);
-  const anyActive = active !== null;
+  const [showVideo, setShowVideo] = useState(false);
+  const [inView, setInView] = useState(true);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // El video del agujero negro es decorativo: solo se carga si no hay ahorro de datos
+  // ni preferencia de movimiento reducido, solo en pantallas anchas, y se pausa cuando el hero
+  // sale de la pantalla.
+  useEffect(() => {
+    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (
+      connection.connection?.saveData ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !window.matchMedia("(min-width: 768px)").matches
+    ) {
+      return;
+    }
+    const timeout = window.setTimeout(() => setShowVideo(true), 900);
+    return () => window.clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      rootMargin: "120px 0px",
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (inView) void video.play().catch(() => undefined);
+    else video.pause();
+  }, [inView, showVideo]);
 
   const activate = (i: number) => () => setActive(i);
   const deactivate = () => setActive(null);
 
   return (
-    <section aria-labelledby="inicio-titulo" className="relative overflow-hidden">
-      {/* Retícula y luz cálida detrás del tablero */}
-      <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 opacity-70" />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-24 top-0 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(200,130,72,0.22),transparent)]"
-      />
+    <section
+      ref={sectionRef}
+      aria-labelledby="inicio-titulo"
+      className="relative overflow-hidden"
+    >
+      {showVideo && (
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-[-14rem] z-0 h-[120%] w-full rotate-180 object-cover opacity-60 [mask-image:linear-gradient(to_bottom,black_30%,transparent_95%)] lg:opacity-30"
+        >
+          <source src="/videos/blackhole.webm" type="video/webm" />
+        </video>
+      )}
 
-      <div className="wrap relative grid gap-x-10 gap-y-14 pb-16 pt-14 sm:pt-20 lg:grid-cols-12 lg:pb-24 lg:pt-24">
+      <div className="wrap relative z-10 grid items-center gap-x-10 gap-y-14 pb-16 pt-14 sm:pt-20 lg:grid-cols-12 lg:pb-24 lg:pt-24">
         <div className="lg:col-span-7">
-          <h1 id="inicio-titulo" className="t-display">
-            Oliver
-            <br />
-            Ascencio
+          <p className="pill rise" style={{ "--i": 0 } as React.CSSProperties}>
+            <Shield size={16} className="text-soft" />
+            Estudiante de Ingeniería en Desarrollo de Software y cofundador de WUJU
+          </p>
+
+          <h1 id="inicio-titulo" className="rise mt-7" style={{ "--i": 1 } as React.CSSProperties}>
+            <span className="t-display block">{profile.shortName}</span>
+            <span className="gradient-text mt-3 block pb-2 font-display text-[clamp(1.9rem,4.6vw,3.4rem)] font-bold leading-[1.08] tracking-[-0.03em]">
+              Software, ciberseguridad
+              <br />e IA aplicada
+            </span>
           </h1>
-          <p className="t-lead measure mt-8">{profile.tagline}</p>
-          <div className="mt-9 flex flex-wrap gap-3">
+
+          <p className="t-lead measure rise mt-6" style={{ "--i": 2 } as React.CSSProperties}>{profile.intro}</p>
+
+          <ul className="rise mt-6 flex flex-wrap gap-2" aria-label="Tecnologías con las que he trabajado" style={{ "--i": 3 } as React.CSSProperties}>
+            {STACK_CHIPS.map((chip) => (
+              <li
+                key={chip}
+                className="rounded-full border border-violet/40 bg-nebula/60 px-3 py-1 font-mono text-[0.76rem] text-[#cdbfff]"
+              >
+                {chip}
+              </li>
+            ))}
+          </ul>
+
+          <div className="rise mt-8 flex flex-wrap gap-3" style={{ "--i": 4 } as React.CSSProperties}>
             <Link href="/proyectos" className="btn btn-primary">
               Ver proyectos
             </Link>
-            <a
-              href={profile.cv}
-              className="btn btn-ghost"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={profile.cv} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
               Ver CV<span className="sr-only"> (PDF, se abre en una pestaña nueva)</span>
             </a>
             <Link href="/#contacto" className="btn btn-ghost">
               Contactar
             </Link>
           </div>
+
+          <p className="rise mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.92rem]" style={{ "--i": 5 } as React.CSSProperties}>
+            <a
+              href={profile.github.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 text-fg-muted no-underline transition-colors hover:text-white"
+            >
+              <GithubIcon size={16} />
+              {profile.github.label.replace("github.com/", "")}
+              <span className="sr-only"> en GitHub (se abre en una pestaña nueva)</span>
+            </a>
+            <a
+              href={profile.linkedin.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 text-fg-muted no-underline transition-colors hover:text-white"
+            >
+              <LinkedinIcon size={16} />
+              {profile.linkedin.label.replace("linkedin.com/in/", "")}
+              <span className="sr-only"> en LinkedIn (se abre en una pestaña nueva)</span>
+            </a>
+          </p>
         </div>
 
-        <div className="lg:col-span-5">
-          <svg
-            viewBox="0 0 640 520"
-            aria-hidden="true"
-            focusable="false"
-            className="h-auto w-full"
-            onPointerLeave={deactivate}
-          >
-            <defs>
-              <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#c88248" stopOpacity="0.38" />
-                <stop offset="100%" stopColor="#c88248" stopOpacity="0" />
-              </radialGradient>
-            </defs>
+        {/* Escena orbital decorativa. El equivalente accesible es la lista de áreas de abajo. */}
+        <div className="lg:col-span-5" aria-hidden="true">
+          <div className="orbit" onPointerLeave={deactivate}>
+            <div className="orbit-grid" />
 
-            <circle cx={DIE.x + DIE.w / 2} cy={DIE.y + DIE.h / 2} r="150" fill="url(#hero-glow)" />
+            <span
+              className="orbit-ring orbit-spin h-[88%] w-[88%] border-violet/45"
+              style={{ "--t": "90s" } as React.CSSProperties}
+            />
+            <span
+              className="orbit-ring orbit-spin h-[64%] w-[64%] border-cyan/40"
+              style={{ "--t": "60s", animationDirection: "reverse" } as React.CSSProperties}
+            />
+            <span
+              className="orbit-ring orbit-spin h-[42%] w-[42%] border-rose-400/35"
+              style={{ "--t": "45s" } as React.CSSProperties}
+            />
 
-            {/* Entradas a la izquierda del chip principal */}
-            {[236, 260, 284].map((y, i) => (
-              <g key={y}>
-                <path
-                  d={`M0 ${y} H${DIE.x}`}
-                  pathLength={1}
-                  className="hero-trace"
-                  style={{ "--i": i } as React.CSSProperties}
-                  opacity={0.5}
+            <div className="globe-stage">
+              <div className="globe">
+                <span className="globe-core" />
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <span key={i} className="globe-line" style={{ transform: `rotateY(${i * 30}deg)` }} />
+                ))}
+                <span className="globe-line" style={{ transform: "rotateX(90deg)" }} />
+                <span
+                  className="globe-line"
+                  style={{ transform: "rotateX(90deg) translateZ(2.5rem) scale(0.82)" }}
                 />
-              </g>
-            ))}
-
-            {/* Trazos hacia cada especialidad */}
-            {traces.map((d, i) => (
-              <g key={AREAS[i].id}>
-                <path
-                  d={d}
-                  pathLength={1}
-                  className="hero-trace"
-                  data-active={active === i}
-                  data-dim={anyActive && active !== i}
-                  style={{ "--i": i + 2 } as React.CSSProperties}
+                <span
+                  className="globe-line"
+                  style={{ transform: "rotateX(90deg) translateZ(-2.5rem) scale(0.82)" }}
                 />
-                <path
-                  d={d}
-                  pathLength={1}
-                  className="dg-pulse"
-                  style={{ "--d": `${3 + i * 0.8}s` } as React.CSSProperties}
-                />
-                <circle cx={CHIP_X} cy={chips[i].cy} r="4" className="dg-pad" />
-              </g>
-            ))}
+              </div>
+            </div>
 
-            {/* Chip principal */}
-            <g>
-              <rect
-                x={DIE.x}
-                y={DIE.y}
-                width={DIE.w}
-                height={DIE.h}
-                rx="6"
-                fill="#34251e"
-                stroke="#c88248"
-                strokeWidth="2"
-              />
-              <circle cx={DIE.x + 14} cy={DIE.y + 14} r="3.5" fill="#c88248" />
-              <text
-                x={DIE.x + DIE.w / 2}
-                y={DIE.y + DIE.h / 2 + 12}
-                textAnchor="middle"
-                fontSize="40"
-                fontWeight="700"
-                fill="#f5ebdd"
-                style={{ fontFamily: "var(--font-bricolage)" }}
+            {LANGUAGES.map((language) => (
+              <span
+                key={language.name}
+                className="orbit-icon"
+                style={
+                  {
+                    left: `${language.x}%`,
+                    top: `${language.y}%`,
+                    margin: "-1.8rem 0 0 -1.8rem",
+                    "--drift": `${language.drift}px`,
+                    "--tilt": `${language.tilt}deg`,
+                    "--dur": `${language.dur}s`,
+                    "--delay": `${language.delay}s`,
+                  } as React.CSSProperties
+                }
               >
-                OA
-              </text>
-            </g>
+                <LanguageIcon
+                  name={language.name}
+                  className="size-8"
+                  style={{ color: language.color, filter: `drop-shadow(0 0 10px ${language.color}88)` }}
+                />
+              </span>
+            ))}
 
-            {/* Chips de especialidad */}
-            {chips.map((chip, i) => (
-              <g
-                key={chip.id}
-                className="hero-chip"
+            {AREAS.map((area, i) => (
+              <span
+                key={area.id}
+                className="orbit-area"
                 data-active={active === i}
-                style={{ "--i": i } as React.CSSProperties}
-                onPointerEnter={activate(i)}
+                style={{ left: area.at.left, right: area.at.right, top: area.at.top }}
               >
-                <rect x={CHIP_X} y={chip.y} width={CHIP_W} height={CHIP_H} rx="5" />
-                <text x={CHIP_X + 22} y={chip.y + 38} fontSize="25">
-                  {chip.chip}
-                </text>
-                <text
-                  x={CHIP_X + 22}
-                  y={chip.y + 65}
-                  fontSize="14.5"
-                  className="hero-ev"
-                >
-                  {chip.chipEvidence}
-                </text>
-                <text x={CHIP_X + CHIP_W - 16} y={chip.y + 22} fontSize="10" textAnchor="end" className="hero-uref">
-                  U{i + 1}
-                </text>
-              </g>
+                {area.chip}
+              </span>
             ))}
-          </svg>
+          </div>
         </div>
 
-        {/* Equivalente accesible del tablero: las cuatro áreas, con su prueba. */}
         <ul className="grid gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4">
           {AREAS.map((area, i) => (
             <li key={area.id}>
@@ -238,7 +291,7 @@ export default function Hero() {
                 onFocus={activate(i)}
                 onBlur={deactivate}
               >
-                <span className="t-h3 block text-crema transition-colors group-hover:text-caramelo group-focus-visible:text-caramelo">
+                <span className="t-h3 block text-ink transition-colors group-hover:text-soft group-focus-visible:text-soft">
                   {area.title}
                 </span>
                 <span className="t-small mt-2 block">{area.evidence}</span>

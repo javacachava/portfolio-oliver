@@ -52,7 +52,7 @@ function Bullets({ items }: { items: string[] }) {
     <ul className="measure space-y-3">
       {items.map((item) => (
         <li key={item} className="flex gap-3">
-          <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-cobre" />
+          <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-violet" />
           <span>{item}</span>
         </li>
       ))}
@@ -128,7 +128,7 @@ export default async function ProjectPage({
           <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 opacity-60" />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-20 -top-24 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(closest-side,rgba(200,130,72,0.2),transparent)]"
+            className="pointer-events-none absolute -right-20 -top-24 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(closest-side,rgba(112,66,248,0.26),transparent)]"
           />
           <div className="wrap relative grid gap-x-10 gap-y-10 pb-14 pt-10 sm:pb-20 sm:pt-14 lg:grid-cols-12">
             <div className="lg:col-span-8">
@@ -150,7 +150,7 @@ export default async function ProjectPage({
                   </li>
                 ))}
               </ul>
-              <h1 className="t-display mt-5 !text-[clamp(2.8rem,8.5vw,6.2rem)]">{project.title}</h1>
+              <h1 className="t-display gradient-text mt-5 !text-[clamp(2.6rem,7.5vw,5.4rem)] pb-2">{project.title}</h1>
               <p className="t-lead measure mt-6">{project.summary}</p>
             </div>
 
@@ -159,12 +159,12 @@ export default async function ProjectPage({
               <dl className="space-y-4">
                 <div>
                   <dt className="t-small">Organización</dt>
-                  <dd className="mt-0.5 text-crema">{project.organization}</dd>
+                  <dd className="mt-0.5 text-ink">{project.organization}</dd>
                 </div>
                 {project.period && (
                   <div>
                     <dt className="t-small">Período</dt>
-                    <dd className="mt-0.5 text-crema">{project.period}</dd>
+                    <dd className="mt-0.5 text-ink">{project.period}</dd>
                   </div>
                 )}
                 <div>
@@ -175,7 +175,7 @@ export default async function ProjectPage({
                 </div>
                 <div>
                   <dt className="t-small">Mi rol</dt>
-                  <dd className="mt-0.5 text-crema">{project.role.title}</dd>
+                  <dd className="mt-0.5 text-ink">{project.role.title}</dd>
                 </div>
               </dl>
               {project.teamNote && <p className="t-small mt-4 border-t border-line pt-3">{project.teamNote}</p>}
@@ -199,13 +199,13 @@ export default async function ProjectPage({
         <div className="wrap grid gap-x-10 gap-y-12 pb-10 pt-16 lg:grid-cols-12">
           <aside className="lg:col-span-3">
             <nav aria-label="Secciones del caso" className="lg:sticky lg:top-28">
-              <p className="t-small font-medium text-caramelo">En esta página</p>
+              <p className="t-small font-medium text-soft">En esta página</p>
               <ul className="mt-3 space-y-1 border-l border-line">
                 {sections.map((section) => (
                   <li key={section.id}>
                     <a
                       href={`#${section.id}`}
-                      className="-ml-px block border-l border-transparent py-1 pl-4 text-[0.95rem] text-fg-muted no-underline transition-colors hover:border-cobre hover:text-crema"
+                      className="-ml-px block border-l border-transparent py-1 pl-4 text-[0.95rem] text-fg-muted no-underline transition-colors hover:border-violet hover:text-ink"
                     >
                       {section.label}
                     </a>
@@ -229,7 +229,7 @@ export default async function ProjectPage({
             </CaseSection>
 
             <CaseSection id="mi-papel" title="Mi papel y contribuciones">
-              <p className="font-medium text-caramelo">{project.role.title}</p>
+              <p className="font-medium text-soft">{project.role.title}</p>
               <div className="mt-4">
                 <Bullets items={project.role.contributions} />
               </div>
@@ -245,11 +245,11 @@ export default async function ProjectPage({
                     key={item.name}
                     className="grid gap-x-6 gap-y-1 border-b border-line py-3.5 sm:grid-cols-[13rem_1fr_7rem]"
                   >
-                    <span className="flex items-center gap-2.5 text-crema">
+                    <span className="flex items-center gap-2.5 text-ink">
                       <span
                         aria-hidden="true"
                         className={`size-2 shrink-0 ${
-                          item.scope === "mine" ? "bg-cobre" : "border border-caramelo/70"
+                          item.scope === "mine" ? "bg-violet" : "border border-soft/70"
                         }`}
                       />
                       {item.name}
@@ -267,8 +267,8 @@ export default async function ProjectPage({
               <CaseSection id="decisiones" title="Decisiones técnicas">
                 <ul className="space-y-7">
                   {project.decisions.map((decision) => (
-                    <li key={decision.title} className="border-l-2 border-cobre pl-5">
-                      <h3 className="font-sans text-[1.05rem] font-semibold text-crema">{decision.title}</h3>
+                    <li key={decision.title} className="border-l-2 border-violet pl-5">
+                      <h3 className="font-sans text-[1.05rem] font-semibold text-ink">{decision.title}</h3>
                       <p className="measure mt-1.5">{decision.body}</p>
                     </li>
                   ))}
@@ -332,7 +332,7 @@ export default async function ProjectPage({
           <p className="t-small">Siguiente proyecto</p>
           <Link
             href={`/proyectos/${next.slug}`}
-            className="t-h2 mt-2 inline-block !text-[clamp(1.8rem,4.5vw,3rem)] no-underline transition-colors hover:text-caramelo"
+            className="t-h2 mt-2 inline-block !text-[clamp(1.8rem,4.5vw,3rem)] no-underline transition-colors hover:text-soft"
           >
             {next.title}
           </Link>

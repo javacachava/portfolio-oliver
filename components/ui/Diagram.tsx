@@ -206,7 +206,7 @@ function buildDescription(diagram: ProjectDiagram): string {
 }
 
 /**
- * Diagrama de componentes dibujado como pistas de cobre. Genera dos versiones del mismo
+ * Diagrama de componentes dibujado como pistas de luz. Genera dos versiones del mismo
  * diagrama (horizontal y vertical) y el CSS muestra la que cabe en la pantalla.
  */
 export default function Diagram({
@@ -253,10 +253,10 @@ export default function Diagram({
                   aria-hidden="true"
                   className={`inline-block h-3 w-5 rounded-[2px] border ${
                     kind === "mine"
-                      ? "border-accent bg-accent/20"
+                      ? "border-soft bg-violet/30"
                       : kind === "external"
-                        ? "border-dashed border-accent-soft/70"
-                        : "border-accent-soft/60"
+                        ? "border-dashed border-soft/70"
+                        : "border-soft/50"
                   }`}
                 />
                 {diagram.kindLabels?.[kind] ?? nodeKindLabels[kind]}

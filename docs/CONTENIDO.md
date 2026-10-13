@@ -13,7 +13,7 @@ Guía para mantener el contenido y registro de lo que está verificado y lo que 
 | Experiencia | `data/experience.ts` |
 | Competencias (práctica vs. formación académica) | `data/skills.ts` |
 | Formación, cursos, reconocimientos y participaciones | `data/education.ts` |
-| Colores (paleta Espresso Tech), tipografía, movimiento y componentes base | `app/globals.css` |
+| Colores (tema espacial violeta y cian), tipografía, movimiento y componentes base | `app/globals.css` |
 
 Agregar un proyecto: añade un objeto a `projects` en `data/projects.ts`. La ficha `/proyectos/[slug]`, el listado, el filtro y el sitemap se generan solos.
 

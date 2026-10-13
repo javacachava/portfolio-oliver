@@ -28,9 +28,9 @@ function CourseItem({ course, dashed = false }: { course: Course; dashed?: boole
     .join(". ");
   return (
     <li
-      className={`reveal border-l-2 py-1 pl-5 ${dashed ? "border-dashed border-caramelo/60" : "border-cobre"}`}
+      className={`reveal border-l-2 py-1 pl-5 ${dashed ? "border-dashed border-soft/60" : "border-violet"}`}
     >
-      <p className="text-crema">{course.title}</p>
+      <p className="text-ink">{course.title}</p>
       <p className="t-small">{details}.</p>
       {course.note && <p className="t-small mt-0.5 text-fg">{course.note}.</p>}
     </li>
@@ -57,18 +57,18 @@ export default function EducationPage() {
           {formalEducation.map((item) => (
             <li
               key={item.title}
-              className="reveal grid gap-x-8 gap-y-2 border-t-2 border-cobre py-7 first:mt-0 sm:grid-cols-[11rem_1fr]"
+              className="reveal grid gap-x-8 gap-y-2 border-t-2 border-violet py-7 first:mt-0 sm:grid-cols-[11rem_1fr]"
             >
               <p className="t-small">{item.period}</p>
               <div>
                 <h3 className="t-h3">{item.title}</h3>
                 <p className="t-small mt-1">{item.institution}</p>
-                <p className="mt-3 font-medium text-caramelo">{item.status}</p>
+                <p className="mt-3 font-medium text-soft">{item.status}</p>
                 {item.details.length > 0 && (
                   <ul className="measure mt-3 space-y-2">
                     {item.details.map((detail) => (
                       <li key={detail} className="flex gap-3">
-                        <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-cobre" />
+                        <span aria-hidden="true" className="mt-[0.75em] h-px w-4 shrink-0 bg-violet" />
                         <span>{detail}</span>
                       </li>
                     ))}
@@ -80,7 +80,7 @@ export default function EducationPage() {
         </ol>
       </Section>
 
-      <Section id="en-curso" title="En curso o por iniciar" band="mocha">
+      <Section id="en-curso" title="En curso o por iniciar" band="nebula">
         <ul className="space-y-5">
           {inProgress.map((course) => (
             <CourseItem key={course.title} course={course} dashed />
@@ -111,11 +111,11 @@ export default function EducationPage() {
         </div>
       </Section>
 
-      <Section id="reconocimientos" title="Reconocimientos" band="mocha">
+      <Section id="reconocimientos" title="Reconocimientos" band="nebula">
         <ul className="space-y-6">
           {recognitions.map((item) => (
-            <li key={item.title} className="reveal border-l-2 border-cobre py-1 pl-5">
-              <p className="text-crema">{item.title}</p>
+            <li key={item.title} className="reveal border-l-2 border-violet py-1 pl-5">
+              <p className="text-ink">{item.title}</p>
               <p className="t-small">
                 {[item.year, item.organizer, item.project ? `Proyecto: ${item.project}` : null]
                   .filter(Boolean)
@@ -135,8 +135,8 @@ export default function EducationPage() {
       >
         <ul className="space-y-6">
           {participations.map((item) => (
-            <li key={item.title} className="reveal border-l-2 border-dashed border-caramelo/60 py-1 pl-5">
-              <p className="text-crema">{item.title}</p>
+            <li key={item.title} className="reveal border-l-2 border-dashed border-soft/60 py-1 pl-5">
+              <p className="text-ink">{item.title}</p>
               {(item.year || item.organizer || item.project) && (
                 <p className="t-small">
                   {[item.year, item.organizer, item.project ? `Proyecto: ${item.project}` : null]

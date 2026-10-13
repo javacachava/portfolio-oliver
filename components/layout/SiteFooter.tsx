@@ -2,82 +2,72 @@ import { Download, Mail } from "@/components/ui/Icons";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { profile } from "@/data/profile";
 
-const contactLinks = [
-  { label: "Correo", text: profile.email, href: `mailto:${profile.email}`, Icon: Mail },
-  {
-    label: "GitHub",
-    text: profile.github.label,
-    href: profile.github.href,
-    Icon: GithubIcon,
-    external: true,
-  },
-  {
-    label: "LinkedIn",
-    text: profile.linkedin.label,
-    href: profile.linkedin.href,
-    Icon: LinkedinIcon,
-    external: true,
-  },
-  {
-    label: "Currículum",
-    text: "Descargar CV en PDF",
-    href: profile.cv,
-    Icon: Download,
-    external: true,
-  },
-] as const;
-
 export default function SiteFooter() {
   return (
     <footer id="contacto" aria-labelledby="contacto-titulo">
-      <div className="band-cobre">
-        <div className="wrap grid gap-x-10 gap-y-12 py-20 sm:py-28 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <h2 id="contacto-titulo" className="t-display !text-[clamp(2.8rem,8vw,6.4rem)]">
-              Hablemos de
-              <br />
-              lo que sigue.
-            </h2>
-            <p className="measure t-lead mt-8 !text-espresso">
-              Busco oportunidades laborales, pasantías, becas y colaboraciones en desarrollo de
-              software, ciberseguridad y datos e IA aplicada. Escríbeme por correo.
-            </p>
+      <div className="relative overflow-hidden border-t border-line">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(112,66,248,0.28),transparent)]"
+        />
+        <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 opacity-50" />
+        <div className="wrap relative flex flex-col items-center py-24 text-center sm:py-32">
+          <p className="pill">Abierto a oportunidades, pasantías, becas y colaboraciones</p>
+          <h2 id="contacto-titulo" className="t-display gradient-text mt-8 pb-2">
+            ¿Hablamos?
+          </h2>
+          <p className="t-lead measure mt-5">
+            Busco aportar en desarrollo de software, ciberseguridad y datos e IA aplicada. Escríbeme
+            por correo o encuéntrame en GitHub y LinkedIn.
+          </p>
+
+          <div className="mt-10 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+            <a href={`mailto:${profile.email}`} className="btn btn-primary">
+              <Mail size={17} />
+              {profile.email}
+            </a>
             <a
-              href={`mailto:${profile.email}`}
-              className="btn btn-primary mt-8 w-full sm:w-auto"
+              href={profile.cv}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost"
             >
-              Escribir un correo
+              <Download size={17} />
+              Descargar CV
+              <span className="sr-only"> (PDF, se abre en una pestaña nueva)</span>
             </a>
           </div>
 
-          <ul className="lg:col-span-5 lg:col-start-8">
-            {contactLinks.map(({ label, text, href, Icon, ...rest }) => (
-              <li key={label} className="border-t border-espresso/30 last:border-b">
-                <a
-                  href={href}
-                  className="group flex min-h-16 items-center gap-4 py-3 text-espresso no-underline"
-                  {...("external" in rest
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  <Icon size={20} className="shrink-0" />
-                  <span className="grid">
-                    <span className="text-[0.82rem] font-medium text-espresso/80">{label}</span>
-                    <span className="break-all font-medium underline decoration-espresso/40 underline-offset-4 transition-colors group-hover:decoration-espresso">
-                      {text}
-                      {"external" in rest && (
-                        <span className="sr-only"> (se abre en una pestaña nueva)</span>
-                      )}
-                    </span>
-                  </span>
-                </a>
-              </li>
-            ))}
+          <ul className="mt-8 flex flex-wrap justify-center gap-3">
+            <li>
+              <a
+                href={profile.github.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/40 bg-nebula/60 px-4 py-1.5 font-mono text-[0.78rem] text-ink no-underline transition-colors hover:border-soft hover:bg-violet/15"
+              >
+                <GithubIcon size={15} />
+                {profile.github.label}
+                <span className="sr-only"> (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={profile.linkedin.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/40 bg-nebula/60 px-4 py-1.5 font-mono text-[0.78rem] text-ink no-underline transition-colors hover:border-soft hover:bg-violet/15"
+              >
+                <LinkedinIcon size={15} />
+                {profile.linkedin.label}
+                <span className="sr-only"> (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-line bg-espresso">
+      <div className="border-t border-line bg-void/80">
         <div className="wrap flex flex-col gap-2 py-6 text-[0.85rem] text-fg-muted sm:flex-row sm:justify-between">
           <p>© 2026 {profile.name}</p>
           <p>

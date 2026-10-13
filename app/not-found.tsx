@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <section aria-labelledby="no-encontrada" className="wrap py-28">
-      <h1 id="no-encontrada" className="t-display !text-[clamp(3rem,10vw,7rem)]">
+      <h1 id="no-encontrada" className="t-display gradient-text !text-[clamp(2.8rem,8.5vw,6rem)] pb-2">
         Página no encontrada
       </h1>
       <p className="t-lead measure mt-7">
