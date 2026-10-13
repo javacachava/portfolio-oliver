@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Oliver Ascencio — Software, ciberseguridad e IA aplicada";
+export const alt = "Oliver Ascencio — Desarrollador Full-Stack";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default function OgImage() {
               fontWeight: 600,
             }}
           >
-            Ingeniería de Software · Cofundador de WUJU
+            Disponible para roles Full-Stack
           </div>
           <div
             style={{
@@ -78,7 +78,7 @@ export default function OgImage() {
               fontWeight: 500,
             }}
           >
-            Software · Ciberseguridad · IA aplicada · Santa Ana, El Salvador
+            Desarrollador Full-Stack · Santa Ana, El Salvador
           </div>
           <div
             style={{
@@ -89,8 +89,8 @@ export default function OgImage() {
               lineHeight: 1.5,
             }}
           >
-            Estudiante de Ingeniería en Desarrollo de Software y cofundador de
-            WUJU, con proyectos de software, datos e IA aplicada.
+            Construyo software que resuelve problemas reales en El Salvador.
+            Backend sólido, producto con propósito.
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          {["Python", "Node.js", "PostgreSQL", "RBAC", "IA y datos"].map((tag) => (
+          {["TypeScript", "Node.js", "React", "PostgreSQL", "Docker"].map((tag) => (
             <div
               key={tag}
               style={{
@@ -135,7 +135,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          oliver-ascencio.wuju.dev
+          oliver.wuju.dev
         </div>
       </div>
     ),

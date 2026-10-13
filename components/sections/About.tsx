@@ -2,21 +2,33 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  BookOpenCheck,
-  ChevronLeft,
-  ChevronRight,
-  Cloud,
-  GraduationCap,
-  Languages,
-  LockKeyhole,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
-const PORTRAITS = [
-  { src: "/images/oliver.png", label: "ILUSTRACIÓN" },
+// Skins del personaje — agregar imágenes aquí (pixel-art, fotos reales…)
+const SKINS = [
+  { src: "/images/oliver.png", label: "PIXEL" },
   { src: "/images/oliver-skin2.png", label: "RETRATO" },
+];
+
+const SPECIAL_MOVES = [
+  {
+    name: "Arquitectura backend",
+    desc: "Modelado ER · esquemas relacionales y geoespaciales",
+  },
+  {
+    name: "Documentación técnica",
+    desc: "Nivel tesis: requisitos, diagramas, specs",
+  },
+  {
+    name: "Producto end-to-end",
+    desc: "De idea a cliente real en producción",
+  },
+  {
+    name: "Negociación & sociedades",
+    desc: "Contratos de sociedad · acuerdos freelance",
+  },
 ];
 
 const PURPLE = "#7042f8";
@@ -24,303 +36,466 @@ const CYAN = "#06b6d4";
 const GREEN = "#00ff9f";
 const VIOLET = "#a78bfa";
 
-const TRAINING = [
+// Autoevaluación auditada contra los repos reales — números honestos
+const dominios = [
+  { name: "Vue 3 · Pinia · Vitest", value: 90, desc: "899 tests · PWA offline · MSW" },
+  { name: "Laravel · PHP",          value: 80, desc: "PHPStan nv6 · 550 tests · Pint" },
+  { name: "Python · FastAPI",       value: 75, desc: "pytest · seguridad aplicada" },
+  { name: "Django",                 value: 72, desc: "HTMX · tests de admin" },
+  { name: "Supabase · Postgres",    value: 65, desc: "RLS · threat modeling" },
+  { name: "Three.js · JS vanilla",  value: 65, desc: "juego completo jugable" },
+  { name: "React",                  value: 62, desc: "UI en 4 proyectos" },
+  { name: "Node · Express",         value: 62, desc: "bot en producción · HMAC" },
+  { name: "Next.js",                value: 60, desc: "este portfolio · VPS propio" },
+  { name: "Docker · DevOps",        value: 58, desc: "Compose en prod · multi-stage" },
+  { name: "NestJS",                 value: 45, desc: "API geoespacial · en pausa" },
+  { name: "Spring Boot · Java",     value: 10, desc: "recién empezando" },
+  { name: "Flutter · Dart",         value: 5,  desc: "apenas arrancado" },
+];
+
+const transversales = [
+  { name: "Seguridad",       value: 58, desc: "RLS · HMAC · CSRF · auditorías propias" },
+  { name: "Testing",         value: 60, desc: "1400+ tests donde se aplica" },
+  { name: "Higiene de repo", value: 55, desc: "limpieza en curso" },
+  { name: "Documentación",   value: 40, desc: "en mejora activa" },
+];
+
+function tierOf(pct: number) {
+  if (pct >= 80) return { color: GREEN,  label: "PRODUCCIÓN" };
+  if (pct >= 60) return { color: CYAN,   label: "SÓLIDO" };
+  if (pct >= 40) return { color: VIOLET, label: "EN DESARROLLO" };
+  return { color: "#9a91c5", label: "APRENDIENDO" };
+}
+
+const education = [
   {
-    title: "TSU en Ciberseguridad",
+    level: "Ingeniería en Desarrollo de Software",
+    institution: "UNICAES · Santa Ana",
+    status: "2.° año · 2025–2029",
+    cum: "8.69",
+    cumLabel: "CUM",
+    color: PURPLE,
+  },
+  {
+    level: "TSU en Ciberseguridad",
     institution: "ESIT / MINED · aval INFOTEC México",
-    detail: "31/31 materias aprobadas · servicio social completado",
-    badge: "GRADUACIÓN PENDIENTE",
-    icon: GraduationCap,
+    status: "Graduando · Servicio social completado",
+    cum: "8.89",
+    cumLabel: "CUM",
     color: CYAN,
   },
   {
-    title: "Fundamentos de Ciberseguridad",
-    institution: "ESIT / AECID",
-    detail: "CompTIA Security · 20 horas · 2025 · curso",
-    badge: "SEGURIDAD",
-    icon: LockKeyhole,
+    level: "Bachillerato Técnico Vocacional ITSI",
+    institution: "Centro Escolar INSA",
+    status: "Finalizado · 1.er lugar · Diploma de Honor",
+    cum: null,
+    cumLabel: "",
+    color: GREEN,
+  },
+];
+
+const languages = [
+  {
+    lang: "Español",
+    level: "Nativo",
+    sublevel: "100% fluidez oral y escrita",
+    value: 100,
     color: GREEN,
   },
   {
-    title: "Fundamentos de AWS Cloud",
-    institution: "ESIT / AECID",
-    detail: "20 horas · 2025 · curso",
-    badge: "CLOUD",
-    icon: Cloud,
-    color: VIOLET,
+    lang: "Inglés",
+    level: "En progreso → B2",
+    sublevel: "Lectura técnica fluida · Clases intensivas en curso",
+    value: 32,
+    color: PURPLE,
   },
-] as const;
+];
 
-const IDIOMAS = [
-  { name: "Español", level: "Nativo" },
-  { name: "Inglés", level: "B1" },
-] as const;
-
-function TrainingItem({ item }: { item: (typeof TRAINING)[number] }) {
-  const Icon = item.icon;
-
+function DominioBar({
+  name,
+  value,
+  desc,
+  index,
+}: {
+  name: string;
+  value: number;
+  desc?: string;
+  index: number;
+}) {
+  const t = tierOf(value);
+  const SEGMENTS = 20;
+  const filled = Math.round((value / 100) * SEGMENTS);
   return (
-    <li
-      className="relative overflow-hidden rounded-lg border px-3 py-3"
-      style={{ borderColor: `${item.color}38`, background: `${item.color}08` }}
-    >
-      <div className="flex gap-2.5">
-        <span
-          className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-md"
-          style={{ color: item.color, background: `${item.color}18` }}
-        >
-          <Icon size={15} aria-hidden="true" />
+    <div>
+      <div className="flex justify-between items-baseline mb-1.5 gap-2">
+        <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--foreground)] truncate">
+          {name}
         </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-2">
-            <p className="text-xs font-semibold leading-snug text-[var(--foreground)]">{item.title}</p>
-            <span
-              className="shrink-0 rounded border px-1.5 py-0.5 font-mono text-[8px] font-bold tracking-wide"
-              style={{ color: item.color, borderColor: `${item.color}45`, background: `${item.color}10` }}
-            >
-              {item.badge}
-            </span>
-          </div>
-          <p className="mt-1 font-mono text-[9px] text-[var(--muted)]">{item.institution}</p>
-          <p className="mt-1 font-mono text-[9px] leading-snug" style={{ color: `${item.color}d9` }}>
-            {item.detail}
-          </p>
-        </div>
+        <span className="flex items-baseline gap-2 shrink-0">
+          <span
+            className="font-mono text-[8px] tracking-wider px-1.5 py-px rounded"
+            style={{
+              color: t.color,
+              background: `${t.color}14`,
+              border: `1px solid ${t.color}30`,
+            }}
+          >
+            {t.label}
+          </span>
+          <span
+            className="font-mono text-[11px] font-bold tabular-nums"
+            style={{ color: t.color }}
+          >
+            {value}%
+          </span>
+        </span>
       </div>
-    </li>
+      <div className="flex gap-[3px]">
+        {Array.from({ length: SEGMENTS }).map((_, i) => (
+          <motion.span
+            key={i}
+            className="h-2 flex-1 rounded-[2px]"
+            style={{
+              background: i < filled ? t.color : "var(--border)",
+              boxShadow: i < filled ? `0 0 6px ${t.color}70` : "none",
+            }}
+            initial={{ opacity: 0, scaleY: 0.3 }}
+            whileInView={{ opacity: i < filled ? 1 : 0.45, scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.25, delay: index * 0.03 + i * 0.012 }}
+          />
+        ))}
+      </div>
+      {desc && (
+        <p className="font-mono text-[10px] text-[var(--muted)] mt-1 opacity-70">
+          {desc}
+        </p>
+      )}
+    </div>
   );
 }
 
 export default function About() {
-  const [portrait, setPortrait] = useState(1);
-  const currentPortrait = PORTRAITS[portrait];
-
-  const showPreviousPortrait = () => {
-    setPortrait((current) => (current - 1 + PORTRAITS.length) % PORTRAITS.length);
-  };
-
-  const showNextPortrait = () => {
-    setPortrait((current) => (current + 1) % PORTRAITS.length);
-  };
-
+  const [skin, setSkin] = useState(0);
   return (
-    <section id="sobre-mi" aria-labelledby="about-title" className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-12 h-[34rem] opacity-45"
-        style={{
-          background:
-            "radial-gradient(circle at 14% 34%, rgba(112,66,248,.18), transparent 30%), radial-gradient(circle at 86% 8%, rgba(6,182,212,.16), transparent 28%)",
-        }}
-      />
+    <section id="sobre-mi" className="py-12 sm:py-24 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto">
 
-      <div className="relative mx-auto max-w-6xl">
-        <motion.header
+        <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-8 max-w-4xl sm:mb-12"
+          className="mb-8 sm:mb-12"
         >
           <SectionEyebrow className="mb-3">Perfil</SectionEyebrow>
-          <h2 id="about-title" className="text-3xl font-bold text-[var(--foreground)] sm:text-4xl">
-            Software, seguridad y datos, con la misma disciplina.
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)]">
+            Sobre mí
           </h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-            Soy estudiante de Ingeniería en Desarrollo de Software y tengo completados los
-            requisitos académicos del TSU en Ciberseguridad; mi graduación está pendiente. Me
-            interesan el desarrollo seguro de software, la IA aplicada y, a largo plazo, la
-            arquitectura de seguridad.
-          </p>
-        </motion.header>
+        </motion.div>
 
-        <div className="grid items-start gap-6 sm:gap-10 lg:grid-cols-[300px_1fr]">
-          <aside className="flex flex-col gap-5" aria-label="Perfil y formación de Oliver Ascencio">
-            <motion.div
-              initial={{ opacity: 0, x: -28 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55 }}
-              className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]"
-              style={{ boxShadow: "0 18px 48px rgba(112,66,248,.10)" }}
-            >
-              <div className="flex items-center justify-between gap-3 border-b border-[#7042f8]/30 bg-[#7042f8]/10 px-5 py-2.5">
-                <span className="font-mono text-[10px] tracking-wider text-[#b49bff]">PERFIL PROFESIONAL // 01</span>
-                <span className="font-mono text-[10px] tracking-wider text-[#b49bff]">SV</span>
-              </div>
+        <div className="grid lg:grid-cols-[280px_1fr] gap-6 sm:gap-10 items-start">
 
-              <div className="px-5 pb-3 pt-5">
+          {/* ─── COLUMNA IZQUIERDA: card + special moves ─── */}
+          <div className="flex flex-col gap-5">
+
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="pixel-card rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden"
+            style={{ "--pixel-shadow": "#7042f8" } as React.CSSProperties}
+          >
+            {/* Top bar */}
+            <div className="bg-[#7042f8]/10 border-b border-[#7042f8]/30 px-5 py-2.5 flex items-center justify-between">
+              <span className="font-mono text-[10px] tracking-wider uppercase text-[#b49bff]">Player 01</span>
+              <span className="font-mono text-[10px] tracking-wider uppercase text-[#b49bff]">El Salvador</span>
+            </div>
+
+            {/* Selector de skin — estilo selección de personaje */}
+            <div className="px-5 pt-5 pb-2">
+              <div
+                className="w-full aspect-[4/5] rounded-lg overflow-hidden relative group/skin"
+                style={{
+                  border: "2px solid #7042f8",
+                  boxShadow: "4px 4px 0 rgba(112,66,248,0.25), 0 0 30px rgba(6,182,212,0.1)",
+                  background: "linear-gradient(160deg, #0d0d24 0%, #13132d 100%)",
+                }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={skin}
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={SKINS[skin].src}
+                      alt={`Oliver Ascencio — ${SKINS[skin].label}`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="280px"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Scanlines holo */}
                 <div
-                  className="relative aspect-[4/5] w-full overflow-hidden rounded-lg border-2 border-[#7042f8] bg-[#0d0d24]"
-                  style={{ boxShadow: "4px 4px 0 rgba(112,66,248,.22), 0 0 34px rgba(6,182,212,.12)" }}
-                >
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={portrait}
-                      initial={{ opacity: 0, scale: 1.04 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.98 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute inset-0"
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 3px)",
+                  }}
+                />
+
+                <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#7042f8]" />
+                <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#7042f8]" />
+                <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#7042f8]" />
+                <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#7042f8]" />
+
+                {/* Flechas ◄ ► */}
+                {SKINS.length > 1 && (
+                  <>
+                    <button
+                      aria-label="Skin anterior"
+                      onClick={() => setSkin((skin - 1 + SKINS.length) % SKINS.length)}
+                      className="absolute left-1.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-md flex items-center justify-center border border-[#7042f8]/50 bg-[#030014]/70 text-[#b49bff] hover:bg-[#7042f8]/30 hover:text-white transition-colors cursor-pointer"
                     >
-                      <Image
-                        src={currentPortrait.src}
-                        alt={`Oliver Ascencio — ${currentPortrait.label.toLowerCase()}`}
-                        fill
-                        className="object-cover object-top"
-                        sizes="(min-width: 1024px) 300px, 100vw"
-                      />
-                    </motion.div>
-                  </AnimatePresence>
-
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.08) 2px, rgba(0,0,0,.08) 3px)",
-                    }}
-                  />
-                  <div aria-hidden="true" className="absolute left-2 top-2 h-4 w-4 border-l-2 border-t-2 border-[#b49bff]" />
-                  <div aria-hidden="true" className="absolute right-2 top-2 h-4 w-4 border-r-2 border-t-2 border-[#b49bff]" />
-                  <div aria-hidden="true" className="absolute bottom-2 left-2 h-4 w-4 border-b-2 border-l-2 border-[#b49bff]" />
-                  <div aria-hidden="true" className="absolute bottom-2 right-2 h-4 w-4 border-b-2 border-r-2 border-[#b49bff]" />
-
-                  {PORTRAITS.length > 1 && (
-                    <>
-                      <button
-                        type="button"
-                        aria-label="Mostrar retrato anterior"
-                        onClick={showPreviousPortrait}
-                        className="absolute left-1.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-md border border-[#7042f8]/50 bg-[#030014]/75 text-[#b49bff] transition-colors hover:bg-[#7042f8]/30 hover:text-white cursor-pointer"
-                      >
-                        <ChevronLeft size={16} />
-                      </button>
-                      <button
-                        type="button"
-                        aria-label="Mostrar retrato siguiente"
-                        onClick={showNextPortrait}
-                        className="absolute right-1.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-md border border-[#7042f8]/50 bg-[#030014]/75 text-[#b49bff] transition-colors hover:bg-[#7042f8]/30 hover:text-white cursor-pointer"
-                      >
-                        <ChevronRight size={16} />
-                      </button>
-                    </>
-                  )}
-
-                  <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-md border border-[#7042f8]/40 bg-[#030014]/80 px-2.5 py-1 backdrop-blur-sm">
-                    <span className="font-mono text-[9px] tracking-widest text-[#b49bff]">
-                      {String(portrait + 1).padStart(2, "0")}/{String(PORTRAITS.length).padStart(2, "0")}
-                    </span>
-                    <span className="font-mono text-[9px] tracking-widest text-[#06b6d4]">{currentPortrait.label}</span>
-                  </div>
-                </div>
-
-                {PORTRAITS.length > 1 && (
-                  <div className="mt-3 flex justify-center gap-1.5" aria-label="Seleccionar retrato">
-                    {PORTRAITS.map((item, index) => (
-                      <button
-                        key={item.label}
-                        type="button"
-                        aria-label={`Mostrar ${item.label.toLowerCase()}`}
-                        aria-pressed={index === portrait}
-                        onClick={() => setPortrait(index)}
-                        className="h-1.5 rounded-full transition-all cursor-pointer"
-                        style={{ width: index === portrait ? 18 : 6, background: index === portrait ? PURPLE : "var(--border)" }}
-                      />
-                    ))}
-                  </div>
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button
+                      aria-label="Skin siguiente"
+                      onClick={() => setSkin((skin + 1) % SKINS.length)}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-md flex items-center justify-center border border-[#7042f8]/50 bg-[#030014]/70 text-[#b49bff] hover:bg-[#7042f8]/30 hover:text-white transition-colors cursor-pointer"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </>
                 )}
+
+                {/* Etiqueta de skin */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-2.5 py-1 rounded-md border border-[#7042f8]/40 bg-[#030014]/80 backdrop-blur-sm">
+                  <span className="font-mono text-[9px] tracking-widest text-[#b49bff]">
+                    SKIN {String(skin + 1).padStart(2, "0")}/{String(SKINS.length).padStart(2, "0")}
+                  </span>
+                  <span className="font-mono text-[9px] tracking-widest text-[#06b6d4]">
+                    {SKINS[skin].label}
+                  </span>
+                </div>
               </div>
 
-              <div className="px-5 pb-4 pt-2">
-                <h3 className="text-lg font-bold leading-5 text-[var(--foreground)]">Oliver Ascencio</h3>
-                <p className="mb-3 mt-1 font-mono text-xs text-[var(--accent)]">Software · Ciberseguridad · IA aplicada</p>
-                <p className="text-xs leading-relaxed text-[var(--muted)]">
-                  Estudiante de Ingeniería en Desarrollo de Software, con el TSU en Ciberseguridad
-                  pendiente de graduación. Cofundador de WUJU.
-                </p>
-              </div>
+              {/* Dots */}
+              {SKINS.length > 1 && (
+                <div className="flex justify-center gap-1.5 mt-2.5">
+                  {SKINS.map((s, i) => (
+                    <button
+                      key={s.label}
+                      aria-label={`Skin ${s.label}`}
+                      onClick={() => setSkin(i)}
+                      className="h-1.5 rounded-full transition-all cursor-pointer"
+                      style={{
+                        width: i === skin ? 18 : 6,
+                        background: i === skin ? "#7042f8" : "var(--border)",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
 
-              <div className="flex items-center justify-between gap-3 border-t border-[var(--border)] px-5 py-3">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Santa Ana, SV</span>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff]">Disponible</span>
-              </div>
-            </motion.div>
+            {/* Name & class */}
+            <div className="px-5 pt-3 pb-2">
+              <h3 className="text-base font-bold text-[var(--foreground)] leading-5 mb-0.5">
+                Oliver Ascencio
+              </h3>
+              <p className="font-mono text-xs text-[var(--accent)] mb-4">
+                Full-Stack · 20 años
+              </p>
 
-            <motion.section
-              initial={{ opacity: 0, x: -28 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-              aria-labelledby="training-title"
-              className="rounded-xl border border-[#7042f8]/30 bg-[var(--card)] p-4"
-            >
-              <div className="mb-3 flex items-center gap-2">
-                <BookOpenCheck size={15} className="text-[#b49bff]" aria-hidden="true" />
-                <h3 id="training-title" className="font-mono text-[10px] tracking-widest text-[#b49bff]">
-                  FORMACIÓN RELEVANTE
-                </h3>
-              </div>
-              <ul className="flex flex-col gap-2.5">
-                {TRAINING.map((item) => (
-                  <TrainingItem key={item.title} item={item} />
-                ))}
-              </ul>
-            </motion.section>
+              {/* Short bio */}
+              <p className="text-xs text-[var(--muted)] leading-relaxed">
+                Líder técnico full-stack. Backend TypeScript/Node.js,
+                cloud AWS/GCP y sistemas en tiempo real.
+              </p>
+            </div>
 
-            <motion.section
-              initial={{ opacity: 0, x: -28 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: 0.15 }}
-              aria-labelledby="idiomas-title"
-              className="rounded-xl border border-[#7042f8]/30 bg-[var(--card)] p-4"
-            >
-              <div className="mb-3 flex items-center gap-2">
-                <Languages size={15} className="text-[#b49bff]" aria-hidden="true" />
-                <h3 id="idiomas-title" className="font-mono text-[10px] tracking-widest text-[#b49bff]">
-                  IDIOMAS
-                </h3>
-              </div>
-              <ul className="flex flex-col gap-2">
-                {IDIOMAS.map((idioma) => (
-                  <li key={idioma.name} className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-semibold text-[var(--foreground)]">{idioma.name}</span>
-                    <span className="rounded-full border border-[var(--border)] px-2 py-0.5 font-mono text-[9px] text-[var(--muted)]">
-                      {idioma.level}
+            {/* Bottom bar */}
+            <div className="border-t border-[var(--border)] px-5 py-3 flex items-center justify-between">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Santa Ana, SV</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#b49bff] animate-pulse">Disponible</span>
+            </div>
+          </motion.div>
+
+          {/* ─── EDUCACIÓN ─── */}
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="rounded-xl border border-[#7042f8]/30 bg-[var(--card)] p-4"
+          >
+            <p className="font-mono text-[10px] tracking-widest uppercase text-[#b49bff] mb-3">
+              ▸ Educación
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {education.map((e) => (
+                <div
+                  key={e.level}
+                  className="rounded-lg px-3 py-2.5 border flex items-start justify-between gap-2"
+                  style={{ borderColor: e.color + "35", background: e.color + "08" }}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-semibold text-[var(--foreground)] leading-snug">
+                      {e.level}
+                    </p>
+                    <p className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
+                      {e.institution}
+                    </p>
+                    <p className="font-mono text-[9px] mt-0.5" style={{ color: e.color + "cc" }}>
+                      {e.status}
+                    </p>
+                  </div>
+                  {e.cum && (
+                    <span
+                      className="font-mono text-xs font-bold shrink-0"
+                      style={{ color: e.color }}
+                    >
+                      {e.cum}
                     </span>
-                  </li>
-                ))}
-              </ul>
-            </motion.section>
-          </aside>
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
+          {/* ─── SPECIAL MOVES ─── */}
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.18 }}
+            className="rounded-xl border border-[#06b6d4]/30 bg-[var(--card)] p-4"
+          >
+            <p className="font-mono text-[10px] tracking-widest uppercase text-[#06b6d4] mb-3">
+              ▸ Special moves
+            </p>
+            <ul className="flex flex-col gap-2.5">
+              {SPECIAL_MOVES.map((m) => (
+                <li key={m.name}>
+                  <p className="font-mono text-[11px] font-semibold text-[var(--foreground)]">
+                    {m.name}
+                  </p>
+                  <p className="font-mono text-[10px] text-[var(--muted)] leading-snug">
+                    {m.desc}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          </div>
+
+          {/* ─── STATS PANEL ─── */}
           <motion.div
             initial={{ opacity: 0, x: 28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.1 }}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-10"
           >
-            <p className="text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              Como cofundador y líder técnico de WUJU coordino un equipo técnico de seis personas y
-              participo en la arquitectura de CuencaOS y Terrivo; en el POS de Pizza Brava diseñé el
-              control de acceso por roles y la base de datos, y en este portfolio las cabeceras de
-              seguridad que puedes revisar en <code className="rounded bg-black/20 px-1.5 py-0.5 font-mono text-sm">next.config.ts</code>.
-            </p>
-            <p className="text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              Trabajo con equipos de cuatro a seis personas con prácticas ágiles: dividir objetivos,
-              priorizar y entregar por incrementos. El detalle técnico, por categoría y con
-              evidencia, está en{" "}
-              <a href="#skills" className="text-[var(--accent)] underline underline-offset-4 hover:text-[var(--accent-hover)]">
-                Habilidades
-              </a>{" "}
-              y{" "}
-              <a href="#proyectos" className="text-[var(--accent)] underline underline-offset-4 hover:text-[var(--accent-hover)]">
-                Proyectos
-              </a>
-              .
-            </p>
+            {/* DOMINIO POR TECNOLOGÍA */}
+            <div>
+              <p className="font-mono text-xs text-[var(--muted)] mb-2 tracking-widest uppercase">
+                Dominio por tecnología
+              </p>
+              <p className="text-xs text-[var(--muted)] mb-6 opacity-80">
+                Autoevaluación auditada contra mis propios repos — números
+                reales, no marketing.
+              </p>
+              <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
+                {dominios.map((d, i) => (
+                  <DominioBar key={d.name} {...d} index={i} />
+                ))}
+              </div>
+            </div>
+
+            {/* TRANSVERSALES */}
+            <div>
+              <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+                Transversales
+              </p>
+              <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
+                {transversales.map((d, i) => (
+                  <DominioBar key={d.name} {...d} index={i} />
+                ))}
+              </div>
+            </div>
+
+            {/* LANGUAGES */}
+            <div>
+              <p className="font-mono text-xs text-[var(--muted)] mb-5 tracking-widest uppercase">
+                Idiomas
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                {languages.map((l, li) => {
+                  const segments = 20;
+                  const filled = Math.round((l.value / 100) * segments);
+                  return (
+                    <motion.div
+                      key={l.lang}
+                      initial={{ opacity: 0, y: 14 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: li * 0.12 }}
+                      className="rounded-xl border p-4"
+                      style={{
+                        borderColor: `${l.color}30`,
+                        background: `${l.color}06`,
+                      }}
+                    >
+                      <div className="flex justify-between items-baseline mb-3 gap-2">
+                        <span className="font-mono text-[13px] font-bold text-[var(--foreground)]">
+                          {l.lang}
+                        </span>
+                        <span
+                          className="font-mono text-[9px] tracking-wider px-1.5 py-px rounded shrink-0"
+                          style={{
+                            color: l.color,
+                            background: `${l.color}14`,
+                            border: `1px solid ${l.color}30`,
+                          }}
+                        >
+                          {l.level}
+                        </span>
+                      </div>
+                      <div className="flex gap-[3px]">
+                        {Array.from({ length: segments }).map((_, i) => (
+                          <motion.span
+                            key={i}
+                            className="h-2 flex-1 rounded-[2px]"
+                            style={{
+                              background: i < filled ? l.color : "var(--border)",
+                              boxShadow: i < filled ? `0 0 6px ${l.color}70` : "none",
+                            }}
+                            initial={{ opacity: 0, scaleY: 0.3 }}
+                            whileInView={{ opacity: i < filled ? 1 : 0.45, scaleY: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.25, delay: li * 0.1 + i * 0.015 }}
+                          />
+                        ))}
+                      </div>
+                      <p className="font-mono text-[10px] text-[var(--muted)] mt-2.5 opacity-70">
+                        {l.sublevel}
+                      </p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
           </motion.div>
         </div>
       </div>

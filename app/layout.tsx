@@ -31,10 +31,10 @@ const cedarvilleCursive = Cedarville_Cursive({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://oliver-ascencio.wuju.dev"),
-  title: "Oliver Ascencio | Software, ciberseguridad e IA aplicada",
+  metadataBase: new URL("https://oliver.wuju.dev"),
+  title: "Oliver Ascencio — Desarrollador Full-Stack",
   description:
-    "Portfolio de Oliver Ascencio: estudiante de Ingeniería en Desarrollo de Software, formación técnica en ciberseguridad y cofundador de WUJU. Proyectos de software, datos e IA aplicada en El Salvador.",
+    "Portfolio de Oliver Ascencio. Desarrollador Full-Stack. Proyectos reales en TypeScript, Node.js, React y cloud. Santa Ana, El Salvador.",
   authors: [
     {
       name: "Oliver Ascencio",
@@ -42,36 +42,28 @@ export const metadata: Metadata = {
     },
   ],
   keywords: [
-    "desarrollo de software",
-    "ciberseguridad",
-    "inteligencia artificial aplicada",
-    "análisis de datos",
-    "WUJU",
-    "CuencaOS",
-    "RBAC",
-    "PostgreSQL",
-    "Python",
+    "desarrollador",
+    "full-stack",
+    "TypeScript",
     "Node.js",
+    "React",
     "El Salvador",
     "portafolio",
   ],
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
-    title: "Oliver Ascencio | Software, ciberseguridad e IA aplicada",
+    title: "Oliver Ascencio — Desarrollador Full-Stack",
     description:
-      "Estudiante de Ingeniería en Desarrollo de Software y cofundador de WUJU, con proyectos de software, ciberseguridad, datos e IA aplicada.",
-    url: "https://oliver-ascencio.wuju.dev",
+      "Construyo software que resuelve problemas reales en El Salvador. Backend sólido, producto con propósito.",
+    url: "https://oliver.wuju.dev",
     siteName: "Oliver Ascencio Portfolio",
     locale: "es_SV",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Oliver Ascencio | Software, ciberseguridad e IA aplicada",
+    title: "Oliver Ascencio — Desarrollador Full-Stack",
     description:
-      "Estudiante de Ingeniería en Desarrollo de Software y cofundador de WUJU, con proyectos de software, ciberseguridad, datos e IA aplicada.",
+      "Construyo software que resuelve problemas reales en El Salvador.",
   },
   robots: {
     index: true,

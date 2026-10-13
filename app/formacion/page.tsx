@@ -11,12 +11,12 @@ import { formacionStats } from "@/data/formacion";
 export const metadata: Metadata = {
   title: "Formación — Oliver Ascencio",
   description:
-    "Formación de Oliver Ascencio: Ingeniería en Desarrollo de Software, TSU en Ciberseguridad, bootcamps y cursos, con su estado real.",
+    "Formación académica, certificaciones gubernamentales, bootcamps y reconocimientos de Oliver Ascencio. Más de 200 horas documentadas de formación complementaria.",
 };
 
 const stats = [
   { value: formacionStats.totalHours, suffix: "h", label: "documentadas", color: "#7042f8" },
-  { value: formacionStats.totalItems, suffix: "", label: "ítems de formación", color: "#06b6d4" },
+  { value: formacionStats.totalItems, suffix: "", label: "certificaciones e ítems", color: "#06b6d4" },
   { value: formacionStats.totalInstitutions, suffix: "", label: "instituciones", color: "#00ff9f" },
 ];
 
@@ -25,19 +25,18 @@ export default function FormacionPage() {
     <>
       <DeferredStarsCanvas />
       <Navbar />
-      <main id="contenido-principal" className="relative z-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
+      <main className="relative z-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-10 sm:mb-14 text-center">
           <SectionEyebrow className="mb-3 justify-center flex">
-            Formación y estudios
+            $ cat formacion --all
           </SectionEyebrow>
           <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 w-fit mx-auto pb-2">
-            Software, ciberseguridad y datos
+            Mapa de formación
           </h1>
           <p className="text-[var(--muted)] max-w-xl mx-auto mt-3">
-            Estudios, bootcamps y cursos — {formacionStats.yearRange}. Los cursos
-            no son certificaciones profesionales; el de Scrum está inscrito y
-            todavía no comienza.
+            Cada estrella es una certificación, curso o título. Agrupadas en
+            constelaciones por categoría — {formacionStats.yearRange}.
           </p>
 
           {/* Stats */}

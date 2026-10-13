@@ -1,311 +1,170 @@
 "use client";
 
-import { SparklesIcon } from "@heroicons/react/24/solid";
-import { motion, useReducedMotion } from "framer-motion";
-import {
-  CloudCog,
-  Database,
-  LayoutTemplate,
-  ServerCog,
-  ShieldCheck,
-  UsersRound,
-  type LucideIcon,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { SparklesIcon } from "@heroicons/react/24/solid";
+import SkillIcon from "@/components/ui/SkillIcon";
+import {
+  slideInFromLeft,
+  slideInFromRight,
+  slideInFromTop,
+} from "@/lib/motion";
 
-type SkillCategory = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  /** Tecnologías y prácticas que he usado en proyectos. */
-  skills: string[];
-  /** Conocimiento adquirido en cursos, bootcamps y estudios. */
-  academic: string[];
-  Icon: LucideIcon;
-  accent: string;
-};
+interface IconSkill {
+  name: string;
+  image: string;
+  width: number;
+  height: number;
+}
 
-/**
- * Fuente: CV maestro y repositorios. Se separa lo usado en proyectos (etiqueta sólida) de la
- * formación académica (etiqueta punteada). Sin porcentajes ni niveles.
- */
-const SKILL_CATEGORIES: SkillCategory[] = [
-  {
-    eyebrow: "01 / SEGURIDAD",
-    title: "Ciberseguridad",
-    description: "Control de acceso y validación de integraciones aplicados en dos proyectos.",
-    skills: ["RBAC y mínimo privilegio (POS)", "Firma de webhook (bot)"],
-    academic: ["OWASP Top 10", "Redes", "Criptografía", "Respuesta a incidentes", "Hacking ético", "CompTIA Security (curso)"],
-    Icon: ShieldCheck,
-    accent: "#22d3ee",
-  },
-  {
-    eyebrow: "02 / DATOS E IA",
-    title: "Datos e IA",
-    description: "Modelado y consulta de datos, y análisis en Python dentro de proyectos de WUJU.",
-    skills: ["PostgreSQL", "SQLite", "Supabase", "Python (Akhet, Atria)", "Limpieza de series (FlowCore)"],
-    academic: ["MySQL", "Firestore", "ML introductorio", "IA responsable", "Vertex AI Studio", "Transformers y BERT", "Data lakes y warehouses"],
-    Icon: Database,
-    accent: "#a78bfa",
-  },
-  {
-    eyebrow: "03 / SERVIDOR",
-    title: "Backend",
-    description: "Lenguajes y frameworks de servidor usados en proyectos, no solo en cursos.",
-    skills: ["Node.js", "JavaScript", "TypeScript", "Python", "Laravel (PHP)"],
-    academic: ["Java y Spring Boot", "C#", "PHP básico"],
-    Icon: ServerCog,
-    accent: "#34d399",
-  },
-  {
-    eyebrow: "04 / INTERFAZ",
-    title: "Frontend",
-    description: "Interfaces web de aplicaciones reales: invitaciones, POS y este portfolio.",
-    skills: ["React", "Vue 3", "Next.js", "Vite", "Tailwind CSS"],
-    academic: ["HTML5", "CSS3"],
-    Icon: LayoutTemplate,
-    accent: "#f59e0b",
-  },
-  {
-    eyebrow: "05 / INFRAESTRUCTURA",
-    title: "Infraestructura",
-    description: "Servicios e infraestructura de TuGuíaSV y entorno de contenedores del POS.",
-    skills: ["DigitalOcean", "Cloudflare CDN", "SendGrid", "Docker", "Git y GitHub"],
-    academic: ["Fundamentos de AWS", "Google Cloud (cursos)", "ITIL"],
-    Icon: CloudCog,
-    accent: "#06b6d4",
-  },
-  {
-    eyebrow: "06 / EQUIPOS",
-    title: "Coordinación técnica",
-    description: "Coordinación de equipos de seis y de cuatro personas, con requisitos y entregables.",
-    skills: ["Requisitos y alcance", "Decisiones documentadas", "Seguimiento ágil", "Capacitación de usuarios"],
-    academic: ["Scrum (curso por iniciar)", "ITIL"],
-    Icon: UsersRound,
-    accent: "#f472b6",
-  },
+const ROW_LENGUAJES: IconSkill[] = [
+  { name: "JavaScript", image: "js.png", width: 65, height: 65 },
+  { name: "TypeScript", image: "ts.png", width: 80, height: 80 },
+  { name: "PHP", image: "php.svg", width: 80, height: 80 },
+  { name: "Python", image: "python.svg", width: 70, height: 70 },
+  { name: "HTML5", image: "html.png", width: 80, height: 80 },
+  { name: "CSS3", image: "css.png", width: 80, height: 80 },
 ];
 
-function CategoryCard({
-  category,
-  index,
-  reducedMotion,
-}: {
-  category: SkillCategory;
-  index: number;
-  reducedMotion: boolean | null;
-}) {
-  const { Icon } = category;
+const ROW_FRONTEND: IconSkill[] = [
+  { name: "Vue 3", image: "vuejs.svg", width: 70, height: 70 },
+  { name: "React", image: "react.png", width: 80, height: 80 },
+  { name: "Next.js", image: "next.png", width: 80, height: 80 },
+  { name: "Tailwind CSS", image: "tailwind.png", width: 80, height: 80 },
+];
 
-  return (
-    <motion.article
-      initial={reducedMotion ? false : { opacity: 0, y: 26 }}
-      whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
-      whileHover={reducedMotion ? undefined : { y: -6 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: reducedMotion ? 0 : 0.45,
-        delay: reducedMotion ? 0 : index * 0.08,
-      }}
-      className="group relative overflow-hidden rounded-2xl border bg-[#08031d]/80 p-5 backdrop-blur-sm sm:p-6"
-      style={{
-        borderColor: `${category.accent}52`,
-        boxShadow: `0 16px 42px -30px ${category.accent}`,
-      }}
-    >
-      <div
-        aria-hidden="true"
-        className="absolute -right-8 -top-8 h-28 w-28 rounded-full blur-2xl transition-opacity duration-500 group-hover:opacity-100"
-        style={{ backgroundColor: `${category.accent}2b` }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-px"
-        style={{
-          background: `linear-gradient(90deg, transparent, ${category.accent}, transparent)`,
-        }}
-      />
+const ROW_BACKEND: IconSkill[] = [
+  { name: "Laravel", image: "laravel.svg", width: 65, height: 65 },
+  { name: "FastAPI", image: "fastapi.svg", width: 70, height: 70 },
+  { name: "Django", image: "django.svg", width: 55, height: 55 },
+  { name: "NestJS", image: "nestjs.svg", width: 70, height: 70 },
+  { name: "Node.js", image: "node.png", width: 80, height: 80 },
+  { name: "Express", image: "express.png", width: 80, height: 80 },
+];
 
-      <div className="relative flex items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[var(--muted)]">
-            {category.eyebrow}
-          </p>
-          <h3 className="mt-3 text-xl font-semibold text-white">{category.title}</h3>
-        </div>
-        <span
-          aria-hidden="true"
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border"
-          style={{
-            color: category.accent,
-            borderColor: `${category.accent}65`,
-            backgroundColor: `${category.accent}15`,
-            boxShadow: `0 0 28px -8px ${category.accent}`,
-          }}
-        >
-          <Icon size={24} strokeWidth={1.75} />
-        </span>
-      </div>
+const ROW_DATA: IconSkill[] = [
+  { name: "PostgreSQL", image: "postgresql.png", width: 70, height: 70 },
+  { name: "Supabase", image: "supabase.svg", width: 62, height: 62 },
+  { name: "Firebase", image: "firebase.png", width: 55, height: 55 },
+  { name: "Docker", image: "docker.png", width: 70, height: 70 },
+  { name: "Figma", image: "figma.png", width: 50, height: 50 },
+];
 
-      <p className="relative mt-4 text-sm leading-6 text-gray-300">{category.description}</p>
-
-      <p className="relative mt-5 font-mono text-[10px] font-semibold tracking-[0.14em] text-[var(--muted)]">
-        USADO EN PROYECTOS
-      </p>
-      <ul className="relative mt-2 flex flex-wrap gap-2" aria-label={`Usado en proyectos: ${category.title}`}>
-        {category.skills.map((skill) => (
-          <li
-            key={skill}
-            className="rounded-full border px-2.5 py-1 font-mono text-[10px] leading-none"
-            style={{
-              borderColor: `${category.accent}3f`,
-              backgroundColor: `${category.accent}10`,
-              color: category.accent,
-            }}
-          >
-            {skill}
-          </li>
-        ))}
-      </ul>
-
-      <p className="relative mt-4 font-mono text-[10px] font-semibold tracking-[0.14em] text-[var(--muted)]">
-        FORMACIÓN ACADÉMICA
-      </p>
-      <ul className="relative mt-2 flex flex-wrap gap-2" aria-label={`Formación académica: ${category.title}`}>
-        {category.academic.map((item) => (
-          <li
-            key={item}
-            className="rounded-full border border-dashed px-2.5 py-1 font-mono text-[10px] leading-none text-gray-300"
-            style={{ borderColor: `${category.accent}66` }}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    </motion.article>
-  );
-}
+const EXTRA_STACK = [
+  "Pinia",
+  "Vitest",
+  "pytest",
+  "PHPStan · Pint",
+  "Three.js",
+  "HTMX",
+  "AWS Cloud",
+  "Google Cloud",
+  "Vertex AI",
+  "Redis",
+  "PostGIS",
+  "Git · GitHub",
+  "OWASP Top 10",
+  "Swagger/OpenAPI",
+];
 
 export default function Skills() {
   const { ref: sectionRef, inView } = useInView({
-    triggerOnce: false,
-    rootMargin: "180px 0px",
+    triggerOnce: true,
+    rootMargin: "300px 0px",
   });
-  const prefersReducedMotion = useReducedMotion();
-  const [showVideo, setShowVideo] = useState(false);
-
-  useEffect(() => {
-    if (!inView || prefersReducedMotion) {
-      setShowVideo(false);
-      return;
-    }
-
-    const connection = navigator as Navigator & {
-      connection?: { saveData?: boolean };
-    };
-
-    if (connection.connection?.saveData) {
-      setShowVideo(false);
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => setShowVideo(true), 180);
-    return () => window.clearTimeout(timeoutId);
-  }, [inView, prefersReducedMotion]);
 
   return (
     <section
       ref={sectionRef}
       id="skills"
-      aria-labelledby="skills-title"
-      className="relative isolate overflow-hidden px-4 py-16 sm:px-6 sm:py-24"
+      className="flex flex-col items-center justify-center gap-3 h-full relative overflow-hidden py-14 sm:py-20"
     >
-      {showVideo && (
-        <div className="pointer-events-none absolute inset-0 -z-20" aria-hidden="true">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="none"
-            className="h-full w-full object-cover opacity-35"
-          >
-            <source src="/videos/skills-bg.webm" type="video/webm" />
-          </video>
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,0,20,0.87),rgba(3,0,20,0.48),rgba(3,0,20,0.9))]" />
-        </div>
-      )}
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-70"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(112, 66, 248, 0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.07) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-          maskImage:
-            "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(112,66,248,0.25),rgba(6,182,212,0.08)_35%,transparent_68%)]"
-      />
+      {/* Header */}
       <motion.div
-        aria-hidden="true"
-        animate={prefersReducedMotion ? undefined : { rotate: 360 }}
-        transition={{ duration: 42, ease: "linear", repeat: Infinity }}
-        className="pointer-events-none absolute left-[6%] top-28 -z-10 hidden h-24 w-24 rounded-full border border-cyan-300/20 lg:block"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full h-auto flex flex-col items-center justify-center"
       >
-        <span className="absolute -right-1 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_16px_#67e8f9]" />
-      </motion.div>
-      <motion.div
-        aria-hidden="true"
-        animate={prefersReducedMotion ? undefined : { rotate: -360 }}
-        transition={{ duration: 54, ease: "linear", repeat: Infinity }}
-        className="pointer-events-none absolute bottom-20 right-[7%] -z-10 hidden h-32 w-32 rounded-full border border-violet-300/20 lg:block"
-      >
-        <span className="absolute -left-1 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-violet-300 shadow-[0_0_16px_#c4b5fd]" />
-      </motion.div>
-
-      <div className="mx-auto max-w-6xl">
-        <motion.header
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-          whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
-          className="mx-auto max-w-3xl text-center"
+        <motion.div
+          variants={slideInFromTop}
+          className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]"
         >
-          <div className="Welcome-box mx-auto border border-[#7042f88b] px-[9px] py-[8px] opacity-95">
-            <SparklesIcon className="mr-[10px] h-5 w-5 text-[#b49bff]" />
-            <span className="Welcome-text text-[13px]">Habilidades técnicas</span>
-          </div>
-          <h2
-            id="skills-title"
-            className="mt-5 text-3xl font-semibold leading-tight text-white sm:text-4xl"
-          >
-            Sin porcentajes inventados: evidencia por categoría.
+          <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
+          <h2 className="Welcome-text text-[13px]">
+            Stack probado en producción
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300 sm:text-lg">
-            Seis áreas. Cada tarjeta separa lo que he usado en proyectos, con etiqueta sólida, de
-            lo que conozco por formación académica, con etiqueta punteada.
-          </p>
-        </motion.header>
+        </motion.div>
 
-        <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-          {SKILL_CATEGORIES.map((category, index) => (
-            <CategoryCard
-              key={category.title}
-              category={category}
-              index={index}
-              reducedMotion={prefersReducedMotion}
+        <motion.div
+          variants={slideInFromLeft(0.5)}
+          className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
+        >
+          Tecnologías con las que construyo.
+        </motion.div>
+
+        <motion.div
+          variants={slideInFromRight(0.5)}
+          className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
+        >
+          Del backend a la nube, sin humo.
+        </motion.div>
+      </motion.div>
+
+      {/* Icon rows */}
+      {[ROW_LENGUAJES, ROW_FRONTEND, ROW_BACKEND, ROW_DATA].map((row, r) => (
+        <div
+          key={r}
+          className="flex w-full max-w-4xl flex-row flex-wrap justify-center items-center mt-4 gap-5 px-5 sm:px-0"
+        >
+          {row.map((skill, i) => (
+            <SkillIcon
+              key={skill.name}
+              src={skill.image}
+              name={skill.name}
+              width={skill.width}
+              height={skill.height}
+              index={i}
             />
           ))}
         </div>
-      </div>
+      ))}
+
+      {/* Extra stack chips (sin icono, mismo peso real) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="flex flex-wrap justify-center gap-2 mt-10 max-w-3xl px-5"
+      >
+        {EXTRA_STACK.map((s) => (
+          <span
+            key={s}
+            className="font-mono text-[11px] px-3 py-1.5 rounded-full border border-[#7042f8]/40 bg-[#0b0322]/60 text-gray-300"
+          >
+            {s}
+          </span>
+        ))}
+      </motion.div>
+
+      {/* Background video */}
+      {inView && (
+        <div className="w-full h-full absolute -z-10" aria-hidden="true">
+          <div className="w-full h-full opacity-30 absolute flex items-center justify-center bg-cover">
+            <video
+              className="w-full h-auto"
+              preload="none"
+              playsInline
+              loop
+              muted
+              autoPlay
+            >
+              <source src="/videos/skills-bg.webm" type="video/webm" />
+            </video>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

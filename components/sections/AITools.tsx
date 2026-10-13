@@ -78,7 +78,7 @@ export default function AITools() {
         >
           <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
           <h2 className="Welcome-text text-[13px]">
-            Automatización con revisión humana
+            IA como multiplicador, no como muleta
           </h2>
         </motion.div>
 
@@ -86,14 +86,14 @@ export default function AITools() {
           variants={slideInFromLeft(0.5)}
           className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
         >
-          Criterio antes de automatizar.
+          Ingeniería asistida por IA.
         </motion.div>
 
         <motion.div
           variants={slideInFromRight(0.5)}
           className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
         >
-          Contexto, revisión crítica y pruebas antes de integrar.
+          Specs primero, agentes después, tests siempre.
         </motion.div>
       </motion.div>
 
@@ -112,9 +112,9 @@ export default function AITools() {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="text-sm text-[var(--muted)] leading-relaxed max-w-2xl text-center mt-12"
       >
-        Uso herramientas de IA como apoyo para investigar, documentar y acelerar tareas,
-        sin delegar decisiones de seguridad: reviso el resultado, mantengo el contexto y
-        valido los cambios antes de integrarlos.
+        Programo sin IA — y la uso como multiplicador: specs primero, agentes
+        para ejecutar, revisión crítica del output y tests antes de integrar.
+        El flujo con el que se construyó este portfolio.
       </motion.p>
     </section>
   );

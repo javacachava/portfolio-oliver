@@ -26,7 +26,7 @@ export default function FormacionList() {
                 <span className="text-sm text-[var(--foreground)] leading-snug">
                   {item.name}
                   {item.detail && (
-                    <span className="text-gray-400 text-xs"> — {item.detail}</span>
+                    <span className="text-gray-500 text-xs"> — {item.detail}</span>
                   )}
                 </span>
                 <span className="font-mono text-[11px] text-[var(--muted)] shrink-0 sm:ml-auto sm:text-right">

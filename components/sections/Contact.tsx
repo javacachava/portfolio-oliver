@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { slideInFromTop } from "@/lib/motion";
@@ -34,7 +34,7 @@ export default function Contact() {
       >
         <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
         <span className="Welcome-text text-[13px]">
-          Abierto a oportunidades · El Salvador
+          Disponible para proyectos remotos o en El Salvador
         </span>
       </motion.div>
 
@@ -45,7 +45,7 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.15 }}
         className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 pb-2"
       >
-        ¿Hablamos?
+        Hablemos.
       </motion.h2>
 
       <motion.p
@@ -55,8 +55,7 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.25 }}
         className="text-[var(--muted)] max-w-md mt-3 mb-10"
       >
-        Busco oportunidades laborales, pasantías, becas y colaboraciones en
-        desarrollo de software, ciberseguridad y datos e IA aplicada.
+        ¿Un proyecto o una idea? Un correo y seguimos la conversación.
       </motion.p>
 
       {/* CTAs */}
@@ -73,15 +72,6 @@ export default function Contact() {
         >
           <Mail size={15} />
           oliver.a.ascencio@gmail.com
-        </a>
-        <a
-          href="/cv/CV_Oliver_Ascencio.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 py-3 px-8 text-white rounded-lg text-sm font-medium border border-[#7042f88b] hover:bg-[#7042f8]/10 transition-colors"
-        >
-          <Download size={15} />
-          Descargar CV
         </a>
       </motion.div>
 
