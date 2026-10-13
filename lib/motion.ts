@@ -1,39 +1,33 @@
+// Entradas cortas: poco desplazamiento y ease-out; el contenido no espera más de ~0.3 s.
+const ease = "easeOut" as const;
+
 export function slideInFromLeft(delay: number) {
   return {
-    hidden: { x: -100, opacity: 0 },
+    hidden: { x: -24, opacity: 0 },
     visible: {
       x: 0,
       opacity: 1,
-      transition: {
-        delay: delay,
-        duration: 0.5,
-      },
+      transition: { delay, duration: 0.4, ease },
     },
   };
 }
 
 export function slideInFromRight(delay: number) {
   return {
-    hidden: { x: 100, opacity: 0 },
+    hidden: { x: 24, opacity: 0 },
     visible: {
       x: 0,
       opacity: 1,
-      transition: {
-        delay: delay,
-        duration: 0.5,
-      },
+      transition: { delay, duration: 0.4, ease },
     },
   };
 }
 
 export const slideInFromTop = {
-  hidden: { y: -100, opacity: 0 },
+  hidden: { y: -16, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: {
-      delay: 0.5,
-      duration: 0.5,
-    },
+    transition: { delay: 0.1, duration: 0.4, ease },
   },
 };

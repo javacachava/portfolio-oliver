@@ -77,50 +77,9 @@ html {
 
 /* ═══════════════════════════ KEYFRAMES ═══════════════════════════ */
 
-@keyframes twinkle {
-  from { opacity: 0.15; transform: scale(0.5); }
-  to   { opacity: 1;    transform: scale(1.2); }
-}
-
-@keyframes gradient-shift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 @keyframes cursor-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
-}
-
-@keyframes shimmer-sweep {
-  0%   { transform: translateX(-150%); }
-  100% { transform: translateX(150%); }
-}
-
-@keyframes holo-scan {
-  0%   { top: -2px; opacity: 0; }
-  5%   { opacity: 0.8; }
-  95%  { opacity: 0.8; }
-  100% { top: 100%; opacity: 0; }
-}
-
-/* ═══════════════════════════ TEXT GRADIENT ═══════════════════════════ */
-
-.text-gradient {
-  background: linear-gradient(
-    135deg,
-    #ffffff       0%,
-    #a855f7      25%,
-    #7042f8      50%,
-    #06b6d4      80%,
-    #ffffff       100%
-  );
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradient-shift 6s ease infinite;
 }
 
 /* ═══════════════════════════ SPACE PORTFOLIO (base: sanidhyy/space-portfolio, MIT) ═══════════════════════════ */
@@ -235,4 +194,17 @@ body::after {
 ::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #a855f7, #7042f8, #06b6d4);
+}
+
+/* ═══════════════════════════ MOVIMIENTO REDUCIDO ═══════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

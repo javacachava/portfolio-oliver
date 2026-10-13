@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 // Red neuronal decorativa: 3 capas de nodos + conexiones + pulsos viajando
 const LAYERS: number[][] = [
@@ -32,6 +32,8 @@ for (let l = 0; l < layerNodes.length - 1; l++) {
 const PULSED = [0, 5, 10, 14, 19, 23];
 
 export default function NeuralBackground() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none flex items-center justify-center">
       {/* Glow radial central */}
@@ -64,14 +66,16 @@ export default function NeuralBackground() {
         ))}
 
         {/* Pulsos viajando por conexiones seleccionadas */}
-        {PULSED.map((idx, i) => {
+        {!reduceMotion && PULSED.map((idx, i) => {
           const e = edges[idx % edges.length];
           return (
             <motion.circle
               key={idx}
               r="2.5"
               fill="#06b6d4"
-              style={{ filter: "drop-shadow(0 0 4px #06b6d4)" }}
+              stroke="#06b6d4"
+              strokeOpacity={0.3}
+              strokeWidth={5}
               initial={{ cx: e.a.x, cy: e.a.y, opacity: 0 }}
               animate={{
                 cx: [e.a.x, e.b.x],
@@ -97,8 +101,11 @@ export default function NeuralBackground() {
             cy={n.y}
             r="4"
             fill="#7042f8"
-            style={{ filter: "drop-shadow(0 0 6px rgba(112,66,248,0.8))" }}
-            animate={{ opacity: [0.35, 0.85, 0.35] }}
+            stroke="#7042f8"
+            strokeOpacity={0.35}
+            strokeWidth={8}
+            opacity={0.6}
+            animate={reduceMotion ? undefined : { opacity: [0.35, 0.85, 0.35] }}
             transition={{
               duration: 3,
               delay: i * 0.25,

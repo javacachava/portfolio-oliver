@@ -123,7 +123,7 @@ export default function ProjectGallery({
               key={src}
               aria-label={`Captura ${i + 1}`}
               onClick={(e) => { e.stopPropagation(); setIdx(i); }}
-              className="h-1.5 rounded-full transition-all cursor-pointer"
+              className="h-1.5 rounded-full transition-[width,background-color] duration-200 cursor-pointer"
               style={{
                 width: i === idx ? 20 : 6,
                 background: i === idx ? color : "rgba(255,255,255,0.25)",

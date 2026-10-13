@@ -152,12 +152,14 @@ export default function Awards() {
                         key={`s${i}`}
                         cx={s.x} cy={s.y} r={s.r}
                         fill={color}
+                        stroke={color}
+                        strokeOpacity={0.3}
+                        strokeWidth={s.r * 2}
                         opacity="0.8"
                         className="animate-pulse"
                         style={{
                           animationDelay: `${i * 0.35}s`,
                           animationDuration: "3s",
-                          filter: `drop-shadow(0 0 5px ${color})`,
                         }}
                       />
                     );

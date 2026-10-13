@@ -15,7 +15,7 @@ export default function Counter({
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;

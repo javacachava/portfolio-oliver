@@ -41,7 +41,7 @@ const AREAS = [
   {
     name: "Programación y software",
     color: PURPLE,
-    items: ["Python", "Java", "Spring Boot", "JavaScript", "Node.js", "React", "C#", "SQL", "PHP básico", "Git y GitHub"],
+    items: ["Python", "Java", "Spring Boot", "JavaScript", "Node.js", "React", "C#", "SQL", "Git y GitHub"],
   },
   {
     name: "Bases de datos e infraestructura",
@@ -240,7 +240,7 @@ export default function About() {
                       key={s.label}
                       aria-label={`Skin ${s.label}`}
                       onClick={() => setSkin(i)}
-                      className="h-1.5 rounded-full transition-all cursor-pointer"
+                      className="h-1.5 rounded-full transition-[width,background-color] duration-200 cursor-pointer"
                       style={{
                         width: i === skin ? 18 : 6,
                         background: i === skin ? "#7042f8" : "var(--border)",

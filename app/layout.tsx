@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Cedarville_Cursive } from "next/font/google";
 import "./globals.css";
+import MotionProvider from "@/components/ui/MotionProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,7 +85,11 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cedarvilleCursive.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground overflow-y-scroll overflow-x-hidden">
-        {children}
+        {/* Sin JS no hay hidratación: las entradas animadas no deben dejar contenido oculto. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 
+import AmbientVideo from "@/components/ui/AmbientVideo";
 import { slideInFromTop } from "@/lib/motion";
 
 export default function Security() {
@@ -40,7 +41,7 @@ export default function Security() {
             alt="Lock top"
             width={50}
             height={50}
-            className="translate-y-5 transition-all duration-200 group-hover:translate-y-11"
+            className="translate-y-5 transition-transform duration-200 group-hover:translate-y-11"
           />
           <Image
             src="/lock-main.png"
@@ -69,16 +70,7 @@ export default function Security() {
           className="absolute inset-0 flex items-center justify-center"
           aria-hidden="true"
         >
-          <video
-            loop
-            muted
-            autoPlay
-            playsInline
-            preload="none"
-            className="w-full h-full object-cover"
-          >
-            <source src="/videos/encryption-bg.webm" type="video/webm" />
-          </video>
+          <AmbientVideo src="/videos/encryption-bg.webm" className="w-full h-full object-cover" />
         </div>
       )}
     </section>

@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink, Images, Terminal, X } from "lucide-react";
 import ProjectGallery from "@/components/ui/ProjectGallery";
 import LaptopTerminal from "@/components/ui/LaptopTerminal";
@@ -179,6 +179,7 @@ function ScreenContent({
 }
 
 export default function ProjectLaptop({ projects }: { projects: Project[] }) {
+  const reduceMotion = useReducedMotion();
   const [idx, setIdx] = useState(0);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [view, setView] = useState<"desktop" | "project" | "terminal">("desktop");
@@ -341,15 +342,17 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
                 }}
               />
               {/* Reflejo que barre la pantalla */}
-              <motion.div
-                className="absolute inset-y-0 w-1/3 pointer-events-none"
-                style={{
-                  background:
-                    "linear-gradient(105deg, transparent, rgba(255,255,255,0.07), transparent)",
-                }}
-                animate={{ x: ["-160%", "420%"] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
-              />
+              {!reduceMotion && (
+                <motion.div
+                  className="absolute inset-y-0 w-1/3 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(105deg, transparent, rgba(255,255,255,0.07), transparent)",
+                  }}
+                  animate={{ x: ["-160%", "420%"] }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
+                />
+              )}
             </div>
 
             {/* Logo en el bezel inferior */}
@@ -452,7 +455,7 @@ export default function ProjectLaptop({ projects }: { projects: Project[] }) {
               key={p.id}
               aria-label={p.title}
               onClick={() => setIdx(i)}
-              className="h-1.5 rounded-full transition-all cursor-pointer"
+              className="h-1.5 rounded-full transition-[width,background-color] duration-200 cursor-pointer"
               style={{
                 width: i === idx ? 22 : 7,
                 background: i === idx ? p.accentColor : "var(--border)",

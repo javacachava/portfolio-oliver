@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import AmbientVideo from "@/components/ui/AmbientVideo";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import {
@@ -15,18 +16,8 @@ export default function Hero() {
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
-    const connection = navigator as Navigator & {
-      connection?: { saveData?: boolean };
-    };
-
-    if (
-      connection.connection?.saveData ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => setShowVideo(true), 1000);
+    // El texto pinta primero; el video (que ya respeta movimiento reducido) entra después.
+    const timeoutId = window.setTimeout(() => setShowVideo(true), 600);
     return () => window.clearTimeout(timeoutId);
   }, []);
 
@@ -34,17 +25,11 @@ export default function Hero() {
     <section className="relative flex flex-col h-full w-full overflow-hidden">
       {/* Black hole video */}
       {showVideo && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          aria-hidden="true"
-          className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover z-0 opacity-90"
-        >
-          <source src="/videos/blackhole.webm" type="video/webm" />
-        </video>
+        <AmbientVideo
+          src="/videos/blackhole.webm"
+          maxOpacity={0.9}
+          className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover z-0"
+        />
       )}
 
       <motion.div
@@ -65,7 +50,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            variants={slideInFromLeft(0.5)}
+            variants={slideInFromLeft(0.1)}
             className="flex flex-col gap-6 mt-6 text-4xl sm:text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
           >
             <span>
@@ -78,7 +63,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.p
-            variants={slideInFromLeft(0.8)}
+            variants={slideInFromLeft(0.18)}
             className="text-lg text-gray-400 my-5 max-w-[600px]"
           >
             Estudiante de Ingeniería en Desarrollo de Software y cofundador de
@@ -87,7 +72,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            variants={slideInFromLeft(1)}
+            variants={slideInFromLeft(0.26)}
             className="flex flex-col sm:flex-row gap-3"
           >
             <a
@@ -113,7 +98,7 @@ export default function Hero() {
 
           {/* Social links */}
           <motion.div
-            variants={slideInFromLeft(1.2)}
+            variants={slideInFromLeft(0.34)}
             className="flex items-center gap-5 mt-2"
           >
             <a
@@ -140,12 +125,12 @@ export default function Hero() {
 
         {/* Right: hero illustration */}
         <motion.div
-          variants={slideInFromRight(0.8)}
+          variants={slideInFromRight(0.2)}
           className="w-full h-full hidden lg:flex justify-center items-center"
         >
           <Image
             src="/hero-bg.svg"
-            alt="work icons"
+            alt="Logotipos de las tecnologías que uso: Python, Java, JavaScript, C#, React, Node.js, Spring Boot, PostgreSQL, Git, GitHub y DigitalOcean"
             height={650}
             width={650}
             draggable={false}

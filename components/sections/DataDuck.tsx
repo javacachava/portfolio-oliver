@@ -82,7 +82,7 @@ export default function Wuju() {
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="mailto:contacto@wuju.dev"
-                className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#7042f8] hover:bg-[#5a2fd8] text-white text-sm font-medium transition-all hover:-translate-y-0.5"
+                className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#7042f8] hover:bg-[#5a2fd8] text-white text-sm font-medium transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
               >
                 <Mail size={14} />
                 contacto@wuju.dev
@@ -91,7 +91,7 @@ export default function Wuju() {
                 href="https://wuju.dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-[var(--border)] hover:border-[var(--accent)]/50 text-[var(--foreground)] text-sm font-medium transition-all hover:-translate-y-0.5"
+                className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-[var(--border)] hover:border-[var(--accent)]/50 text-[var(--foreground)] text-sm font-medium transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
               >
                 <Globe size={14} />
                 wuju.dev

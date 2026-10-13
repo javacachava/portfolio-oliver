@@ -32,6 +32,11 @@ const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "off" },
 ];
 
+// Medios decorativos: se reutilizan un día y se revalidan en segundo plano (los nombres no llevan hash).
+const mediaCache = [
+  { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+];
+
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
@@ -41,6 +46,9 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      { source: "/videos/:path*", headers: mediaCache },
+      { source: "/skills/:path*", headers: mediaCache },
+      { source: "/hero-bg.svg", headers: mediaCache },
     ];
   },
 };

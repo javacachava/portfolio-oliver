@@ -7,7 +7,7 @@ import {
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as random from "maath/random";
-import { useState, useRef, Suspense } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import type { Points as PointsType } from "three";
 
 export const StarBackground = (props: PointsInstancesProps) => {
@@ -45,12 +45,35 @@ export const StarBackground = (props: PointsInstancesProps) => {
   );
 };
 
-export const StarsCanvas = () => (
-  <div className="w-full h-auto fixed inset-0 z-0 pointer-events-none">
-    <Canvas camera={{ position: [0, 0, 1] }}>
-      <Suspense fallback={null}>
-        <StarBackground />
-      </Suspense>
-    </Canvas>
-  </div>
-);
+export const StarsCanvas = () => {
+  const [shown, setShown] = useState(false);
+  const [tabVisible, setTabVisible] = useState(true);
+
+  // Entra con fade y deja de renderizar con la pestaña oculta.
+  useEffect(() => {
+    const onVisibility = () => setTabVisible(!document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    const timeoutId = window.setTimeout(() => setShown(true), 60);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  return (
+    <div
+      className="w-full h-auto fixed inset-0 z-0 pointer-events-none"
+      style={{ opacity: shown ? 1 : 0, transition: "opacity 900ms ease-out" }}
+    >
+      <Canvas
+        camera={{ position: [0, 0, 1] }}
+        dpr={[1, 1.5]}
+        frameloop={tabVisible ? "always" : "never"}
+      >
+        <Suspense fallback={null}>
+          <StarBackground />
+        </Suspense>
+      </Canvas>
+    </div>
+  );
+};
